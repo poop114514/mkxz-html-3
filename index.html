@@ -3,165 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>明空小镇 - 我的世界服务器</title>
+    <meta name="description" content="欢迎来到《我的世界》明空原版生存服，一个纯粹的生存服务器，自由创作，享受建筑的乐趣，体验最真实的生存挑战！">
+    <meta name="keywords" content="Minecraft, 明空生存, 原版生存, 生存服务器, 游戏, 社区">
+    <meta name="author" content="A181">
+    <title>明空生存 - 纯粹的Minecraft原版生存体验</title>
+    <link rel="preconnect" href="https://code.highcharts.com">
     <style>
-        /* 基本样式 */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --background-gradient-top: #f1f8ff;
+            --background-gradient-bottom: #e6f7ff;
+            --text-color: #333;
+            --light-gray: #f9f9f9;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #f1f8ff, #e6f7ff);
+            background: linear-gradient(to bottom, var(--background-gradient-top), var(--background-gradient-bottom));
             margin: 0;
-            padding: 0;
-            color: #333;
+            color: var(--text-color);
         }
 
         header {
-            background-color: #2c3e50;
+            background-color: var(--primary-color);
             color: #fff;
-            padding: 40px 20px;
+            padding: 2rem 1.25rem;
             text-align: center;
-            font-size: 28px;
+            font-size: 1.75rem;
             font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
         }
 
-        /* 主容器 */
+        header h1 {
+            color: #fff; /*  Set h1 color to white for visibility */
+            margin: 0;   /*  Remove default margin to prevent spacing issues */
+        }
+
         .container {
             width: 85%;
-            margin: 30px auto;
-            padding: 20px;
+            margin: 1.875rem auto;
+            padding: 1.25rem;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.1);
         }
 
-        /* 服务器图片样式 */
-        .server-image {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+        #player-count-chart {
+            min-width: 19.375rem;
+            max-width: 50rem;
+            height: 25rem;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
         }
 
-        h1, h2 {
-            color: #2c3e50;
+        h1,
+        h2 {
+            color: var(--primary-color);
+        }
+
+        h3{
+            color: var(--secondary-color);
         }
 
         .content-section {
-            padding: 20px;
-            margin-bottom: 30px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            padding: 1.25rem;
+            margin-bottom: 1.875rem;
+            background-color: var(--light-gray);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.05);
         }
 
         .content-section h2 {
-            font-size: 24px;
+            font-size: 1.5rem;
             margin-top: 0;
-            color: #34495e;
         }
 
         .content-section p {
-            font-size: 16px;
+            font-size: 1rem;
             line-height: 1.8;
             color: #555;
         }
 
-        .join-instructions {
-            background-color: #e1f7ff;
-            border-left: 5px solid #3498db;
-            padding: 15px;
-            margin-top: 20px;
-        }
-
-        ol {
-            padding-left: 20px;
-            margin-top: 10px;
-        }
-
-        ul {
-            padding-left: 20px;
-            list-style-type: disc;
-        }
-
-        /* 按钮样式 */
-        .btn {
-            display: inline-block;
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        /* 底部样式 */
         footer {
-            background-color: #2c3e50;
+            background-color: var(--primary-color);
             color: #fff;
             text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-            font-size: 14px;
+            padding: 1.25rem 0;
+            margin-top: 1.875rem;
+            font-size: 0.875rem;
         }
 
         footer a {
             color: #fff;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 0.625rem;
         }
 
         footer a:hover {
             text-decoration: underline;
         }
 
-        /* 响应式设计 */
         @media (max-width: 768px) {
             .container {
                 width: 95%;
             }
+
             header {
-                font-size: 24px;
-                padding: 30px 10px;
+                font-size: 1.5rem;
+                padding: 1.875rem 0.625rem;
             }
         }
 
-        .abq{
-            color: black;
+        .head{
+            color: white;
+        }
+
+        .ADa{
+            color: #333;
         }
     </style>
 </head>
 <body>
 
 <header>
-    欢迎来到《我的世界》明空生电<strong>纯净</strong>服
+    <h3 class = "head">欢迎来到《我的世界》明空原版<strong>生存</strong>服</h3>
 </header>
 
-<div class="container">
+<main class="container">
+    <div id="player-count-chart"></div>
 
-    <!-- 服务器图片 -->
-    <section class="content-section">
-        <img src="image/截屏2025-01-28 15.09.25.png" alt="服务器图片" class="server-image">
-    </section>
-
-    <!-- 服务器介绍 -->
     <section class="content-section">
         <h2>关于我们</h2>
-        <p>欢迎来到《我的世界》明空小镇服务器！我们致力于为玩家提供一个公平、自由且富有创意的游戏环境。无论你是建筑爱好者、冒险探索者，还是PVP高手，这里都能找到属于你的天地。我们有专业的管理员团队<strong>(xhGG除外）</strong>，全天候为你保驾护航，确保服务器运行稳定，游戏环境和谐。</p>
-        <p><strong>服主</strong>:xhGG <strong>管理:</strong>神秘人 , konsheng （我也想当管理！！！）</p>
+        <p>欢迎来到《我的世界》明空生存服务器！厌倦了繁杂的模组和指令？渴望回归最初那份探索与创造的纯粹快乐？ Minecraft 明空原版生存服务器，正是为你打造的理想之地！</p>
+        <p><strong>服主</strong>: xhGG <strong>管理:</strong> TheFalse , Konsheng </p>
 
         <h3>服务器特点：</h3>
         <ul>
             <li>建筑与生存：自由创作，尽情享受建筑的乐趣。</li>
-            <li>冒险与探索：丰富的物资和堡垒等你来挑战。</li>
-            <li>PVP竞技：全力挑战对手，成为最强玩家。</li>
-            <li>社交系统：和小伙伴们一起建设、探索，合作无间。</li>
+            <li>冒险与探索：丰富的彩虹奖励等你来挑战。</li>
+            <li>挑战自我：从零开始，收集资源，建造家园，抵御怪物，体验最真实的生存挑战！</li>
             <li>超高自由度：发挥你的创造力，建造属于自己的世界。</li>
         </ul>
 
@@ -178,44 +161,140 @@
         </ul>
     </section>
 
-    <!-- 加入服务器 -->
-    <section class="content-section join-instructions">
-        <h2>加入服务器</h2>
-        <p>按以下步骤加入我们的《我的世界》明空小镇服务器：</p>
-        <ol>
-            <li>打开《我的世界》客户端，点击“多人游戏”。</li>
-            <li>点击“添加服务器”。</li>
-            <li>在服务器地址栏中输入以下内容：</li>
-            <ul>
-                <li><strong>服务器IP：</strong> mc.mc2333.xyz:20000 </li>
-            </ul>
-            <li>点击“完成”并进入服务器，绑定qq号，开始你的冒险</li>
-        </ol>
-        <p><strong>注意事项：</strong></p>
-        <ul>
-            <li>服务器支持1.21.X及以上版本。</li>
-            <li>加入服务器前，请确认已移除外挂插件/模组<strong>（不然会被ban的哦）。</strong></li>
-            <li>我们欢迎所有新玩家加入，但请遵守服务器的行为规范，保持友好互动（听到没有，别虐菜）。</li>
-            <li><strong>服务器是白名单制的，需要填写以下表格来申请白名单</strong>  <a href="https://docs.qq.com/form/page/DWG9pY056Ump2VFBP" class="abq">我是表格</a></li>
-        </ul>
-    </section>
-
-    <!-- 联系我们 -->
     <section class="content-section">
         <h2>联系我们</h2>
         <p>如果你在游戏中遇到问题，或者有任何建议，欢迎通过以下方式联系我们：</p>
         <ul>
-            <li><strong>QQ群：</strong> 855713559</li>
-            <li><strong>邮箱：</strong> cagaawa114@gmail.com - A181 <strong>没事别骚扰</strong>; example@example.com - xhGG</li>
+            <li><strong>服务器QQ群：</strong> <a href="https://jq.qq.com/?_wv=1027&k=855713559" class="ADa">855713559</a></li>
         </ul>
     </section>
-    
-</div>
+
+    <section class="content-section">
+        <h2>加入服务器</h2>
+        <p>想要加入我们的《我的世界》明空生存服？只需在Minecraft客户端中输入以下信息：</p>
+        <ul>
+            <li><strong>服务器地址：</strong>mc.mc2333.xyz:20000</li>
+            <li><strong>流程（取自群公告）：</strong> 服务器白名单审核表
+                【腾讯文档】明空生存服务器<a href="https://docs.qq.com/form/page/DWG9pY056Ump2VFBP" class="ADa"><strong>审核表</strong></a>
+                填完表后，5分钟左右完成审核
+                审核通过后，会被@</li>
+        </ul>
+    </section>
+</main>
 
 <footer>
-    <p>© 2025 明空小镇《我的世界》服务器. All Rights Reserved. <br> <a href="ys.html">隐私政策</a> | <a href="https://space.bilibili.com/424383915?spm_id_from=333.337.0.0">联系我们</a></p>
-    <h5>WEB UI BY <a href="https://github.com/poop114514">A181</a></h5>
+    <p>© 2024 明空生存. 保留所有权利。<br> <a href="ys.html">隐私政策</a> | <a href="zanzhu.html">赞助我们</a></p>
+    <h5>web UI by :<a href="https://github.com/poop114514">A181</a></h5>
 </footer>
+<script async>
+  // 异步加载Highcharts库并初始化图表
+  const highchartsUrl = "https://code.highcharts.com";
+  const resources = ["/highcharts.js", "/modules/exporting.js", "/modules/export-data.js", "/modules/accessibility.js"];
 
+  const loadScript = (url) => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = url;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  };
+
+  const loadAllScripts = async () => {
+    for (const resource of resources) {
+      await loadScript(highchartsUrl + resource);
+    }
+  };
+
+  const initializeChart = () => {
+    const fetchData = async () => {
+      const serverIp = 'mk8.fun';
+      const response = await fetch(`https://api.mcsrvstat.us/3/${serverIp}`);
+      const data = await response.json();
+      return data.online ? data.players.online : 0;
+    };
+
+    Highcharts.chart('player-count-chart', {
+      chart: {
+        type: 'spline',
+        animation: Highcharts.svg,
+        events: {
+          load: function () {
+            const series = this.series[0];
+            setInterval(async () => {
+              const playerCount = await fetchData();
+              const x = (new Date()).getTime() + 8 * 3600 * 1000;
+              const y = playerCount;
+              series.addPoint([x, y], true, true);
+            }, 10000);
+          }
+        }
+      },
+      title: {
+        text: '明空生存在线人数实时统计',
+        style: {
+          color: '#333'
+        }
+      },
+      xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150,
+        labels: {
+          formatter: function () {
+            return Highcharts.dateFormat('%H:%M:%S', this.value);
+          },
+          style: {
+            color: '#333'
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: '在线玩家人数',
+          style: {
+            color: '#333'
+          }
+        },
+        min: 0,
+        labels: {
+          style: {
+            color: '#333'
+          }
+        }
+      },
+      tooltip: {
+        formatter: function () {
+          return `<b>${Highcharts.dateFormat('%H:%M:%S', this.x)}</b><br/>在线玩家人数: ${this.y}`;
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      series: [{
+        name: '在线玩家人数',
+        data: (function () {
+          const data = [];
+          const time = (new Date()).getTime() + 8 * 3600 * 1000;
+          for (let i = -19; i <= 0; i++) {
+            data.push({
+              x: time + i * 10000,
+              y: 0
+            });
+          }
+          return data;
+        }())
+      }]
+    });
+  };
+
+  (async () => {
+    await loadAllScripts();
+    initializeChart();
+  })();
+</script>
 </body>
 </html>
