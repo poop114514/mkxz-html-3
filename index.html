@@ -16,6 +16,7 @@
             --background-gradient-bottom: #e6f7ff;
             --text-color: #333;
             --light-gray: #f9f9f9;
+            --navbar-bg: #34495e; /* 导航条背景色 */
         }
 
         body {
@@ -33,11 +34,38 @@
             font-size: 1.75rem;
             font-weight: bold;
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+            transition: top 0.3s ease;
         }
 
         header h1 {
-            color: #fff; /*  Set h1 color to white for visibility */
-            margin: 0;   /*  Remove default margin to prevent spacing issues */
+            color: #fff;
+            margin: 0;
+        }
+
+        /* 导航条样式 */
+        #navbar {
+            position: fixed;
+            top: -60px; /* 初始隐藏，滑出时显示 */
+            left: 0;
+            width: 100%;
+            background-color: var(--navbar-bg);
+            padding: 1rem 0;
+            text-align: center;
+            transition: top 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        #navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        #navbar a:hover {
+            color: #f39c12;
         }
 
         .container {
@@ -59,12 +87,11 @@
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
         }
 
-        h1,
-        h2 {
+        h1, h2 {
             color: var(--primary-color);
         }
 
-        h3{
+        h3 {
             color: var(--secondary-color);
         }
 
@@ -117,29 +144,52 @@
             }
         }
 
-        .head{
+        .head {
             color: white;
         }
 
-        .ADa{
+        .ADa {
             color: #333;
+        }
+
+        .promo-image {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 1rem;
+            margin: 1.25rem auto;
+            display: block;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h3 class = "head">欢迎来到《我的世界》明空原版<strong>生存</strong>服</h3>
+    <h3 class="head">欢迎来到《我的世界》明空原版<strong>生存</strong>服</h3>
 </header>
+
+<nav id="navbar">
+    <a href="#about">关于我们</a>
+    <a href="#features">服务器特点</a>
+    <a href="#contact">联系我们</a>
+    <a href="#join">加入服务器</a>
+    <a href="zanzhu.html">赞助我们</a>
+</nav>
 
 <main class="container">
     <div id="player-count-chart"></div>
 
-    <section class="content-section">
+    <section class="content-section" id="about">
         <h2>关于我们</h2>
         <p>欢迎来到《我的世界》明空生存服务器！厌倦了繁杂的模组和指令？渴望回归最初那份探索与创造的纯粹快乐？ Minecraft 明空原版生存服务器，正是为你打造的理想之地！</p>
-        <p><strong>服主</strong>: xhGG <strong>管理:</strong> TheFalse , Konsheng </p>
 
+        <p><strong>*此图片拍摄于2025.2.5 19:41，玩家合影</strong></p>
+        <img src="image/DA03EB1EA66DCC60476CCDA75DEA72CA.png" alt="Minecraft 明空生存服务器" class="promo-image">
+        
+        <p><strong>服主</strong>: xhGG <strong>管理:</strong> TheFalse , Konsheng </p>
+    </section>
+
+    <section class="content-section" id="features">
         <h3>服务器特点：</h3>
         <ul>
             <li>建筑与生存：自由创作，尽情享受建筑的乐趣。</li>
@@ -161,7 +211,7 @@
         </ul>
     </section>
 
-    <section class="content-section">
+    <section class="content-section" id="contact">
         <h2>联系我们</h2>
         <p>如果你在游戏中遇到问题，或者有任何建议，欢迎通过以下方式联系我们：</p>
         <ul>
@@ -169,15 +219,12 @@
         </ul>
     </section>
 
-    <section class="content-section">
+    <section class="content-section" id="join">
         <h2>加入服务器</h2>
         <p>想要加入我们的《我的世界》明空生存服？只需在Minecraft客户端中输入以下信息：</p>
         <ul>
             <li><strong>服务器地址：</strong>mc.mc2333.xyz:20000</li>
-            <li><strong>流程（取自群公告）：</strong> 服务器白名单审核表
-                【腾讯文档】明空生存服务器<a href="https://docs.qq.com/form/page/DWG9pY056Ump2VFBP" class="ADa"><strong>审核表</strong></a>
-                填完表后，5分钟左右完成审核
-                审核通过后，会被@</li>
+            <li><strong>流程（取自群公告）：</strong> 服务器白名单<a href="https://docs.qq.com/form/page/DWG9pY056Ump2VFBP" class="ADa"><strong>审核表</strong></a>填完后, 去找群中审核员(3642329391) 要激活码即可</li>
         </ul>
     </section>
 </main>
@@ -186,7 +233,9 @@
     <p>© 2024 明空生存. 保留所有权利。<br> <a href="ys.html">隐私政策</a> | <a href="zanzhu.html">赞助我们</a></p>
     <h5>web UI by :<a href="https://github.com/poop114514">A181</a></h5>
 </footer>
-<script async>
+
+<script>
+  //此段是xhgg写的，有问题问他
   // 异步加载Highcharts库并初始化图表
   const highchartsUrl = "https://code.highcharts.com";
   const resources = ["/highcharts.js", "/modules/exporting.js", "/modules/export-data.js", "/modules/accessibility.js"];
@@ -291,10 +340,30 @@
     });
   };
 
+  //这段才是我写的
   (async () => {
     await loadAllScripts();
     initializeChart();
   })();
+
+  let prevScrollPos = window.pageYOffset;
+  const navbar = document.getElementById("navbar");
+
+  window.onscroll = function() {
+      let currentScrollPos = window.pageYOffset;
+
+      if (prevScrollPos < currentScrollPos && currentScrollPos > 50) {
+          navbar.style.top = "-60px";  
+      } 
+
+      else if (prevScrollPos > currentScrollPos) {
+          navbar.style.top = "0"; 
+      }
+
+      prevScrollPos = currentScrollPos;
+  };
+
 </script>
+
 </body>
 </html>
