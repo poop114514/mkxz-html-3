@@ -107,7 +107,7 @@
         }
 
         .cta {
-            background-color: #4CAF50;
+            background-color: #2c3e50;
             color: white;
             padding: 15px 30px;
             font-size: 1.2rem;
@@ -118,7 +118,7 @@
         }
 
         .cta:hover {
-            background-color: #45a049;
+            background-color: #3a536c;
             transition: background-color 0.3s ease;
         }
 
@@ -132,6 +132,20 @@
         .HD {
             color: white;
         }
+
+        .ADa{
+            color: #2c3e50;
+        }
+
+    #video-player {
+        width: 80%;  
+        max-width: 400px; 
+        height: auto; 
+        border-radius: 0.5rem; 
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        display: block; 
+    }
+
     </style>
 </head>
 <body>
@@ -166,8 +180,11 @@
                 <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png" alt="收款二维码">
                 <p>扫描二维码进行捐赠 被赞助者：xhGG</p>
                 <p>若你觉得此网站做的不错，可以给我赞助哦！</p>
-                <img src="https://i2.hdslb.com/bfs/archive/6b7dd09d1f51d8b4e0556805e5e7de5734afa87b.jpg" alt="收款二维码">
-                <p>扫描二维码进行捐赠 被赞助者：A181</p>
+                <video id="video-player" controls autoplay muted>
+                    <source src="image/录制于 2025-02-05 22.52.14.mp4" type="video/mp4">
+                    你的浏览器不支持视频播放。
+                  </video>                  
+               <p>扫描二维码进行捐赠 被赞助者：A181</p>
             </div>
         </div>
     </section>
@@ -187,6 +204,17 @@
     <p>© 2024 明空生存. 保留所有权利。<br> <a href="ys.html">隐私政策</a> | <a href="index.html">返回主页</a></p>
     <h5>web UI by :<a href="https://github.com/poop114514">A181</a></h5>
 </footer>
+
+<script>
+    // 等待页面加载并尝试播放视频
+    window.onload = function() {
+      var video = document.getElementById("video-player");
+      // 检查是否可以播放
+      video.play().catch(function(error) {
+        console.log("无法播放视频：", error);
+      });
+    }
+</script>
 
 </body>
 </html>
