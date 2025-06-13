@@ -7,6 +7,10 @@
     <meta name="keywords" content="Minecraft, 明空生存, 原版生存, 生存服务器, 游戏, 社区">
     <meta name="author" content="A181">
     <title>明空生存 - 纯粹的Minecraft原版生存体验</title>
+    <link rel="apple-touch-icon" href="image/icon.png" sizes="180x180">
+    <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="image/icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -420,7 +424,7 @@
 
     const initializeChart = () => {
         const fetchData = async () => {
-            const serverIp = 'mk8.fun';
+            const serverIp = 'mc.hnb.ink';
             try {
                 const response = await fetch(`https://api.mcsrvstat.us/3/${serverIp}`);
                 if (!response.ok) {
