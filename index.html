@@ -39,7 +39,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(17, 24, 39, 0.95);
+            background-color: rgba(255, 255, 255, 0.93);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
             padding-bottom: 1rem;
@@ -66,7 +66,7 @@
         }
 
         .nav-link {
-            color: white;
+            color: black;
             font-size: 1.125rem;
             font-weight: 500;
             transition-property: color;
@@ -651,6 +651,87 @@
                 }
             });
         });
+                    // 导航栏显示/隐藏逻辑 (滚动时隐藏，向上滚动时显示)
+                    let prevScrollPos = window.pageYOffset;
+            let navbarHeight = navbar.offsetHeight; // 初始导航栏高度
+
+            window.onscroll = function() {
+                let currentScrollPos = window.pageYOffset;
+
+                // 更新导航栏高度，以防其高度因内容变化而改变
+                navbarHeight = navbar.offsetHeight;
+
+                if (prevScrollPos < currentScrollPos && currentScrollPos > navbarHeight) {
+                    // 向下滚动且滚动距离超过导航栏高度时隐藏
+                    navbar.style.top = `-${navbarHeight}px`;
+                } 
+                else if (prevScrollPos > currentScrollPos) {
+                    // 向上滚动时显示
+                    navbar.style.top = "0";
+                }
+
+                prevScrollPos = currentScrollPos;
+            };
+
+            // 导航链接激活状态逻辑 (使用 Intersection Observer)
+            const navLinks = document.querySelectorAll('.nav-link');
+            // 确保所有需要观察的 section 都有 'content-section' 类
+            const sections = document.querySelectorAll('.content-section[id]');
+
+            const observerOptions = {
+                root: null, /* 视口作为根 */
+                rootMargin: '-50% 0px -49% 0px', /* 当目标元素中心点进入视口时触发 */
+                threshold: 0 /* 目标元素一进入根元素即可触发 */
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    const targetId = entry.target.id;
+                    const correspondingNavLink = document.querySelector(`.nav-link[href="#${targetId}"]`);
+
+                    if (correspondingNavLink) {
+                        if (entry.isIntersecting) {
+                            // 移除所有链接的 active 状态
+                            navLinks.forEach(link => link.classList.remove('active'));
+                            // 为当前进入视口的链接添加 active 状态
+                            correspondingNavLink.classList.add('active');
+                        } 
+                    }
+                });
+            };
+
+            const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
+
+            // 观察每个内容 section
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            // 页面加载时根据URL哈希值设置初始激活链接
+            window.addEventListener('load', () => {
+                const currentHash = window.location.hash;
+                if (currentHash) {
+                    const initialSection = document.querySelector(currentHash);
+                    if (initialSection) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const initialNavLink = document.querySelector(`.nav-link[href="${currentHash}"]`);
+                        if (initialNavLink) {
+                            initialNavLink.classList.add('active');
+                        }
+                    }
+                } else {
+                    // 如果没有哈希值，默认激活第一个可见的 section
+                    // 检查第一个 section 是否在视口上半部分，如果是则激活
+                    const firstSection = sections[0];
+                    if (firstSection && firstSection.getBoundingClientRect().top < window.innerHeight / 2) {
+                         navLinks.forEach(link => link.classList.remove('active'));
+                         const firstNavLink = document.querySelector(`.nav-link[href="#${firstSection.id}"]`);
+                         if (firstNavLink) {
+                             firstNavLink.classList.add('active');
+                         }
+                    }
+                }
+            });
     </script>
 </body>
 </html>
