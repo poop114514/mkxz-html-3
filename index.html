@@ -3,75 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="欢迎来到《我的世界》明空原版生存服，一个纯粹的生存服务器，自由创作，享受建筑的乐趣，体验最真实的生存挑战！">
-    <meta name="keywords" content="Minecraft, 明空生存, 原版生存, 生存服务器, 游戏, 社区">
-    <meta name="author" content="A181">
-    <title>明空生存 - 纯粹的Minecraft原版生存体验</title>
+    <title>明空原版生存服务器</title>
     <link rel="apple-touch-icon" href="image/icon.png" sizes="180x180">
     <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
     <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="image/icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
             --accent-color: #f39c12;
-            --background-light: #f7f9fc;
-            --background-dark: #e0e8f0;
-            --text-dark: #333;
-            --text-light: #f9f9f9;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(to bottom, var(--background-light), var(--background-dark));
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            background-color: #f8fafc;
+            color: #334155;
         }
-
-        .main-header {
-            background-image: linear-gradient(to right, #1e3a8a, #00e5ffcc);
-            color: white;
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            position: relative;
-            overflow: hidden;
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .header-title {
-            font-size: 2.25rem;
-            line-height: 1.25;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
         }
-        .header-strong {
-            color: #fcd34d;
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
         }
-        .header-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
         }
-        @media (min-width: 768px) {
-            .header-title {
-                font-size: 3rem;
-            }
-            .header-subtitle {
-                font-size: 1.5rem;
-            }
-        }
-
         #navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             background-color: rgba(17, 24, 39, 0.95);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding-top: 1rem;
             padding-bottom: 1rem;
             z-index: 50;
@@ -87,6 +56,7 @@
             align-items: center;
             row-gap: 0.75rem;
         }
+
         @media (min-width: 768px) {
             .navbar-content {
                 flex-direction: row;
@@ -94,6 +64,7 @@
                 row-gap: 0;
             }
         }
+
         .nav-link {
             color: white;
             font-size: 1.125rem;
@@ -103,79 +74,13 @@
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
         .nav-link:hover {
-            color: #f39c12;
+            color: var(--accent-color);
         }
         .nav-link.active {
             color: var(--accent-color) !important;
             border-bottom: 2px solid var(--accent-color);
             padding-bottom: 0.25rem;
             transition: all 0.3s ease-in-out;
-        }
-
-        .main-container {
-            width: 100%;
-            max-width: 80rem;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        #player-count-chart {
-            min-width: 310px;
-            max-width: 800px;
-            height: 400px;
-            margin: 20px auto;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-        .chart-loading-text {
-            color: #4b5563;
-        }
-
-        .content-section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        @media (min-width: 768px) {
-            .content-section-card {
-                padding: 2rem;
-            }
-        }
-
-        .section-heading-h2 {
-            font-size: 1.875rem;
-            font-weight: 600;
-            color: #1e40af;
-            margin-bottom: 1rem;
-        }
-        .section-heading-h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1d4ed8;
-            margin-bottom: 0.75rem;
-        }
-
-        .content-paragraph {
-            color: #374151;
-            line-height: 1.625;
-            margin-bottom: 1rem;
-        }
-        .italic-note {
-            color: #4b5563;
-            font-style: italic;
-            margin-bottom: 1rem;
         }
         .list-style {
             list-style-type: disc;
@@ -185,45 +90,91 @@
             color: #374151;
         }
         .list-item-strong {
-            color: #1d4ed8;
-        }
-        .fade-text {
-            color: #6b7280;
+            color: rgba(34, 197, 94, 1);
         }
         .code-snippet {
-            background-color: #f3f4f6;
-            padding: 0.25rem;
+            background-color: #e2e8f0;
+            padding: 0.25rem 0.5rem;
             border-radius: 0.25rem;
             font-family: monospace;
             font-size: 0.875rem;
+            color: #334155;
         }
-
-        .promo-image {
-            width: 100%;
-            max-width: 50rem;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
-            transform: scale(1);
-            transition: transform 300ms ease-in-out;
-        }
-        .promo-image:hover {
-            transform: scale(1.05);
-        }
-
         .content-link {
             color: #2563eb;
-            text-decoration: underline;
-            transition-property: color;
-            transition-duration: 300ms;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
         .content-link:hover {
-            color: #1e40af;
+            text-decoration: underline;
+            color: #1d4ed8;
         }
 
+        .feature-item {
+            padding: 1.5rem 0;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #10b981;
+        }
+        .feature-item p {
+            font-size: 1rem;
+            color: #475569;
+        }
+        .content-section-wrapper {
+            background-color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        #buildIdeaInput {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.375rem;
+            background-color: #f8fafc;
+            color: #334155;
+            resize: vertical;
+            min-height: 80px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        #buildIdeaInput:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        #buildIdeaOutput {
+            background-color: #f0f4f8;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid #e2e8f0;
+            min-height: 100px;
+            text-align: left;
+            white-space: pre-wrap;
+            font-size: 1rem;
+            color: #475569;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #2563eb;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         .main-footer {
             background-color: #111827;
             color: white;
@@ -244,385 +195,462 @@
             margin-bottom: 0.5rem;
         }
         .footer-link {
-            color: #9ca3af;
+            color: gray;
             transition-property: color;
             transition-duration: 300ms;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
         .footer-link:hover {
-            color: white;
+            color: black;
         }
         .footer-by-text {
             font-size: 0.75rem;
             color: #6b7280;
         }
 
-        .highcharts-container text {
-            fill: var(--text-dark) !important;
-        }
-        .highcharts-tooltip text {
-            fill: #fff !important;
-        }
-        .highcharts-title text {
-            fill: var(--primary-color) !important;
-        }
-
-        .marker {
-          color: #333;
-          text-shadow: 0 0 5px #a3daff, 0 0 10px #a3daff, 0 0 15px #a3daff; 
-          background-color: #e0f2fe;
-          padding: 0.2em 0.4em;
-          border-radius: 0.2em;
-        }
-        .marker-WTF {
-          color: #333;
-          text-shadow: 0 0 5px #ffa3a3, 0 0 10px #ffa3a3, 0 0 15px #ffa3a3; 
-          background-color: #fee0e0;
-          padding: 0.2em 0.4em;
-          border-radius: 0.2em;
-        }
     </style>
 </head>
-<body class="font-inter">
+<body>
+    <nav id="navbar">
+        <div class="navbar-content">
+            <a href="#home" class="nav-link">关于我们</a>
+            <a href="#features" class="nav-link">服务器特点</a>
+            <a href="#build-idea-generator" class="nav-link">明空娘</a>
+            <a href="#status" class="nav-link">服务器状态</a>
+            <a href="#contact" class="nav-link">联系我们</a>
+            <a href="#join" class="nav-link">加入服务器</a>
+            <a href="zanzhu.html" class="nav-link">赞助我们</a>
+        </div>
+    </nav>
 
-<header class="main-header">
-    <h1 class="header-title">
-        欢迎来到《我的世界》明空<strong class="header-strong">原版</strong>生存服
-    </h1>
-    <p class="header-subtitle">纯粹的Minecraft原版生存体验</p>
-</header>
+    <main class="container mx-auto p-4 md:p-8">
+        <section id="home" class="content-section content-section-wrapper text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4 leading-tight">
+                欢迎来到《我的世界》明空原版生存服
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-8">
+                我们热爱Minecraft，热爱生存，热爱创造，热爱这个游戏。
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <button id="copyIpButton" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                    复制服务器域名
+                </button>
+                <a href="#join" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                    如何加入服务器
+                </a>
+            </div>
+            <p id="ipAddress" class="text-xl text-gray-500 mt-6 select-all">mc.hnb.ink</p>
+            <div id="copyMessage" class="mt-4 text-green-600 opacity-0 transition-opacity duration-300">域名已复制！</div>
+        </section>
 
-<nav id="navbar">
-    <div class="navbar-content">
-        <a href="#about" class="nav-link">关于我们</a>
-        <a href="#features" class="nav-link">服务器特点</a>
-        <a href="#contact" class="nav-link">联系我们</a>
-        <a href="#join" class="nav-link">加入服务器</a>
-        <a href="zanzhu.html" class="nav-link">赞助我们</a>
-    </div>
-</nav>
+        <section id="features" class="content-section content-section-wrapper">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">服务器特色</h2>
+            <div class="space-y-0">
+                <div class="feature-item">
+                    <h3 class="font-semibold">生存模式</h3>
+                    <p>体验原汁原味的生存挑战，建造你的梦想家园，探索广阔的世界。</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="font-semibold">原版红石生电</h3>
+                    <p>享受建造机器的感觉，对机器的成功运行感到骄傲</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="font-semibold">友好的玩家</h3>
+                    <p>友好的玩家群体，结识新朋友。</p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="font-semibold">稳定运行</h3>
+                    <p>
+                        采用了一颗i9-14900K的CPU，强大的主频带来极致的流畅体验！
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="font-semibold">公正游戏</h3>
+                    <p>参考现实民主制度，玩家拥有更多权利</p>
+                    <p class="text-gray-600 text-sm mt-1"><del>（假的!!!!!!）</del></p>
+                </div>
+                <div class="feature-item">
+                    <h3 class="font-semibold">持续更新</h3>
+                    <p>不断添加新内容、新玩法，保持服务器的活力。</p>
+                </div>
+            </div>
+        </section>
 
-<main class="main-container">
-    <div id="player-count-chart">
-        <p class="chart-loading-text">正在加载在线人数统计图表...</p>
-    </div>
+        <section id="build-idea-generator" class="content-section content-section-wrapper text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">与ai明空娘对话</h2>
+            <p class="text-gray-600 mb-4">输入一个关于我的世界的问题</p>
+            <p class="text-red-600 mb-4">注意：若想使用请先确保正处于外网环境或处于除香港澳门以及非洲诸国外的地区/国家</p>
+            <textarea id="buildIdeaInput" placeholder="请输入文本" class="mb-4"></textarea>
+            <button id="generateIdeaButton" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                开始!
+            </button>
+            <div id="loadingSpinner" class="hidden mt-6">
+                <div class="loading-spinner"></div>
+                <p class="text-gray-500 mt-2">正在生成中，请稍候...</p>
+            </div>
+            <div id="buildIdeaOutput" class="mt-6 text-gray-700 hidden">
+            </div>
+            <div id="errorMessage" class="mt-4 text-red-500 hidden">
+                抱歉，生成灵感时出现错误。请稍后再试。
+            </div>
+        </section>
 
-    <section class="content-section content-section-card" id="about">
-        <h2 class="section-heading-h2">关于我们</h2>
-        <p class="content-paragraph">
-            欢迎来到《我的世界》明空生存服务器！<mark class="marker">厌倦了繁杂的模组和指令？渴望回归最初那份探索与创造的纯粹快乐？ </mark><span class="fade-text">（反正我是厌倦了）</span>
-            Minecraft 明空原版生存服务器，正是为你打造的理想之地！
-        </p>
+        <section id="status" class="content-section content-section-wrapper text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">服务器状态</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6">
+                <div class="bg-gray-50 p-6 rounded-lg w-full md:w-1/2 lg:w-1/3 border border-gray-200">
+                    <p class="text-gray-500 text-lg mb-2">当前状态:</p>
+                    <p id="serverStatus" class="text-3xl font-bold text-green-500">在线</p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg w-full md:w-1/2 lg:w-1/3 border border-gray-200">
+                    <p class="text-gray-500 text-lg mb-2">在线玩家:</p>
+                    <p id="playerCount" class="text-3xl font-bold text-blue-500">加载中...</p>
+                </div>
+            </div>
+            <button id="refreshStatusButton" class="mt-8 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                刷新状态
+            </button>
+            <div id="player-count-chart" class="mt-8 h-80 w-full text-left">
+                <p class="text-gray-500 text-center">加载图表中...</p>
+            </div>
+        </section>
 
-        <p class="italic-note">
-            *此图片拍摄于2025.2.5 19:41，玩家合影
-        </p>
-        <img src="image/DA03EB1EA66DCC60476CCDA75DEA72CA.png"
-             alt="Minecraft 明空生存服务器玩家合影" 
-             class="promo-image"
-             onerror="this.onerror=null;this.src='https://placehold.co/800x450/4CAF50/ffffff?text=image+not+unloaded';">
-        
-        <p class="content-paragraph">
-            <strong>服主</strong>: xhGG <br>
-            <strong>管理:</strong> TheFalse , Konsheng
-        </p>
-    </section>
+        <section id="contact" class="content-section content-section-wrapper">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">如何联系我们</h2>
+            <div class="space-y-6 text-gray-600 text-lg">
+                <p>其实联系我们非常简单：</p>
+                <div class="space-y-3">
+                    <div>
+                        <strong>QQ群</strong><br>
+                        855713559<br>
+                        🍋 明空生存1.21.4 | 即将更新1.21.7！<br>
+                    </div>                      
+                </div>
+            </div>
+        </section>
 
-    <section class="content-section content-section-card" id="features">
-        <h2 class="section-heading-h2">服务器特点：</h2>
-        <ul class="list-style">
-            <li><strong class="list-item-strong">建筑与生存：</strong><mark class="marker-WTF">自由</mark>创作<span class="fade-text">（别建迪克博物馆）</span>，尽情享受建筑的乐趣。</li>
-            <li><strong class="list-item-strong">冒险与探索：</strong><mark class="marker-WTF">丰富</mark>的彩虹奖励等你来挑战。<span class="fade-text">（已绝版ToT）</span></li>
-            <li><strong class="list-item-strong">挑战自我：</strong>从零开始，收集资源，建造家园，抵御怪物，体验最真实的生存挑战！</li>
-            <li><strong class="list-item-strong">超高自由度：</strong>发挥你的创造力，建造属于自己的世界。</li>
-        </ul>
+        <section id="join" class="content-section content-section-wrapper">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">如何进入服务器？</h2>
+            <div class="space-y-6 text-gray-600 text-lg">
+                <p>加入我们的服务器非常简单，请按照以下步骤操作：</p>
+                    <ul class="list-style">
+                        <li><strong class="list-item-strong">服务器地址：</strong><code class="code-snippet">mc.mc2333.xyz:20000</code>
+                        <span><code class="code-snippet">hnb.ink</code></span>
+                        <span><code class="code-snippet">mc.hnb.ink</code></span></li>
+                        <li><strong class="list-item-strong">流程（取自群公告）：</strong> 
+                            服务器白名单
+                            <a href="https://docs.qq.com/form/page/DWG9pY056Ump2VFBP" 
+                            class="content-link"><strong>审核表</strong></a>
+                            填完后, 去找群中审核员(3642329391) 要激活码即可。
+                        </li>
+                        <li><strong class="list-item-strong">你还不会？：</strong><a href="https://www.bilibili.com/video/BV1YfFgeVE5C/" class="content-link">点击查看教程</a></li>
+                    </ul>
+                <p class="mt-6 text-center text-gray-500">如果您在加入过程中遇到任何问题，请联系我们的管理员寻求帮助。</p>
+            </div>
+        </section>
+    </main>
 
-        <h3 class="section-heading-h3">服务器规划：</h3>
-        <ul class="list-style">
-            <li>腐竹<strong class="list-item-strong">[xhGG]</strong><mark class="marker">设想是以交好朋友为目的，体验原汁原味的mc服务器。</mark></li>
-            <li><mark class="marker">希望玩家可以和睦相处，打造一个较好的社区环境！🙇‍♀️🙇🙇‍♂️</mark></li>
-        </ul>
+    <footer class="bg-gray-100 py-6 px-4 md:px-8 text-center text-gray-600 text-sm border-t border-gray-200">
+        <p>&copy; 2025 我的世界服务器. 保留所有权利。</p>
+        <div class="footer-links-container">
+            <a href="ys.html" class="footer-link">隐私政策</a>
+            <span>|</span>
+            <a href="zanzhu.html" class="footer-link">赞助我们</a>
+        </div>
+        <h6 class="mt-2">web by <a href="https://github.com/poop114514">A181</a></h6>
+    </footer>
 
-        <h3 class="section-heading-h3">服务器配置：</h3>
-        <ul class="list-style">
-            <li>采用了<strong class="list-item-strong"><mark class="marker-WTF">一颗i9-14900K的CPU</mark></strong>，强大的主频带来极致的流畅体验！<span class="fade-text">(羡慕）</span></li>
-            <li>并且是<strong class="list-item-strong"><mark class="marker-WTF">200M的BGP线路</mark></strong>，无论您是电信，联通，移动还是广电，明空生存都能为您带来优秀的网络延迟！<span class="fade-text">(WC)</span></li>
-        </ul>
-    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ipAddressElement = document.getElementById('ipAddress');
+            const copyIpButton = document.getElementById('copyIpButton');
+            const copyMessage = document.getElementById('copyMessage');
+            const serverStatusElement = document.getElementById('serverStatus');
+            const playerCountElement = document.getElementById('playerCount');
+            const refreshStatusButton = document.getElementById('refreshStatusButton');
 
-    <section class="content-section content-section-card" id="contact">
-        <h2 class="section-heading-h2">联系我们</h2>
-        <p class="content-paragraph">
-            <mark class="marker">如果你在游戏中遇到问题，或者有任何建议，欢迎通过以下方式联系我们：</mark>
-        </p>
-        <ul class="list-style">
-            <li><strong class="list-item-strong">服务器QQ群：</strong> 
-                <a href="https://jq.qq.com/?_wv=1027&k=855713559" 
-                   class="content-link">855713559</a>
-            </li>
-        </ul>
-    </section>
+            const buildIdeaInput = document.getElementById('buildIdeaInput');
+            const generateIdeaButton = document.getElementById('generateIdeaButton');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const buildIdeaOutput = document.getElementById('buildIdeaOutput');
+            const errorMessage = document.getElementById('errorMessage');
 
-    <section class="content-section content-section-card" id="join">
-        <h2 class="section-heading-h2">加入服务器</h2>
-        <p class="content-paragraph">
-            <mark class="marker">想要加入我们的《我的世界》明空生存服？只需在Minecraft客户端中输入以下信息：</mark>
-        </p>
-        <ul class="list-style">
-            <li><strong class="list-item-strong">服务器地址：</strong><code class="code-snippet">mc.mc2333.xyz:20000</code>
-              <span><code class="code-snippet">hnb.ink</code></span>
-              <span><code class="code-snippet">mc.hnb.ink</code></span></li>
-            <li><strong class="list-item-strong">流程（取自群公告）：</strong> 
-                服务器白名单
-                <a href="https://docs.qq.com/form/page/DWG9pY056Ump2VFBP" 
-                   class="content-link"><strong>审核表</strong></a>
-                填完后, 去找群中审核员(3642329391) 要激活码即可。
-            </li>
-            <li><strong class="list-item-strong">你还不会？：</strong><a href="https://www.bilibili.com/video/BV1YfFgeVE5C/" class="content-link">点击查看教程</a></li>
-        </ul>
-    </section>
-</main>
+            const serverIp = ipAddressElement.textContent;
 
-<footer class="main-footer">
-    <p class="footer-text-sm">© 2025 明空生存. 保留所有权利。</p>
-    <div class="footer-links-container">
-        <a href="ys.html" class="footer-link">隐私政策</a>
-        <span>|</span>
-        <a href="zanzhu.html" class="footer-link">赞助我们</a>
-    </div>
-    <h5 class="footer-by-text">web UI by :
-        <a href="https://github.com/poop114514" class="footer-link">A181</a>
-    </h5>
-</footer>
-
-<script>
-    const highchartsUrl = "https://code.highcharts.com";
-    const resources = ["/highcharts.js", "/modules/exporting.js", "/modules/export-data.js", "/modules/accessibility.js"];
-
-    const loadScript = (url) => {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = url;
-            script.onload = resolve;
-            script.onerror = () => {
-                console.error(`Failed to load script: ${url}`);
-                reject(new Error(`Failed to load script: ${url}`));
-            };
-            document.head.appendChild(script);
-        });
-    };
-
-    const loadAllScripts = async () => {
-        for (const resource of resources) {
-            try {
-                await loadScript(highchartsUrl + resource);
-            } catch (error) {
-                console.error(`Error loading Highcharts resource: ${resource}`, error);
-            }
-        }
-    };
-
-    const initializeChart = () => {
-        const fetchData = async () => {
-            const serverIp = 'mc.hnb.ink';
-            try {
-                const response = await fetch(`https://api.mcsrvstat.us/3/${serverIp}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            copyIpButton.addEventListener('click', () => {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(serverIp).then(() => {
+                        copyMessage.classList.remove('opacity-0');
+                        copyMessage.classList.add('opacity-100');
+                        setTimeout(() => {
+                            copyMessage.classList.remove('opacity-100');
+                            copyMessage.classList.add('opacity-0');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy text:', err);
+                        fallbackCopyTextToClipboard(serverIp);
+                    });
+                } else {
+                    fallbackCopyTextToClipboard(serverIp);
                 }
-                const data = await response.json();
-                return data.online ? data.players.online : 0;
-            } catch (error) {
-                console.error("Error fetching player count:", error);
-                return 0;
-            }
-        };
+            });
 
-        if (typeof Highcharts === 'undefined') {
-            console.error("Highcharts is not loaded. Cannot initialize chart.");
-            document.getElementById('player-count-chart').innerHTML = '<p class="text-red-500 text-center">无法加载图表。请检查网络连接或稍后再试。</p>';
-            return;
-        }
-        
-        document.getElementById('player-count-chart').innerHTML = '';
-
-        Highcharts.chart('player-count-chart', {
-            chart: {
-                type: 'spline',
-                animation: Highcharts.svg,
-                events: {
-                    load: function () {
-                        const series = this.series[0];
-                        setInterval(async () => {
-                            const playerCount = await fetchData();
-                            const x = (new Date()).getTime() + 8 * 3600 * 1000; 
-                            const y = playerCount;
-                            series.addPoint([x, y], true, true);
-                        }, 10000);
+            function fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        copyMessage.classList.remove('opacity-0');
+                        copyMessage.classList.add('opacity-100');
+                        setTimeout(() => {
+                            copyMessage.classList.remove('opacity-100');
+                            copyMessage.classList.add('opacity-0');
+                        }, 2000);
+                    } else {
+                        console.error('Fallback: Failed to copy text');
                     }
-                },
-                backgroundColor: 'rgba(0,0,0,0)',
-            },
-            title: {
-                text: '明空生存在线人数实时统计',
-                style: {
-                    color: '#333',
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold'
+                } catch (err) {
+                    console.error('Fallback: Error copying text', err);
                 }
-            },
-            xAxis: {
-                type: 'datetime',
-                tickPixelInterval: 150,
-                labels: {
-                    formatter: function () {
-                        return Highcharts.dateFormat('%H:%M:%S', this.value);
+                document.body.removeChild(textArea);
+            }
+
+            generateIdeaButton.addEventListener('click', async () => {
+                const theme = buildIdeaInput.value.trim();
+                if (!theme) {
+                    buildIdeaOutput.textContent = '请输入一个建筑主题！';
+                    buildIdeaOutput.classList.remove('hidden');
+                    return;
+                }
+
+                loadingSpinner.classList.remove('hidden');
+                buildIdeaOutput.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+                generateIdeaButton.disabled = true;
+
+                try {
+                    const prompt = `你是一个叫明空娘的少女，你可以回答关于我的世界的问题，回答语气要轻柔，请用中文回答，内容在100-200字之间："${theme}"`;
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "AIzaSyBHE30CftpeYmByjMcVufNLrYSXtWw4b8g";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        buildIdeaOutput.textContent = text;
+                        buildIdeaOutput.classList.remove('hidden');
+                    } else {
+                        errorMessage.classList.remove('hidden');
+                        console.error('Gemini API returned an unexpected response structure:', result);
+                    }
+                } catch (error) {
+                    errorMessage.classList.remove('hidden');
+                    console.error('Error calling Gemini API:', error);
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                    generateIdeaButton.disabled = false;
+                }
+            });
+
+            const initializeChart = () => {
+                const serverIp = 'hnb.ink';
+
+                const fetchDataAndUpdateStatus = async () => {
+                    serverStatusElement.textContent = '加载中...';
+                    serverStatusElement.classList.remove('text-green-500', 'text-red-500');
+                    playerCountElement.textContent = '加载中...';
+
+                    try {
+                        const response = await fetch(`https://api.mcsrvstat.us/3/${serverIp}`);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+
+                        if (data.online) {
+                            serverStatusElement.textContent = '在线';
+                            serverStatusElement.classList.remove('text-red-500');
+                            serverStatusElement.classList.add('text-green-500');
+                            playerCountElement.textContent = `${data.players.online}/${data.players.max || '?'}`;
+                            return data.players.online;
+                        } else {
+                            serverStatusElement.textContent = '离线';
+                            serverStatusElement.classList.remove('text-green-500');
+                            serverStatusElement.classList.add('text-red-500');
+                            playerCountElement.textContent = `0/${data.players.max || '?'}`;
+                            return 0;
+                        }
+                    } catch (error) {
+                        console.error("Error fetching player count:", error);
+                        serverStatusElement.textContent = '离线';
+                        serverStatusElement.classList.remove('text-green-500');
+                        serverStatusElement.classList.add('text-red-500');
+                        playerCountElement.textContent = '0/0';
+                        return 0;
+                    }
+                };
+
+                if (typeof Highcharts === 'undefined') {
+                    console.error("Highcharts is not loaded. Cannot initialize chart.");
+                    document.getElementById('player-count-chart').innerHTML = '<p class="text-red-500 text-center">无法加载图表。请检查网络连接或稍后再试。</p>';
+                    return;
+                }
+                
+                document.getElementById('player-count-chart').innerHTML = '';
+
+                Highcharts.chart('player-count-chart', {
+                    chart: {
+                        type: 'spline',
+                        animation: Highcharts.svg,
+                        events: {
+                            load: function () {
+                                const series = this.series[0];
+                                setInterval(async () => {
+                                    const playerCount = await fetchDataAndUpdateStatus();
+                                    const x = (new Date()).getTime() + 8 * 3600 * 1000; 
+                                    const y = playerCount;
+                                    series.addPoint([x, y], true, true);
+                                }, 10000);
+                            }
+                        },
+                        backgroundColor: 'rgba(0,0,0,0)',
                     },
-                    style: {
-                        color: '#555'
-                    }
-                },
-                lineColor: '#ccc',
-                tickColor: '#ccc'
-            },
-            yAxis: {
-                title: {
-                    text: '在线玩家人数',
-                    style: {
-                        color: '#333'
-                    }
-                },
-                min: 0,
-                labels: {
-                    style: {
-                        color: '#555'
-                    }
-                },
-                gridLineColor: '#eee'
-            },
-            tooltip: {
-                formatter: function () {
-                    return `<b>${Highcharts.dateFormat('%H:%M:%S', this.x)}</b><br/>在线玩家人数: ${this.y}`;
-                },
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                borderColor: '#f39c12',
-                style: {
-                    color: '#fff'
+                    title: {
+                        text: '明空生存在线人数实时统计',
+                        style: {
+                            color: '#333',
+                            fontSize: '1.5rem',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 150,
+                        labels: {
+                            formatter: function () {
+                                return Highcharts.dateFormat('%H:%M:%S', this.value);
+                            },
+                            style: {
+                                color: '#555'
+                            }
+                        },
+                        lineColor: '#ccc',
+                        tickColor: '#ccc'
+                    },
+                    yAxis: {
+                        title: {
+                            text: '在线玩家人数',
+                            style: {
+                                color: '#333'
+                            }
+                        },
+                        min: 0,
+                        labels: {
+                            style: {
+                                color: '#555'
+                            }
+                        },
+                        gridLineColor: '#eee'
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            return `<b>${Highcharts.dateFormat('%H:%M:%S', this.x)}</b><br/>在线玩家人数: ${this.y}`;
+                        },
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        borderColor: '#f39c12',
+                        style: {
+                            color: '#fff'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    exporting: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: '在线玩家人数',
+                        data: (function () {
+                            const data = [];
+                            const time = (new Date()).getTime() + 8 * 3600 * 1000;
+                            for (let i = -19; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 10000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        }()),
+                        color: '#28a745',
+                        marker: {
+                            enabled: false
+                        }
+                    }]
+                });
+                fetchDataAndUpdateStatus();
+            };
+
+            initializeChart();
+
+            refreshStatusButton.addEventListener('click', () => {
+                const chart = Highcharts.charts.find(c => c.renderTo.id === 'player-count-chart');
+                if (chart) {
+                    chart.series[0].addPoint([(new Date()).getTime() + 8 * 3600 * 1000, chart.series[0].points[chart.series[0].points.length - 1].y], true, true);
+                    const fetchDataAndUpdateStatusForRefresh = async () => {
+                        serverStatusElement.textContent = '加载中...';
+                        serverStatusElement.classList.remove('text-green-500', 'text-red-500');
+                        playerCountElement.textContent = '加载中...';
+                        const serverIp = 'hnb.ink';
+                        try {
+                            const response = await fetch(`https://api.mcsrvstat.us/3/${serverIp}`);
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            if (data.online) {
+                                serverStatusElement.textContent = '在线';
+                                serverStatusElement.classList.remove('text-red-500');
+                                serverStatusElement.classList.add('text-green-500');
+                                playerCountElement.textContent = `${data.players.online}/${data.players.max || '?'}`;
+                            } else {
+                                serverStatusElement.textContent = '离线';
+                                serverStatusElement.classList.remove('text-green-500');
+                                serverStatusElement.classList.add('text-red-500');
+                                playerCountElement.textContent = `0/${data.players.max || '?'}`;
+                            }
+                        } catch (error) {
+                            console.error("Error fetching player count on refresh:", error);
+                            serverStatusElement.textContent = '离线';
+                            serverStatusElement.classList.remove('text-green-500');
+                            serverStatusElement.classList.add('text-red-500');
+                            playerCountElement.textContent = '0/?';
+                        }
+                    };
+                    fetchDataAndUpdateStatusForRefresh();
                 }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: '在线玩家人数',
-                data: (function () {
-                    const data = [];
-                    const time = (new Date()).getTime() + 8 * 3600 * 1000;
-                    for (let i = -19; i <= 0; i++) {
-                        data.push({
-                            x: time + i * 10000,
-                            y: 0
-                        });
-                    }
-                    return data;
-                }()),
-                color: '#28a745',
-                marker: {
-                    enabled: false
-                }
-            }]
+            });
         });
-    };
-
-    (async () => {
-        await loadAllScripts();
-        initializeChart();
-    })();
-
-    let prevScrollPos = window.pageYOffset;
-    const navbar = document.getElementById("navbar");
-    let navbarHeight = 0;
-    const updateNavbarHeight = () => {
-        navbarHeight = navbar.offsetHeight;
-        if (window.pageYOffset <= navbarHeight) {
-            navbar.style.top = "0";
-        }
-    };
-    window.addEventListener('load', updateNavbarHeight);
-    window.addEventListener('resize', updateNavbarHeight);
-
-    window.onscroll = function() {
-        let currentScrollPos = window.pageYOffset;
-
-        if (prevScrollPos < currentScrollPos && currentScrollPos > navbarHeight) {
-            navbar.style.top = `-${navbarHeight}px`;
-        } 
-        else if (prevScrollPos > currentScrollPos) {
-            navbar.style.top = "0";
-        }
-
-        prevScrollPos = currentScrollPos;
-    };
-
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('.content-section[id]');
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '-50% 0px -49% 0px',
-        threshold: 0
-    };
-
-    const observerCallback = (entries, observer) => {
-        entries.forEach(entry => {
-            const targetId = entry.target.id;
-            const correspondingNavLink = document.querySelector(`.nav-link[href="#${targetId}"]`);
-
-            if (correspondingNavLink) {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(link => link.classList.remove('active'));
-                    correspondingNavLink.classList.add('active');
-                } 
-            }
-        });
-    };
-
-    const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
-
-    sections.forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-    window.addEventListener('load', () => {
-        const currentHash = window.location.hash;
-        if (currentHash) {
-            const initialSection = document.querySelector(currentHash);
-            if (initialSection) {
-                navLinks.forEach(link => link.classList.remove('active'));
-                const initialNavLink = document.querySelector(`.nav-link[href="${currentHash}"]`);
-                if (initialNavLink) {
-                    initialNavLink.classList.add('active');
-                }
-            }
-        } else {
-            const firstSection = sections[0];
-            if (firstSection && firstSection.getBoundingClientRect().top < window.innerHeight / 2) {
-                 navLinks.forEach(link => link.classList.remove('active'));
-                 const firstNavLink = document.querySelector(`.nav-link[href="#${firstSection.id}"]`);
-                 if (firstNavLink) {
-                     firstNavLink.classList.add('active');
-                 }
-            }
-        }
-    });
-
-</script>
-
+    </script>
 </body>
 </html>
