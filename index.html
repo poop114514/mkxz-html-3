@@ -215,7 +215,7 @@
         <div class="navbar-content">
             <a href="#home" class="nav-link">关于我们</a>
             <a href="#features" class="nav-link">服务器特点</a>
-            <a href="#build-idea-generator" class="nav-link">明空娘</a>
+            <a href="#mingkong" class="nav-link">明空娘</a>
             <a href="#status" class="nav-link">服务器状态</a>
             <a href="#contact" class="nav-link">联系我们</a>
             <a href="#join" class="nav-link">加入服务器</a>
@@ -276,7 +276,7 @@
             </div>
         </section>
 
-        <section id="build-idea-generator" class="content-section content-section-wrapper text-center">
+        <section id="mingkong" class="content-section content-section-wrapper text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">与ai明空娘对话</h2>
             <p class="text-gray-600 mb-4">输入一个关于我的世界的问题</p>
             <p class="text-red-600 mb-4">注意：若想使用请先确保正处于外网环境或处于除香港澳门以及非洲诸国外的地区/国家</p>
@@ -425,7 +425,7 @@
             generateIdeaButton.addEventListener('click', async () => {
                 const theme = buildIdeaInput.value.trim();
                 if (!theme) {
-                    buildIdeaOutput.textContent = '请输入一个建筑主题！';
+                    buildIdeaOutput.textContent = '请输入文本！';
                     buildIdeaOutput.classList.remove('hidden');
                     return;
                 }
