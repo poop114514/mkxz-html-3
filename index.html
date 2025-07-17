@@ -82,6 +82,7 @@
             padding-bottom: 0.25rem;
             transition: all 0.3s ease-in-out;
         }
+
         .list-style {
             list-style-type: disc;
             list-style-position: inside;
@@ -89,9 +90,17 @@
             line-height: 1.5;
             color: #374151;
         }
+
         .list-item-strong {
             color: rgba(34, 197, 94, 1);
+            font-weight: 600;
         }
+
+        .list-style ul {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
         .code-snippet {
             background-color: #e2e8f0;
             padding: 0.25rem 0.5rem;
@@ -208,6 +217,42 @@
             color: #6b7280;
         }
 
+        .italic-note {
+            color: #4b5563;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .promo-image {
+            width: 100%;
+            max-width: 50rem;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            transform: scale(1);
+            transition: transform 300ms ease-in-out;
+        }
+        .promo-image:hover {
+            transform: scale(1.05);
+        }
+
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-bubble {
+            animation: fadeInUp 0.4s ease forwards;
+        }
     </style>
 </head>
 <body>
@@ -218,10 +263,13 @@
             <a href="#mingkong" class="nav-link">明空娘</a>
             <a href="#status" class="nav-link">服务器状态</a>
             <a href="#contact" class="nav-link">联系我们</a>
+            <a href="#servermanagersaid" class="nav-link">服主/管理名言</a>
             <a href="#join" class="nav-link">加入服务器</a>
             <a href="zanzhu.html" class="nav-link">赞助我们</a>
         </div>
     </nav>
+
+    <div class="h-[70px] md:h-[70px] w-full"></div>
 
     <main class="container mx-auto p-4 md:p-8">
         <section id="home" class="content-section content-section-wrapper text-center">
@@ -244,6 +292,13 @@
         </section>
 
         <section id="features" class="content-section content-section-wrapper">
+            <p class="italic-note">
+                *此图片拍摄于2025.7.16 18:48:44，玩家合影
+            </p>
+            <img src="image/7e9edd269e1767a80907d16c67395136.jpg"
+                 alt="Minecraft 明空生存服务器玩家合影" 
+                 class="promo-image"
+                 onerror="this.onerror=null;this.src='https://placehold.co/800x450/4CAF50/ffffff?text=image+not+unloaded';">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">服务器特色</h2>
             <div class="space-y-0">
                 <div class="feature-item">
@@ -329,6 +384,28 @@
             </div>
         </section>
 
+        <section id="servermanagersaid" class="content-section content-section-wrapper">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-10">服主/管理名言</h2>
+            <div class="space-y-6 text-gray-700 text-lg">
+                <div class="space-y-3">
+                    <ul class="list-style">
+                        <li><strong class="list-item-strong">腐竹曾说：</strong>
+                            <ul class="list-style">
+                                <li>请查看群内的班级作业 (系统发送的提醒，无需回复)</li>
+                                <li>list</li>
+                                <li>xhgg是男娘</li>
+                                <li>先月几个，漂亮妹子再说</li>
+                            </ul>
+                        </li>
+                        <li><strong class="list-item-strong">管理曾说：</strong>
+                            [自动回复]有事留言，不经常在线
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-center text-gray-500">服主的恩情</p>
+            </div>
+        </section>
+
         <section id="join" class="content-section content-section-wrapper">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">如何进入服务器？</h2>
             <div class="space-y-6 text-gray-600 text-lg">
@@ -350,6 +427,14 @@
         </section>
     </main>
 
+    <div id="chat-bubble-container" class="fixed bottom-24 right-4 flex flex-col gap-2 items-end z-50 hidden">
+        <div class="chat-bubble bg-white text-black px-4 py-2 rounded-xl shadow-md max-w-xs">啊⁄(⁄ ⁄ ⁄_⁄ ⁄ ⁄)⁄</div>
+        <div class="chat-bubble bg-white text-black px-4 py-2 rounded-xl shadow-md max-w-xs hidden">为什么要来这</div>
+        <div class="chat-bubble bg-white text-black px-4 py-2 rounded-xl shadow-md max-w-xs hidden">（取出大炮）</div>
+        <div class="chat-bubble bg-white text-black px-4 py-2 rounded-xl shadow-md max-w-xs hidden">（安上飞弹）</div>
+        <div class="chat-bubble bg-white text-black px-4 py-2 rounded-xl shadow-md max-w-xs flex items-center gap-2 hidden">（BOOM）</div>
+    </div>
+
     <footer class="bg-gray-100 py-6 px-4 md:px-8 text-center text-gray-600 text-sm border-t border-gray-200">
         <p>&copy; 2025 我的世界服务器. 保留所有权利。</p>
         <div class="footer-links-container">
@@ -359,7 +444,7 @@
             <span>|</span>
             <a href="oldest.html" class="footer-link">今年彩蛋</a>
         </div>
-        <h6 class="mt-2">web by <a href="https://github.com/poop114514">A181</a></h6>
+        <h6 class="mt-2">web by <a href="https://aboutme.hxdha.top/">A181</a></h6>
     </footer>
 
     <script>
@@ -653,37 +738,32 @@
                 }
             });
         });
-                    // 导航栏显示/隐藏逻辑 (滚动时隐藏，向上滚动时显示)
-                    let prevScrollPos = window.pageYOffset;
-            let navbarHeight = navbar.offsetHeight; // 初始导航栏高度
+
+        let prevScrollPos = window.pageYOffset;
+            let navbarHeight = navbar.offsetHeight;
 
             window.onscroll = function() {
                 let currentScrollPos = window.pageYOffset;
 
-                // 更新导航栏高度，以防其高度因内容变化而改变
                 navbarHeight = navbar.offsetHeight;
 
                 if (prevScrollPos < currentScrollPos && currentScrollPos > navbarHeight) {
-                    // 向下滚动且滚动距离超过导航栏高度时隐藏
                     navbar.style.top = `-${navbarHeight}px`;
                 } 
                 else if (prevScrollPos > currentScrollPos) {
-                    // 向上滚动时显示
                     navbar.style.top = "0";
                 }
 
                 prevScrollPos = currentScrollPos;
             };
 
-            // 导航链接激活状态逻辑 (使用 Intersection Observer)
             const navLinks = document.querySelectorAll('.nav-link');
-            // 确保所有需要观察的 section 都有 'content-section' 类
             const sections = document.querySelectorAll('.content-section[id]');
 
             const observerOptions = {
-                root: null, /* 视口作为根 */
-                rootMargin: '-50% 0px -49% 0px', /* 当目标元素中心点进入视口时触发 */
-                threshold: 0 /* 目标元素一进入根元素即可触发 */
+                root: null, 
+                rootMargin: '-50% 0px -49% 0px',
+                threshold: 0 
             };
 
             const observerCallback = (entries, observer) => {
@@ -693,9 +773,7 @@
 
                     if (correspondingNavLink) {
                         if (entry.isIntersecting) {
-                            // 移除所有链接的 active 状态
                             navLinks.forEach(link => link.classList.remove('active'));
-                            // 为当前进入视口的链接添加 active 状态
                             correspondingNavLink.classList.add('active');
                         } 
                     }
@@ -704,12 +782,10 @@
 
             const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
 
-            // 观察每个内容 section
             sections.forEach(section => {
                 sectionObserver.observe(section);
             });
 
-            // 页面加载时根据URL哈希值设置初始激活链接
             window.addEventListener('load', () => {
                 const currentHash = window.location.hash;
                 if (currentHash) {
@@ -722,8 +798,6 @@
                         }
                     }
                 } else {
-                    // 如果没有哈希值，默认激活第一个可见的 section
-                    // 检查第一个 section 是否在视口上半部分，如果是则激活
                     const firstSection = sections[0];
                     if (firstSection && firstSection.getBoundingClientRect().top < window.innerHeight / 2) {
                          navLinks.forEach(link => link.classList.remove('active'));
@@ -734,6 +808,35 @@
                     }
                 }
             });
+        
+        let chatTriggered = false;
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight;
+            const winHeight = window.innerHeight;
+
+            if (!chatTriggered && scrollTop + winHeight >= docHeight - 200) {
+                chatTriggered = true;
+
+                const container = document.getElementById('chat-bubble-container');
+                const bubbles = container.querySelectorAll('.chat-bubble');
+                container.classList.remove('hidden');
+
+                bubbles.forEach((bubble, index) => {
+                    setTimeout(() => {
+                        bubble.classList.remove('hidden');
+                    }, index * 1500);
+                });
+
+                setTimeout(() => {
+                    container.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+                    setTimeout(() => {
+                        container.classList.add('hidden');
+                    }, 1000); 
+                }, 7500);
+            }
+        });
     </script>
 </body>
 </html>
