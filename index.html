@@ -253,9 +253,27 @@
         .chat-bubble {
             animation: fadeInUp 0.4s ease forwards;
         }
+        #fade-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            opacity: 0;
+            /* 初始时不可见且不响应鼠标事件 */
+            pointer-events: none;
+            /* z-index确保它在最上层 */
+            z-index: 9999;
+            /* 过渡效果，持续1秒 */
+            transition: opacity 1s ease-in-out;
+        }
     </style>
 </head>
 <body>
+
+    <div id="fade-overlay"></div>
+
     <nav id="navbar">
         <div class="navbar-content">
             <a href="#home" class="nav-link">关于我们</a>
@@ -346,7 +364,7 @@
             <div id="buildIdeaOutput" class="mt-6 text-gray-700 hidden">
             </div>
             <div id="errorMessage" class="mt-4 text-red-500 hidden">
-                抱歉，生成灵感时出现错误。请稍后再试。
+                抱歉，生成时出现错误。请稍后再试。
             </div>
         </section>
 
@@ -395,10 +413,16 @@
                                 <li>list</li>
                                 <li>xhgg是男娘</li>
                                 <li>先月几个，漂亮妹子再说</li>
+                                <li>我没有吉吉</li>
+                                <li>涛，你是想用群众效应圈钱是吧</li>
+                                <li>不开了，已经跑路了</li>
                             </ul>
                         </li>
                         <li><strong class="list-item-strong">管理曾说：</strong>
-                            [自动回复]有事留言，不经常在线
+                            <ul class="list-style">
+                                <li>[自动回复]有事留言，不经常在线</li>
+                                <li>怎么解决？</li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -523,7 +547,7 @@
                 generateIdeaButton.disabled = true;
 
                 try {
-                    const prompt = `你是一个叫明空娘的少女，你可以回答关于我的世界的问题，回答语气要轻柔，请用中文回答，内容在100-200字之间："${theme}"`;
+                    const prompt = `你是一个叫明空娘的猫娘，你可以回答关于我的世界的问题，回答语气要轻柔，请用中文回答，内容在100-200字之间，记得说话带上“喵”哦："${theme}"`;
                     let chatHistory = [];
                     chatHistory.push({ role: "user", parts: [{ text: prompt }] });
                     const payload = { contents: chatHistory };
@@ -835,6 +859,94 @@
                         container.classList.add('hidden');
                     }, 1000); 
                 }, 7500);
+            }
+        });
+
+        let scrollTimeout;
+        let isAtBottom = false;
+        let continueScrollCount = 0; 
+
+        window.addEventListener('scroll', function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                if (!isAtBottom) {
+                    isAtBottom = true;
+                    console.log("到达页面底部！");
+                    continueScrollCount = 0; 
+                }
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    if (isAtBottom && continueScrollCount >= 1) { // 假设需要向下多滚动一次才触发
+                        triggerBlackScreenAndRedirect();
+                    }
+                    // 每次到底部后持续滚动，计数器增加
+                    continueScrollCount++;
+                    console.log("用户仍在底部滚动，计数器：", continueScrollCount);
+                }, 100); // 100毫秒内没有新的滚动事件则重置
+            } else {
+                isAtBottom = false;
+                continueScrollCount = 0; // 不在底部时重置计数器
+            }
+        });
+
+        function triggerBlackScreenAndRedirect() {
+            console.log("触发黑屏并跳转！");
+
+            // 创建黑屏覆盖层
+            const blackScreen = document.createElement('div');
+            blackScreen.style.position = 'fixed';
+            blackScreen.style.top = '0';
+            blackScreen.style.left = '0';
+            blackScreen.style.width = '100%';
+            blackScreen.style.height = '100%';
+            blackScreen.style.backgroundColor = 'black';
+            blackScreen.style.opacity = '0'; // 初始透明
+            blackScreen.style.zIndex = '99999';
+            blackScreen.style.transition = 'opacity 0.5s ease-in-out'; // 过渡效果
+            document.body.appendChild(blackScreen);
+
+            // 渐变显示黑屏
+            setTimeout(() => {
+                blackScreen.style.opacity = '1';
+            }, 10); // 短暂延迟确保transition生效
+
+            // 在黑屏完全显示后跳转
+            setTimeout(() => {
+                window.location.href = 'dh.html'; // 替换为你的目标网址
+            }, 600); // 0.6秒后跳转，略长于黑屏过渡时间
+        }
+                // 获取黑屏遮罩元素
+                const fadeOverlay = document.getElementById('fade-overlay');
+        
+        // 设置跳转的目标页面 URL
+        const nextPageUrl = 'dh.html';
+
+        // 设置一个标志位，防止重复触发跳转
+        let isRedirecting = false;
+
+        // 监听鼠标滚轮事件
+        window.addEventListener('wheel', (event) => {
+            // 如果正在跳转，则直接返回
+            if (isRedirecting) {
+                return;
+            }
+
+            const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 5;
+
+
+            const isScrollingDown = event.deltaY > 0;
+
+            // 如果滚动到底部并且仍在向下滚动
+            if (isAtBottom && isScrollingDown) {
+                // 设置标志位，表示开始跳转流程
+                isRedirecting = true;
+                
+                // 显示黑屏遮罩（通过改变透明度来触发CSS过渡）
+                fadeOverlay.style.opacity = '1';
+
+                // 在黑屏动画结束后（1秒后）执行页面跳转
+                setTimeout(() => {
+                    window.location.href = nextPageUrl;
+                }, 1000); // 这个时间需要和CSS中的 transition-duration 保持一致
             }
         });
     </script>
