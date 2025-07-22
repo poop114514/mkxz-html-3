@@ -23,10 +23,23 @@
       max-width: 80%;
       line-height: 1.8;
     }
+    #fade-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(255, 255, 255);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transition: opacity 1s ease-in-out;
+        }
   </style>
 </head>
 <body>
 
+<div id="fade-overlay"></div>
 <div id="dialogue-box"></div>
 
 <script>
@@ -48,10 +61,9 @@
 
   function showDialogue() {
     if (index >= dialogues.length) {
-      // 所有对话结束后跳转
       setTimeout(() => {
         window.location.href = "index.html#join";
-      }, 1000); // 稍作延迟再跳转
+      }, 1000); 
       return;
     }
 
@@ -70,6 +82,108 @@
   }
 
   showDialogue();
+
+  window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.scrollHeight;
+            const winHeight = window.innerHeight;
+
+            if (!chatTriggered && scrollTop + winHeight >= docHeight - 200) {
+                chatTriggered = true;
+
+                const container = document.getElementById('chat-bubble-container');
+                const bubbles = container.querySelectorAll('.chat-bubble');
+                container.classList.remove('hidden');
+
+                bubbles.forEach((bubble, index) => {
+                    setTimeout(() => {
+                        bubble.classList.remove('hidden');
+                    }, index * 1500);
+                });
+
+                setTimeout(() => {
+                    container.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+                    setTimeout(() => {
+                        container.classList.add('hidden');
+                    }, 1000); 
+                }, 7500);
+            }
+        });
+
+        let scrollTimeout;
+        let isAtBottom = false;
+        let continueScrollCount = 0; 
+
+        window.addEventListener('scroll', function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                if (!isAtBottom) {
+                    isAtBottom = true;
+                    console.log("Fuckuserend");
+                    continueScrollCount = 0; 
+                }
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    if (isAtBottom && continueScrollCount >= 1) {
+                        triggerBlackScreenAndRedirect();
+                    }
+                    continueScrollCount++;
+                    console.log("Fuckuseruse：", continueScrollCount);
+                }, 100); 
+            } else {
+                isAtBottom = false;
+                continueScrollCount = 0; 
+            }
+        });
+
+        function triggerBlackScreenAndRedirect() {
+            console.log("Fuckblackscreenfucknigger！");
+
+            const blackScreen = document.createElement('div');
+            blackScreen.style.position = 'fixed';
+            blackScreen.style.top = '0';
+            blackScreen.style.left = '0';
+            blackScreen.style.width = '100%';
+            blackScreen.style.height = '100%';
+            blackScreen.style.backgroundColor = 'black';
+            blackScreen.style.opacity = '0'; 
+            blackScreen.style.zIndex = '99999';
+            blackScreen.style.transition = 'opacity 0.5s ease-in-out'; 
+            document.body.appendChild(blackScreen);
+
+            setTimeout(() => {
+                blackScreen.style.opacity = '1';
+            }, 10); 
+
+            setTimeout(() => {
+                window.location.href = 'https://elgoog.hk/dinosaur-game/'; 
+            }, 600); 
+        }
+                const fadeOverlay = document.getElementById('fade-overlay');
+        
+        const nextPageUrl = 'https://elgoog.hk/dinosaur-game/';
+
+        let isRedirecting = false;
+
+        window.addEventListener('wheel', (event) => {
+            if (isRedirecting) {
+                return;
+            }
+
+            const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 5;
+
+
+            const isScrollingDown = event.deltaY > 0;
+
+            if (isAtBottom && isScrollingDown) {
+                isRedirecting = true;
+                
+                fadeOverlay.style.opacity = '1';
+
+                setTimeout(() => {
+                    window.location.href = nextPageUrl;
+                }, 1000); 
+            }
+        });
 </script>
 
 </body>
