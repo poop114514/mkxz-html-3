@@ -261,11 +261,8 @@
             height: 100vh;
             background-color: black;
             opacity: 0;
-            /* 初始时不可见且不响应鼠标事件 */
             pointer-events: none;
-            /* z-index确保它在最上层 */
             z-index: 9999;
-            /* 过渡效果，持续1秒 */
             transition: opacity 1s ease-in-out;
         }
     </style>
@@ -403,7 +400,7 @@
         </section>
 
         <section id="servermanagersaid" class="content-section content-section-wrapper">
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-10">服主/管理名言</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-10">服主/管理名言</h2><!--小浩给我op!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
             <div class="space-y-6 text-gray-700 text-lg">
                 <div class="space-y-3">
                     <ul class="list-style">
@@ -416,6 +413,7 @@
                                 <li>我没有吉吉</li>
                                 <li>涛，你是想用群众效应圈钱是吧</li>
                                 <li>不开了，已经跑路了</li>
+                                <li>不是我的练习册 投的</li>
                             </ul>
                         </li>
                         <li><strong class="list-item-strong">管理曾说：</strong>
@@ -870,28 +868,26 @@
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                 if (!isAtBottom) {
                     isAtBottom = true;
-                    console.log("到达页面底部！");
+                    console.log("Fuckuserend");
                     continueScrollCount = 0; 
                 }
                 clearTimeout(scrollTimeout);
                 scrollTimeout = setTimeout(() => {
-                    if (isAtBottom && continueScrollCount >= 1) { // 假设需要向下多滚动一次才触发
+                    if (isAtBottom && continueScrollCount >= 1) {
                         triggerBlackScreenAndRedirect();
                     }
-                    // 每次到底部后持续滚动，计数器增加
                     continueScrollCount++;
-                    console.log("用户仍在底部滚动，计数器：", continueScrollCount);
-                }, 100); // 100毫秒内没有新的滚动事件则重置
+                    console.log("Fuckuseruse：", continueScrollCount);
+                }, 100); 
             } else {
                 isAtBottom = false;
-                continueScrollCount = 0; // 不在底部时重置计数器
+                continueScrollCount = 0; 
             }
         });
 
         function triggerBlackScreenAndRedirect() {
-            console.log("触发黑屏并跳转！");
+            console.log("Fuckblackscreenfucknigger！");
 
-            // 创建黑屏覆盖层
             const blackScreen = document.createElement('div');
             blackScreen.style.position = 'fixed';
             blackScreen.style.top = '0';
@@ -899,33 +895,26 @@
             blackScreen.style.width = '100%';
             blackScreen.style.height = '100%';
             blackScreen.style.backgroundColor = 'black';
-            blackScreen.style.opacity = '0'; // 初始透明
+            blackScreen.style.opacity = '0'; 
             blackScreen.style.zIndex = '99999';
-            blackScreen.style.transition = 'opacity 0.5s ease-in-out'; // 过渡效果
+            blackScreen.style.transition = 'opacity 0.5s ease-in-out'; 
             document.body.appendChild(blackScreen);
 
-            // 渐变显示黑屏
             setTimeout(() => {
                 blackScreen.style.opacity = '1';
-            }, 10); // 短暂延迟确保transition生效
+            }, 10); 
 
-            // 在黑屏完全显示后跳转
             setTimeout(() => {
-                window.location.href = 'dh.html'; // 替换为你的目标网址
-            }, 600); // 0.6秒后跳转，略长于黑屏过渡时间
+                window.location.href = 'dh.html'; 
+            }, 600); 
         }
-                // 获取黑屏遮罩元素
                 const fadeOverlay = document.getElementById('fade-overlay');
         
-        // 设置跳转的目标页面 URL
         const nextPageUrl = 'dh.html';
 
-        // 设置一个标志位，防止重复触发跳转
         let isRedirecting = false;
 
-        // 监听鼠标滚轮事件
         window.addEventListener('wheel', (event) => {
-            // 如果正在跳转，则直接返回
             if (isRedirecting) {
                 return;
             }
@@ -935,18 +924,14 @@
 
             const isScrollingDown = event.deltaY > 0;
 
-            // 如果滚动到底部并且仍在向下滚动
             if (isAtBottom && isScrollingDown) {
-                // 设置标志位，表示开始跳转流程
                 isRedirecting = true;
                 
-                // 显示黑屏遮罩（通过改变透明度来触发CSS过渡）
                 fadeOverlay.style.opacity = '1';
 
-                // 在黑屏动画结束后（1秒后）执行页面跳转
                 setTimeout(() => {
                     window.location.href = nextPageUrl;
-                }, 1000); // 这个时间需要和CSS中的 transition-duration 保持一致
+                }, 1000); 
             }
         });
     </script>
