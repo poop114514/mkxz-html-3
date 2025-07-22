@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>...</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: "Microsoft YaHei", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #dialogue-box {
+      text-align: center;
+      font-size: 1.5rem;
+      opacity: 0;
+      transition: opacity 1s;
+      max-width: 80%;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+<div id="dialogue-box"></div>
+
+<script>
+  const dialogues = [
+    "？？？：你终于来了……",
+    "你：这里是哪里？为什么我会在这？",
+    "？？？：别问太多，时间不多了。",
+    "你：等等！你是谁？！",
+    "（声音渐远）我是明空娘，快走，看你后面",
+    "（你向后看）末影龙！？",
+    "明空娘：没错，我们在末地",
+    "（突然！末影龙向你冲过来）",
+    "你：不要！！！",
+    "（悲惨的声音在虚空中盘旋）"
+  ];
+
+  let index = 0;
+  const box = document.getElementById("dialogue-box");
+
+  function showDialogue() {
+    if (index >= dialogues.length) {
+      // 所有对话结束后跳转
+      setTimeout(() => {
+        window.location.href = "index.html#join";
+      }, 1000); // 稍作延迟再跳转
+      return;
+    }
+
+    box.style.opacity = 0;
+
+    setTimeout(() => {
+      box.textContent = dialogues[index];
+      box.style.opacity = 1;
+
+      setTimeout(() => {
+        box.style.opacity = 0;
+        index++;
+        setTimeout(showDialogue, 1000); 
+      }, 3000); 
+    }, 1000);
+  }
+
+  showDialogue();
+</script>
+
+</body>
+</html>
