@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -8,48 +9,478 @@
     <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
     <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="toon-ui.css">
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <style>
-        .asdfghjkjhgfghgfghgfhgfdsdfghjk{
-            width: 170px;
-            height: 30px;
-            border: 1px solid #ff0000;
-            filter: drop-shadow(2px 2px 0px rgb(53, 255, 201));
-            animation: asdfghjkjhgfghgfghgfhgfdsdfghjk 0.5s infinite;
+        .nav-link.active {
+            color: #38BDF8 !important;
+            border-bottom: 4px solid #38BDF8;
+            transform: translateY(-2px);
         }
-        @keyframes asdfghjkjhgfghgfghgfhgfdsdfghjk{
-            0%{
-                border: 3px  solid #00ffe1;
-                transform: translateY(-10);
-            }
-            25%{
-                border: 3px  solid #ff0000;
-                transform: translateY(-10px);
-            }
-            50%{
-                border: 3px  solid #00ff4c;
-                transform: translateY(10px);
-            }
-            75%{
-                border: 3px  solid #ccff00;
-                transform: translateY(-10px);
-            }
-            100%{
-                border: 3px  solid #ff0000;
-                transform: translateY(10px);
-            }
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+        }
+
+        /* --- 核心组件类 --- */
+
+        .toon-border {
+            border: 3px solid #000;
+        }
+
+        .toon-card {
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            background-color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .toon-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        .toon-btn {
+            border: 3px solid #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 4px 4px 0px #000;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .toon-btn:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+        .toon-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+            background-color: #e2e8f0;
+            border-color: #94a3b8;
+            color: #94a3b8;
+        }
+
+        .toon-btn-primary { background-color: #38BDF8; color: black; } /* Sky */
+        .toon-btn-secondary { background-color: white; color: black; }
+        .toon-btn-dark { background-color: black; color: white; }
+        .toon-btn-success { background-color: #4ade80; color: black; } /* Green */
+        .toon-btn-danger { background-color: #ef4444; color: white; } /* Red */
+        .toon-btn-warning { background-color: #facc15; color: black; } /* Yellow */
+        .toon-btn-footer { background-color: rgb(29, 29, 29); color: white; }
+
+        .toon-input {
+            width: 100%;
+            border: 3px solid #000;
+            padding: 0.75rem 1rem;
+            font-weight: 700;
+            background-color: #f8fafc;
+            box-shadow: 4px 4px 0px #cbd5e1;
+            transition: all 0.2s;
+        }
+        .toon-input:focus {
+            outline: none;
+            background-color: #fff;
+            box-shadow: 4px 4px 0px #38BDF8;
+            transform: translate(-2px, -2px);
+        }
+
+        .toon-badge {
+            border: 2px solid #000;
+            padding: 0.25rem 0.75rem;
+            font-weight: 800;
+            font-size: 0.75rem;
+            box-shadow: 2px 2px 0px #000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .toon-alert {
+            border: 3px solid #000;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+        }
+
+        .toon-checkbox {
+            appearance: none;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid #000;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 2px 2px 0px #cbd5e1;
+        }
+        .toon-checkbox:checked {
+            background-color: #38BDF8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: 80%;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .toon-toggle {
+            appearance: none;
+            width: 3.5rem;
+            height: 1.75rem;
+            border: 3px solid #000;
+            border-radius: 999px;
+            background-color: #e2e8f0;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .toon-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: black;
+            border-radius: 50%;
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        .toon-toggle:checked {
+            background-color: #38BDF8;
+        }
+        .toon-toggle:checked::after {
+            transform: translateX(1.75rem);
+            background-color: white;
+            border: 2px solid black;
+        }
+
+        .toon-carousel {
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            background: white;
+        }
+        .toon-carousel-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .toon-carousel-slide {
+            min-width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            border-right: 3px solid #000;
+        }
+        .toon-carousel-slide:last-child {
+            border-right: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-title::before {
+            content: '#';
+            color: #38BDF8;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
+        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+
+        /* 施 工 中  ( 记 得 删 除 )   */
+        .construction-stripe {
+            border: 3px solid #000;
+            height: 100px;
+            background: repeating-linear-gradient(
+                45deg,
+                #facc15,
+                #facc15 20px,
+                #171717 20px,
+                #171717 40px
+            );
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            box-shadow: 5px 5px 0px rgb(0, 0, 0);
+        }
+
+        .inner-content {
+            background-color: #facc15;
+            height: 60px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            border: 3px solid #171717;
+            font-weight: 900;
+            color: #171717;
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            z-index: 10;
+        }
+
+        .character-container {
+            height: 130px;
+            width: 130px;
+            position: absolute;
+            right: 40px;
+            bottom: -17px;
+            z-index: 20;
+        }
+
+        .character-img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: 247% center;
+            filter: drop-shadow(2px 2px 0px white);
         }
     </style>
 </head>
-<body>
-    <h1>这是明空生存服务器的唯一官网</h1>
-    <h2><mark>正版服</mark></h2>
-    <h3>如何加入</h3>
-    <li>各位地瓜们听好了</li>
-    <li>服务器ip:mk000.cc</li>
-    <li>审核群272175145</li>
-    <div  class="asdfghjkjhgfghgfghgfhgfdsdfghjk"><li>进服前记得<a href="https://docs.qq.com/form/page/DWEVvZVVOc3RqZ21Z">--审核--</a>哟</li></div>
-    <li>要是有哪个地瓜不会的我拿我那40m长的狼趴戳死你</li>
+<body class="min-h-screen text-slate-900">
+
+    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black shadow-lg py-2">
+        <div class="container mx-auto flex justify-center items-center px-4">
+            <div class="hidden md:flex gap-6 font-bold">
+                <a href="#home" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">关于我们</a>
+                <a href="#features" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
+                <a href="#contact" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
+                <a href="#join" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
+                <a href="zanzhu.html" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- 施 工 中  ( 记 得 删 除 )  -->
+     <div class="container mx-auto p-4 md:p-8">
+        <div class="construction-stripe">
+            <div class="inner-content">
+                WARNING / 网页施工中
+            </div>
+        
+        <div class="character-container">
+                <img 
+                    src="https://raw.githubusercontent.com/poop114514/mkxz-html-3/refs/heads/main/image/png.png" 
+                    alt="丰川祥子（施工版）" 
+                    class="character-img"
+                    onerror="this.style.display='none'; console.error('图片加载失败');"
+                >
+            </div>
+        </div>
+    </div>
+
+
+    <main class="container mx-auto flex-1 p-4 md:p-8 pt-24 md:pt-28">
+
+        <section id="home" class="toon-card p-8 md:p-12 text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-black text-gray-800 mb-6 leading-tight">
+                这是《我的世界》明空原版生存服的唯一官网
+            </h1>
+            <div class="toon-card p-4 mb-6">
+                <p class="font-bold text-lg">服务器IP: <span id="serverIP" class="text-sky-600 font-mono">mk000.cc</span></p>
+                <div id="serverStatus" class="text-sm text-slate-500 mt-2">正在获取服务器状态...</div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+                <button onclick="fetchServerStatus()" class="toon-btn toon-btn-success px-8 py-4 text-xl">
+                    刷新
+                </button>
+                <button  onclick="copyText()" class="toon-btn toon-btn-primary px-8 py-4 text-xl">
+                    复制域名
+                </a>
+            </div>
+            <p class="text-1xl font-bold mt-8 select-all py-2">如果有地瓜的电脑无法执行复制部分的JS代码的话，可以双击下列文本<code class="toon-badge bg-slate-200 text-slate-900">control</code>+<code class="toon-badge bg-slate-200 text-slate-900">C</code>复制哦:</p>
+            <p id="ipAddress" class="text-2xl font-bold mt-8 select-all bg-slate-100 border-2 border-black inline-block px-4 py-2">mk000.cc</p>
+        </section>
+
+        <section id="features" class="toon-card p-8 md:p-12 mb-12">
+            <h2 class="section-title text-3xl md:text-4xl">服务器特色</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="toon-card p-6 flex flex-col items-start bg-sky-50">
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">正版服</h3>
+                    <p class="text-slate-600 font-medium">要求需要正版+审核，较高的门槛可以过滤掉坏人</p>
+                </div>
+                 <div class="toon-card p-6 flex flex-col items-start bg-red-50">
+                    <div class="bg-red-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">红石生电</h3>
+                    <p class="text-slate-600 font-medium">不限制红石（出生点为中心10000*10000格除外）</p>
+                </div>
+                <div class="toon-card p-6 flex flex-col items-start bg-green-50">
+                    <div class="bg-green-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="users" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">友好的玩家</h3>
+                    <p class="text-slate-600 font-medium">友好的玩家群体，结识新朋友。</p>
+                </div>
+                <div class="toon-card p-6 flex flex-col items-start bg-yellow-50">
+                    <div class="bg-yellow-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="server" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">稳定运行</h3>
+                    <p class="text-slate-600 font-medium">采用了一颗i9-14900K的CPU，崩溃的概率理论上很小</p>
+                </div>
+                <div class="toon-card p-6 flex flex-col items-start bg-indigo-50">
+                    <div class="bg-indigo-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="swords" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">公正游戏</h3>
+                    <p class="text-slate-600 font-medium">正版服，环境较优，已删除容易引战的内容（如工会这些）</p>
+                </div>
+                 <div class="toon-card p-6 flex flex-col items-start bg-pink-50">
+                    <div class="bg-pink-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">持续更新</h3>
+                    <p class="text-slate-600 font-medium">不断添加新内容、新玩法，保持服务器的活力。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid md:grid-cols-2 gap-12">
+            <section id="contact" class="toon-card p-8">
+                <h2 class="section-title text-3xl">如何联系我们</h2>
+                <div class="space-y-6 text-gray-600 text-lg">
+                    <p class="font-bold">其实联系我们非常简单：</p>
+                    <div class="toon-alert bg-blue-50 text-blue-900">
+                        <i data-lucide="message-square" class="w-8 h-8 flex-shrink-0 stroke-[2.5px]"></i>
+                        <div>
+                             <h4 class="font-black text-lg">QQ群</h4>
+                             <p class="font-medium text-2xl">272175145</p>
+                             <p class="font-medium">明空生存审核群 | 26.1.2</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="join" class="toon-card p-8">
+                <h2 class="section-title text-3xl">如何进入服务器？</h2>
+                <div class="space-y-4 text-gray-600 text-lg">
+                    <p class="font-bold">加入我们的服务器非常简单，请按照以下步骤操作：</p>
+                    <div class="space-y-3">
+                        <div class="font-bold text-black"><span class="toon-badge bg-yellow-200 text-yellow-900 mr-2">1</span>服务器地址:</div>
+                        <div class="flex flex-wrap gap-2">
+                            <code class="toon-badge bg-slate-200 text-slate-900">mk000.cc</code>
+                            <code class="toon-badge bg-slate-200 text-slate-900">mk.mingkongtown.top</code>
+                        </div>
+                    </div>
+                     <div class="space-y-3">
+                        <div class="font-bold text-black"><span class="toon-badge bg-yellow-200 text-yellow-900 mr-2">2</span>填写审核表:</div>
+                        <p>服务器需要白名单, 填完后,等待小浩（xhGG）发激活码进服激活即可。</p>
+                        <a href="https://docs.qq.com/form/page/DWEVvZVVOc3RqZ21Z" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
+                           <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> 审核表
+                        </a>
+                        <a href="https://docs.qq.com/aio/p/scpnbjs91m3kiju?p=ek72GuqMBlX2y00Ms5DCCx" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
+                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>服规
+                        </a>
+                    </div>
+                    <p class="mt-6 text-center text-gray-500 font-bold">如果您在加入过程中遇到任何问题，请联系我们的管理员寻求帮助。</p>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+
+    <footer class="w-full text-center py-10 border-t-4 border-black text-slate-500 font-bold mt-12 toon-btn-footer">
+         <p>&copy; 2026 我的世界服务器. 保留所有权利。</p>
+        <div class="flex justify-center gap-4 my-2">
+            <a href="ys.html" class="font-bold hover:text-sky-500">隐私政策</a>
+            <span>|</span>
+            <a href="zanzhu.html" class="font-bold hover:text-sky-500">赞助我们</a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Initial fetch
+            fetchServerStatus();
+            document.querySelector("button[onclick='fetchServerStatus()']").addEventListener("click", fetchServerStatus);
+            document.querySelector("button[onclick='copyText()']").addEventListener("click", copyText);
+
+
+            refreshStatusButton.addEventListener('click', fetchDataAndUpdateStatus);
+            
+            initializeChart();
+
+            let lastScrollTop = 0;
+            window.addEventListener("scroll", function() {
+               let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+               if (scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight) {
+                  navbar.style.transform = "translateY(-100%)";
+               } else {
+                  navbar.style.transform = "translateY(0)";
+               }
+               lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+            }, false);
+
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            async function fetchServerStatus() {
+                try {
+                    document.getElementById('serverStatus').textContent = '正在获取服务器状态...';
+                    const response = await fetch(`https://api.mcsrvstat.us/2/mk000.cc`);
+                    const data = await response.json();
+                    if (data.online) {
+                        document.getElementById('serverStatus').textContent = `在线玩家: ${data.players.online} / ${data.players.max}`;
+                    } else {
+                        document.getElementById('serverStatus').textContent = '服务器离线';
+                    }
+                } catch (error) {
+                    document.getElementById('serverStatus').textContent = '无法获取服务器状态';
+                }
+            }
+
+            function copyText() {
+                const textToCopy = document.getElementById('serverIP').textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    alert('IP地址已复制!');
+                }).catch(err => {
+                    alert('复制失败');
+                });
+            }
+        });
+        
+    </script>
 </body>
 </html>
