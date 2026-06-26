@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -8,6 +7,7 @@
     <link rel="apple-touch-icon" href="image/icon.png" sizes="180x180">
     <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
     <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="toon-ui.css">
@@ -26,6 +26,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
 
         body {
+            cursor: url('cursors/ani1043.cur'), auto !important;
             font-family: 'Noto Sans SC', sans-serif;
             background-color: #f8fafc;
             background-image: radial-gradient(#cbd5e1 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
@@ -328,31 +329,49 @@
                     <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">正版服</h3>
                     <p class="text-slate-600 font-medium">要求需要正版+审核，较高的门槛可以过滤掉坏人</p>
+                    <div class="mt-auto pt-6 w-full flex justify-end">
+                        <button onclick="window.location.href='https://www.runoob.com/'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                    </div>
                 </div>
                  <div class="toon-card p-6 flex flex-col items-start">
                     <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="cpu" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">红石生电</h3>
                     <p class="text-slate-600 font-medium">不限制红石（出生点为中心10000*10000格除外）</p>
+                    <div class="mt-auto pt-6 w-full flex justify-end">
+                        <button onclick="window.location.href='https://www.runoob.com/'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                    </div>
                 </div>
                 <div class="toon-card p-6 flex flex-col items-start">
                     <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="users" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">友好的玩家</h3>
                     <p class="text-slate-600 font-medium">友好的玩家群体，结识新朋友。</p>
+                    <div class="mt-auto pt-6 w-full flex justify-end>">
+                        <button onclick="window.location.href='https://www.runoob.com/'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                    </div>
                 </div>
                 <div class="toon-card p-6 flex flex-col items-start">
                     <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="server" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">稳定运行</h3>
                     <p class="text-slate-600 font-medium">采用了一颗i9-14900K的CPU，崩溃的概率理论上很小</p>
+                    <div class="mt-auto pt-6 w-full flex justify-end">
+                        <button onclick="window.location.href='https://www.runoob.com/'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                    </div>
                 </div>
                 <div class="toon-card p-6 flex flex-col items-start">
                     <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="swords" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">公正游戏</h3>
                     <p class="text-slate-600 font-medium">正版服，环境较优，已删除容易引战的内容（如工会这些）</p>
+                    <div class="mt-auto pt-6 w-full flex justify-end">
+                        <button onclick="window.location.href='https://www.runoob.com/'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                    </div>
                 </div>
                  <div class="toon-card p-6 flex flex-col items-start">
                     <div class="bg-sky-300 border-2 border-black p-2 mb-4 shadow-[3px_3px_0px_#000]"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">持续更新</h3>
                     <p class="text-slate-600 font-medium">不断添加新内容、新玩法，保持服务器的活力。</p>
+                    <div class="mt-auto pt-6 w-full flex justify-end">
+                        <button onclick="window.location.href='https://www.runoob.com/'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Small</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -394,6 +413,9 @@
                         <a href="https://docs.qq.com/aio/p/scpnbjs91m3kiju?p=ek72GuqMBlX2y00Ms5DCCx" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
                             <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>服规
                         </a>
+                        <button onclick="document.getElementById('demo-modal').classList.remove('hidden')" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
+                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>打开弹窗演示
+                        </button>
                     </div>
                     <p class="mt-6 text-center text-gray-500 font-bold">如果您在加入过程中遇到任何问题，请联系我们的管理员寻求帮助。</p>
                 </div>
@@ -411,6 +433,25 @@
             <a href="zanzhu.html" class="font-bold hover:text-sky-500">赞助我们</a>
         </div>
     </footer>
+
+    <div id="demo-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white border-4 border-black p-8 max-w-md w-full shadow-[12px_12px_0px_#38BDF8] animate-[bounce-in_0.3s_ease-out]">
+            <div class="flex justify-between items-start mb-6">
+                <h3 class="text-2xl font-black">TEXT</h3>
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="hover:bg-slate-100 p-1 border-2 border-transparent hover:border-black transition-all">
+                    <i class="bi bi-square-fill w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="bg-slate-100 p-4 border-2 border-black mb-6 border-dashed">
+                <p class="font-bold text-slate-600">hello world</p>
+            </div>
+            <div class="flex justify-end gap-4">
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="toon-btn toon-btn-danger px-4 py-2"><i class="bi bi-x-circle-fill"></i>确认</button>
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="toon-btn toon-btn-secondary px-4 py-2"><i class="bi bi-x-circle-fill"></i>确认</button>
+                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="toon-btn toon-btn-primary px-4 py-2"><i class="bi bi-x-circle-fill"></i>确认</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         lucide.createIcons();
