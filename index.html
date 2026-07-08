@@ -264,18 +264,21 @@
         .zanzhu-container {
             border: 3px solid #ff7878;
             background-color: #facc15;
-            animation: zanzhu-container-animation 0.5s infinite;
+            animation: zanzhu-container-animation 0.25s infinite;
         }
 
         @keyframes zanzhu-container-animation {
             0% {
                 border: 3px solid #fffd78;
+                background-color: #1dfa156c;
             }
             50% {
                 border: 3px solid #ff2929;
+                background-color: #7115fa6c;
             }
             100% {
-                border: 3px solid #b4ff13;
+                border: 3px solid #131bff;
+                background-color: #facc156c;
             }
         }
     </style>
@@ -426,7 +429,7 @@
                             <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>服规
                         </a>
                         <button onclick="document.getElementById('demo-modal').classList.remove('hidden')" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
-                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>不知道是什么懒爬东西
+                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>不知道是什么东西
                         </button>
                     </div>
                     <p class="mt-6 text-center text-gray-500 font-bold">如果您在加入过程中遇到任何问题，请联系我们的管理员寻求帮助。</p>
@@ -449,7 +452,7 @@
     </footer>
 
     <div id="demo-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center backdrop-blur-sm p-4">
-        <div class="bg-white border-4 border-black p-8 max-w-md w-full shadow-[12px_12px_0px_#38BDF8] animate-[bounce-in_0.3s_ease-out]">
+        <div class="bg-white border-4 border-black p-8 max-w-md w-full animate-[bounce-in_0.3s_ease-out]">
             <div class="flex justify-between items-start mb-6">
                 <h3 class="text-2xl font-black">验证你是否为机器人</h3>
                 <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="hover:bg-slate-100 p-1 border-2 border-transparent hover:border-black transition-all">
