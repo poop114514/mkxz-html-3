@@ -261,24 +261,27 @@
             filter: drop-shadow(2px 2px 0px white);
         }
 
-        .zanzhu-container {
+        .zanzhu {
             border: 3px solid #ff7878;
             background-color: #facc15;
-            animation: zanzhu-container-animation 0.25s infinite;
+            animation: zanzhu-animation 0.25s infinite;
         }
 
-        @keyframes zanzhu-container-animation {
+        @keyframes zanzhu-animation {
             0% {
                 border: 3px solid #fffd78;
-                background-color: #1dfa156c;
+                background-color: #88ff00;
+                text-shadow: 0 0 10px #88ff00;
             }
             50% {
                 border: 3px solid #ff2929;
-                background-color: #7115fa6c;
+                background-color: #07a0ff;
+                text-shadow: 0 0 10px #07a0ff;
             }
             100% {
                 border: 3px solid #131bff;
-                background-color: #facc156c;
+                background-color: #ffd322;
+                text-shadow: 0 0 10px #ffd322;
             }
         }
     </style>
@@ -292,7 +295,7 @@
                 <a href="#features" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
                 <a href="#contact" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
                 <a href="#join" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
-                <div class="zanzhu-container"><a href="zanzhu.html" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a></div>
+                <div class="zanzhu"><a href="zanzhu.html" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a></div>
             </div>
         </div>
     </nav>
