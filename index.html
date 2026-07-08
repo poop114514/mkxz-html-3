@@ -39,11 +39,10 @@
             border-color: #000;
         }
         .nav-link-mobile.active {
-            color: #000000 !important;
+            color: #38BDF8 !important;
             background-color: #f0f9ff;
             border-color: #000;
         }
-
 
         #nav-mobile-menu {
             max-height: 0;
@@ -59,14 +58,16 @@
 
         body {
             font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
             background-position: 0 0, 10px 10px;
+            background-image: radial-gradient(#e1d3cb 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
             background-size: 20px 20px;
             cursor: url('cursors/ani1043.cur'), auto;
         }
 
-        /* --- 核心组件类 (UI Kit Core) --- */
+                /* --- 核心组件类 (UI Kit Core) --- */
 
-        /* 基础边框和阴影 */
+        /* 基础边框 */
         .toon-border {
             border: 3px solid #000;
         }
@@ -75,7 +76,7 @@
         .toon-card {
             border: 3px solid #000;
             background-color: white;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
         .toon-card:hover {
             transform: translate(-0px, -0px);
@@ -99,16 +100,15 @@
         .toon-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            box-shadow: none;
             background-color: #e2e8f0;
             border-color: #94a3b8;
             color: #94a3b8;
         }
 
         /* 按钮颜色变体 */
-        .toon-btn-primary { background-color: white; color: black; } /* Sky */
+        .toon-btn-primary { background-color: #38BDF8; color: black; } /* Sky */
         .toon-btn-secondary { background-color: white; color: black; }
-        .toon-btn-dark { background-color: white; color: black; }
+        .toon-btn-dark { background-color: black; color: white; }
         .toon-btn-success { background-color: #4ade80; color: black; } /* Green */
         .toon-btn-danger { background-color: #ef4444; color: white; } /* Red */
         .toon-btn-warning { background-color: #facc15; color: black; } /* Yellow */
@@ -120,14 +120,12 @@
             padding: 0.75rem 1rem;
             font-weight: 700;
             background-color: #f8fafc;
-            box-shadow: 4px 4px 0px #cbd5e1;
             transition: all 0.2s;
         }
         .toon-input:focus {
             outline: none;
             background-color: #fff;
-            box-shadow: 4px 4px 0px #38BDF8;
-            transform: translate(-0px, -0px);
+            transform: translate(-2px, -2px);
         }
 
         /* 4. 徽章/标签 */
@@ -236,7 +234,7 @@
         }
         .section-title::before {
             content: '#';
-            color: #0000004d;
+            color: #38BDF8;
         }
 
         /* 隐藏滚动条样式 */
@@ -251,10 +249,10 @@
             height: 100px;
             background: repeating-linear-gradient(
                 45deg,
-                #ffffff,
-                #ffffff 20px,
-                #1717174d 20px,
-                #1717174d 40px
+                #facc15,
+                #facc15 20px,
+                #171717 20px,
+                #171717 40px
             );
             position: relative;
             overflow: hidden;
@@ -265,7 +263,7 @@
         }
 
         .inner-content {
-            background-color: #ffffff;
+            background-color: #facc15;
             height: 60px;
             padding: 0 20px;
             display: flex;
@@ -294,27 +292,6 @@
             object-position: 247% center;
             filter: drop-shadow(2px 2px 0px white);
         }
-
-        .zanzhu {
-            border: 3px solid #ff7878;
-            background-color: #facc15;
-            animation: zanzhu-animation 0.25s infinite;
-        }
-
-        @keyframes zanzhu-animation {
-            0% {
-                border: 3px solid #fffd78;
-                background-color: #88ff00;
-            }
-            50% {
-                border: 3px solid #ff2929;
-                background-color: #07a0ff;
-            }
-            100% {
-                border: 3px solid #131bff;
-                background-color: #ffd322;
-            }
-        }
     </style>
 </head>
 <body class="min-h-screen text-slate-900">
@@ -322,7 +299,7 @@
     <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-2 md:justify-center">
-                <a href="#home" class="md:hidden font-black text-lg hover:text-black">明空生存</a>
+                <a href="#home" class="md:hidden font-black text-lg hover:text-sky-500">明空生存</a>
 
                 <button id="nav-toggle" type="button" class="md:hidden toon-btn toon-btn-secondary p-2 min-w-[44px] min-h-[44px]" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
                     <i class="bi bi-list text-2xl" id="nav-toggle-icon"></i>
@@ -333,7 +310,7 @@
                     <a href="#features" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
                     <a href="#contact" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
                     <a href="#join" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
-                    <div class="zanzhu"><a href="zanzhu.html" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a></div>
+                    <a href="zanzhu.html" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a>
                 </div>
             </div>
 
@@ -343,7 +320,7 @@
                     <a href="#features" class="nav-link nav-link-mobile font-black text-base">服务器特点</a>
                     <a href="#contact" class="nav-link nav-link-mobile font-black text-base">联系我们</a>
                     <a href="#join" class="nav-link nav-link-mobile font-black text-base">加入服务器</a>
-                    <div class="zanzhu"><a href="zanzhu.html" class="nav-link nav-link-mobile font-black text-base">赞助我们</a></div>
+                    <a href="zanzhu.html" class="nav-link nav-link-mobile font-black text-base">赞助我们</a>
                 </div>
             </div>
         </div>
@@ -374,7 +351,7 @@
                 《我的世界》明空原版生存官网
             </h1>
             <div class="toon-card p-4 mb-6">
-                <p class="font-bold text-lg">服务器IP: <span id="serverIP" class="font-mono">mk000.cc</span></p>
+                <p class="font-bold text-lg">服务器IP: <span id="serverIP" class="text-sky-600 font-mono">mk000.cc</span></p>
                 <div id="serverStatus" class="text-sm text-slate-500 mt-2">正在获取服务器状态...</div>
             </div>
             <div class="flex flex-col md:flex-row justify-center items-center gap-4">
@@ -385,15 +362,15 @@
                     复制域名
                 </a>
             </div>
-            <p class="text-1xl font-bold mt-8 select-all py-2">如果有地瓜的电脑无法执行复制部分的JS代码的话，可以双击下列文本<code class="toon-badge text-slate-900">control</code>+<code class="toon-badge text-slate-900">C</code>复制哦:</p>
-            <p id="ipAddress" class="text-2xl font-bold mt-8 select-all border-2 border-black inline-block px-4 py-2">mk000.cc</p>
+            <p class="text-1xl font-bold mt-8 select-all py-2">如果有地瓜的电脑无法执行复制部分的JS代码的话，可以双击下列文本<code class="toon-badge bg-slate-200 text-slate-900">control</code>+<code class="toon-badge bg-slate-200 text-slate-900">C</code>复制哦:</p>
+            <p id="ipAddress" class="text-2xl font-bold mt-8 select-all bg-slate-100 border-2 border-black inline-block px-4 py-2">mk000.cc</p>
         </section>
 
         <section id="features" class="toon-card p-8 md:p-12 mb-12">
             <h2 class="section-title text-3xl md:text-4xl">服务器特色</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="border-2 border-black p-2 mb-4"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">正版服</h3>
                     <p class="text-slate-600 font-medium">要求需要正版+审核，较高的门槛可以过滤掉坏人</p>
                     <div class="mt-auto pt-6 w-full flex justify-end">
@@ -401,7 +378,7 @@
                     </div>
                 </div>
                  <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="border-2 border-black p-2 mb-4"><i data-lucide="cpu" class="w-6 h-6"></i></div>
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="cpu" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">红石生电</h3>
                     <p class="text-slate-600 font-medium">不限制红石（出生点为中心10000*10000格除外）</p>
                     <div class="mt-auto pt-6 w-full flex justify-end">
@@ -409,7 +386,7 @@
                     </div>
                 </div>
                 <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="border-2 border-black p-2 mb-4"><i data-lucide="users" class="w-6 h-6"></i></div>
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="users" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">友好的玩家</h3>
                     <p class="text-slate-600 font-medium">友好的玩家群体，结识新朋友。</p>
                     <div class="mt-auto pt-6 w-full flex justify-end">
@@ -417,7 +394,7 @@
                     </div>
                 </div>
                 <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="border-2 border-black p-2 mb-4"><i data-lucide="server" class="w-6 h-6"></i></div>
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="server" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">稳定运行</h3>
                     <p class="text-slate-600 font-medium">采用了一颗i9-14900K的CPU，崩溃的概率理论上很小</p>
                     <div class="mt-auto pt-6 w-full flex justify-end">
@@ -425,7 +402,7 @@
                     </div>
                 </div>
                 <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="border-2 border-black p-2 mb-4"><i data-lucide="swords" class="w-6 h-6"></i></div>
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="swords" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">公正游戏</h3>
                     <p class="text-slate-600 font-medium">正版服，环境较优，已删除容易引战的内容（如工会这些）</p>
                     <div class="mt-auto pt-6 w-full flex justify-end">
@@ -433,7 +410,7 @@
                     </div>
                 </div>
                  <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="border-2 border-black p-2 mb-4"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
                     <h3 class="text-xl font-black mb-2">持续更新</h3>
                     <p class="text-slate-600 font-medium">不断添加新内容、新玩法，保持服务器的活力。</p>
                     <div class="mt-auto pt-6 w-full flex justify-end">
@@ -448,7 +425,7 @@
                 <h2 class="section-title text-3xl">如何联系我们</h2>
                 <div class="space-y-6 text-gray-600 text-lg">
                     <p class="font-bold">其实联系我们非常简单：</p>
-                    <div class="toon-alert">
+                    <div class="toon-alert bg-blue-50 text-blue-900">
                         <i data-lucide="message-square" class="w-8 h-8 flex-shrink-0 stroke-[2.5px]"></i>
                         <div>
                              <h4 class="font-black text-lg">QQ群</h4>
@@ -465,14 +442,14 @@
                 <div class="space-y-4 text-gray-600 text-lg">
                     <p class="font-bold">加入我们的服务器非常简单，请按照以下步骤操作：</p>
                     <div class="space-y-3">
-                        <div class="font-bold text-black"><span class="toon-badge mr-2">1</span>服务器地址:</div>
+                        <div class="font-bold text-black"><span class="toon-badge bg-yellow-200 text-yellow-900 mr-2">1</span>服务器地址:</div>
                         <div class="flex flex-wrap gap-2">
-                            <code class="toon-badge text-slate-900">mk000.cc</code>
-                            <code class="toon-badge text-slate-900">mk.mingkongtown.top</code>
+                            <code class="toon-badge bg-slate-200 text-slate-900">mk000.cc</code>
+                            <code class="toon-badge bg-slate-200 text-slate-900">mk.mingkongtown.top</code>
                         </div>
                     </div>
                      <div class="space-y-3">
-                        <div class="font-bold text-black"><span class="toon-badge mr-2">2</span>填写审核表:</div>
+                        <div class="font-bold text-black"><span class="toon-badge bg-yellow-200 text-yellow-900 mr-2">2</span>填写审核表:</div>
                         <p>服务器需要白名单, 填完后,等待小浩（xhGG）发激活码进服激活即可。</p>
                         <a href="https://docs.qq.com/form/page/DWEVvZVVOc3RqZ21Z" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> 审核表
@@ -481,7 +458,7 @@
                             <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>服规
                         </a>
                         <button onclick="document.getElementById('demo-modal').classList.remove('hidden')" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
-                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>不知道是什么东西
+                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>不知道是什么懒爬东西
                         </button>
                     </div>
                     <p class="mt-6 text-center text-gray-500 font-bold">如果您在加入过程中遇到任何问题，请联系我们的管理员寻求帮助。</p>
@@ -559,13 +536,9 @@
             document.querySelector("button[onclick='fetchServerStatus()']").addEventListener("click", fetchServerStatus);
             document.querySelector("button[onclick='copyText()']").addEventListener("click", copyText);
 
-
-            refreshStatusButton.addEventListener('click', fetchDataAndUpdateStatus);
-            
-            initializeChart();
-
             let lastScrollTop = 0;
             window.addEventListener("scroll", function() {
+               if (mobileMenuOpen) return;
                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                if (scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight) {
                   navbar.style.transform = "translateY(-100%)";
