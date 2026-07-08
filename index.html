@@ -23,6 +23,40 @@
             transition: all 0.2s ease-in-out;
         }
 
+        #navbar {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link-mobile {
+            display: block;
+            padding: 0.75rem 1rem;
+            border: 3px solid transparent;
+            border-radius: 0;
+            transition: all 0.15s ease-in-out;
+        }
+        .nav-link-mobile:hover {
+            background-color: #f0f9ff;
+            border-color: #000;
+        }
+        .nav-link-mobile.active {
+            color: #000000 !important;
+            background-color: #f0f9ff;
+            border-color: #000;
+        }
+
+
+        #nav-mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+        }
+        #nav-mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+            padding-bottom: 0.75rem;
+        }
+
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background-position: 0 0, 10px 10px;
@@ -271,31 +305,46 @@
             0% {
                 border: 3px solid #fffd78;
                 background-color: #88ff00;
-                text-shadow: 0 0 10px #88ff00;
             }
             50% {
                 border: 3px solid #ff2929;
                 background-color: #07a0ff;
-                text-shadow: 0 0 10px #07a0ff;
             }
             100% {
                 border: 3px solid #131bff;
                 background-color: #ffd322;
-                text-shadow: 0 0 10px #ffd322;
             }
         }
     </style>
 </head>
 <body class="min-h-screen text-slate-900">
 
-    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black shadow-lg py-2">
-        <div class="container mx-auto flex justify-center items-center px-4">
-            <div class="hidden md:flex gap-6 font-bold">
-                <a href="#home" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">关于我们</a>
-                <a href="#features" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
-                <a href="#contact" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
-                <a href="#join" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
-                <div class="zanzhu"><a href="zanzhu.html" class="nav-link font-black text-lg nav-link hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a></div>
+    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2 md:justify-center">
+                <a href="#home" class="md:hidden font-black text-lg hover:text-black">明空生存</a>
+
+                <button id="nav-toggle" type="button" class="md:hidden toon-btn toon-btn-secondary p-2 min-w-[44px] min-h-[44px]" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
+                    <i class="bi bi-list text-2xl" id="nav-toggle-icon"></i>
+                </button>
+
+                <div class="hidden md:flex gap-6 font-bold">
+                    <a href="#home" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">关于我们</a>
+                    <a href="#features" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
+                    <a href="#contact" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
+                    <a href="#join" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
+                    <div class="zanzhu"><a href="zanzhu.html" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a></div>
+                </div>
+            </div>
+
+            <div id="nav-mobile-menu" class="md:hidden border-t-[3px] border-black">
+                <div class="flex flex-col gap-1 pt-2 font-bold">
+                    <a href="#home" class="nav-link nav-link-mobile font-black text-base">关于我们</a>
+                    <a href="#features" class="nav-link nav-link-mobile font-black text-base">服务器特点</a>
+                    <a href="#contact" class="nav-link nav-link-mobile font-black text-base">联系我们</a>
+                    <a href="#join" class="nav-link nav-link-mobile font-black text-base">加入服务器</a>
+                    <div class="zanzhu"><a href="zanzhu.html" class="nav-link nav-link-mobile font-black text-base">赞助我们</a></div>
+                </div>
             </div>
         </div>
     </nav>
@@ -318,7 +367,7 @@
         </div>
     </div>
 
-    <main class="container mx-auto flex-1 p-4 md:p-8 pt-24 md:pt-28">
+    <main class="container mx-auto flex-1 p-4 md:p-8 pt-6 md:pt-28">
 
         <section id="home" class="toon-card p-8 md:p-12 text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-black text-gray-800 mb-6 leading-tight">
@@ -476,6 +525,34 @@
         lucide.createIcons();
 
         document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            const navToggle = document.getElementById('nav-toggle');
+            const navMobileMenu = document.getElementById('nav-mobile-menu');
+            const navToggleIcon = document.getElementById('nav-toggle-icon');
+            let mobileMenuOpen = false;
+
+            function setMobileMenu(open) {
+                mobileMenuOpen = open;
+                navMobileMenu.classList.toggle('open', open);
+                navToggle.setAttribute('aria-expanded', open);
+                navToggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+                navToggleIcon.className = open ? 'bi bi-x-lg text-2xl' : 'bi bi-list text-2xl';
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            navToggle.addEventListener('click', () => setMobileMenu(!mobileMenuOpen));
+
+            navMobileMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => setMobileMenu(false));
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileMenuOpen) setMobileMenu(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768 && mobileMenuOpen) setMobileMenu(false);
+            });
 
             // Initial fetch
             fetchServerStatus();
