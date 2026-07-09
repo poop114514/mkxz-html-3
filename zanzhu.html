@@ -11,272 +11,358 @@
     <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
     <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
     <link rel="manifest" href="image/icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="toon-ui.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #f39c12;
-            --background-light: #f7f9fc;
-            --background-dark: #e0e8f0;
-            --text-dark: #333;
-            --text-light: #f9f9f9;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(to bottom, var(--background-light), var(--background-dark));
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+            background-position: 0 0, 10px 10px;
+            background-image: radial-gradient(#e1d3cb 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
+            background-size: 20px 20px;
+            cursor: url('cursors/ani1043.cur'), auto;
         }
 
-        .main-header {
-            background-image: linear-gradient(to right, #1e3a8a, #00e5ffcc);
-            color: white;
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            position: relative;
-            overflow: hidden;
-        }
-        .header-title {
-            font-size: 2.25rem;
-            line-height: 1.25;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-        .header-strong {
-            color: #fcd34d;
-        }
-        .header-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-        }
-        @media (min-width: 768px) {
-            .header-title {
-                font-size: 3rem;
-            }
-            .header-subtitle {
-                font-size: 1.5rem;
-            }
+        #navbar {
+            transition: transform 0.3s ease;
         }
 
-        .main-container {
-            width: 100%;
-            max-width: 80rem;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+        .nav-link {
+            transition: all 0.2s ease-in-out;
         }
 
-        .content-section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        @media (min-width: 768px) {
-            .content-section-card {
-                padding: 2rem;
-            }
-        }
-
-        .section-heading-h2 {
-            font-size: 1.875rem;
-            font-weight: 600;
-            color: #1e40af;
-            margin-bottom: 1rem;
-        }
-        .section-heading-h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #1d4ed8;
-            margin-bottom: 0.75rem;
-        }
-
-        .content-paragraph {
-            color: #374151;
-            line-height: 1.625;
-            margin-bottom: 1rem;
-        }
-        .list-style {
-            list-style-type: disc;
-            list-style-position: inside;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-            color: #374151;
-        }
-        .list-item-strong {
-            color: #1d4ed8;
-        }
-
-        .qr-code-image {
-            width: 250px;
-            height: 350px;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: block;
-            margin: 1rem auto; /* Centered with margin */
-            transition: transform 0.3s ease-in-out;
-        }
-        .qr-code-image:hover {
-            transform: scale(1.03);
-        }
-
-        .embedded-iframe {
-            width: 100%;
-            max-width: 800px; /* Optional: limit max width for larger screens */
-            height: 400px; /* Adjusted height for Bilibili */
-            border: none;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin: 1.25rem auto; /* Centered */
-            display: block;
-        }
-
-        .content-link {
-            color: #2563eb;
-            text-decoration: underline;
-            transition-property: color;
-            transition-duration: 300ms;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .content-link:hover {
-            color: #1e40af;
-        }
-
-        .cta-button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1.5rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .cta-button:hover {
-            background-color: var(--secondary-color);
+        .nav-link.active {
+            color: #38BDF8 !important;
+            border-bottom: 4px solid #38BDF8;
             transform: translateY(-2px);
         }
 
-        .main-footer {
-            background-color: #111827;
-            color: white;
-            text-align: center;
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-            margin-top: 2rem;
-            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        .nav-link-mobile {
+            display: block;
+            padding: 0.75rem 1rem;
+            border: 3px solid transparent;
+            transition: all 0.15s ease-in-out;
         }
-        .footer-text-sm {
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
+
+        .nav-link-mobile:hover,
+        .nav-link-mobile.active {
+            color: #38BDF8 !important;
+            background-color: #f0f9ff;
+            border-color: #000;
         }
-        .footer-links-container {
-            display: flex;
+
+        #nav-mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+        }
+
+        #nav-mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+            padding-bottom: 0.75rem;
+        }
+
+        .toon-border {
+            border: 3px solid #000;
+        }
+
+        .toon-card {
+            border: 3px solid #000;
+            background-color: #fff;
+            transition: transform 0.2s;
+        }
+
+        .toon-btn {
+            border: 3px solid #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            column-gap: 1rem;
-            margin-bottom: 0.5rem;
+            cursor: pointer;
         }
-        .footer-link {
-            color: #9ca3af;
-            transition-property: color;
-            transition-duration: 300ms;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+        .toon-btn:active {
+            transform: translate(0, 0);
         }
-        .footer-link:hover {
-            color: white;
+
+        .toon-btn-primary {
+            background-color: #38BDF8;
+            color: #000;
         }
-        .footer-by-text {
+
+        .toon-btn-secondary {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .toon-btn-dark {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .toon-badge {
+            border: 2px solid #000;
+            padding: 0.25rem 0.75rem;
+            font-weight: 800;
             font-size: 0.75rem;
-            color: #6b7280;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
         }
-        .footer-link-afdian {
-            color: #333;
-            transition-property: color;
-            transition-duration: 300ms;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: underline;
+
+        .toon-alert {
+            border: 3px solid #000;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
         }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '#';
+            color: #38BDF8;
+        }
+
+        .support-list li {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            color: #475569;
+            font-weight: 700;
+            line-height: 1.7;
+        }
+
+        .qr-code-image {
+            width: min(100%, 250px);
+            height: 350px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+            background-color: #f1f5f9;
+            border: 3px solid #000;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
+        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
     </style>
 </head>
-<body class="font-inter">
+<body class="min-h-screen text-slate-900">
 
-<header class="main-header">
-    <h1 class="header-title">
-        支持《我的世界》明空<strong class="header-strong">原版</strong>生存服
-    </h1>
-    <p class="header-subtitle">您的支持，是我们前行的动力！</p>
-</header>
+    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-2 md:justify-center">
+                <a href="index.html#home" class="md:hidden font-black text-lg hover:text-sky-500">明空生存</a>
 
-<main class="main-container">
-    <section class="content-section content-section-card">
-        <h2 class="section-heading-h2">为什么支持我们？</h2>
-        <p class="content-paragraph">为了提升《我的世界》明空原版生存服的游戏体验和服务器性能，我们需要您的支持！您的赞助不仅帮助我们保持服务器的稳定运行，还将为每一位玩家带来更加流畅的游戏体验和更多的精彩内容。</p>
-        
-        <h3 class="section-heading-h3">我们提供：</h3>
-        <ul class="list-style">
-            <li><strong class="list-item-strong">极致流畅的游戏体验，</strong>减少延迟与卡顿。</li>
-            <li><strong class="list-item-strong">全新的服务器功能</strong>和定期更新的玩法。</li>
-            <li><strong class="list-item-strong">丰富的社区活动，</strong>更多玩家参与的机会。</li>
-            <li><strong class="list-item-strong">高效的技术支持，</strong>保证服务器的稳定性。</li>
-            <li><strong class="list-item-strong">更高级的DDoS防护技术，</strong>确保正常游玩体验。</li>
-        </ul>
-    </section>
+                <button id="nav-toggle" type="button" class="md:hidden toon-btn toon-btn-secondary p-2 min-w-[44px] min-h-[44px]" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
+                    <i class="bi bi-list text-2xl" id="nav-toggle-icon"></i>
+                </button>
 
-    <section class="content-section content-section-card">
-        <h2 class="section-heading-h2">如何支持我们？</h2>
-        <p class="content-paragraph">您的支持能够帮助我们购买更高配置的服务器设备，并不断优化游戏体验。我们为支持者提供了多种支持方式：</p>
+                <div class="hidden md:flex gap-6 font-bold">
+                    <a href="index.html#home" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">关于我们</a>
+                    <a href="index.html#features" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
+                    <a href="index.html#contact" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
+                    <a href="index.html#join" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
+                    <a href="zanzhu.html" class="nav-link active font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a>
+                </div>
+            </div>
 
-        <div class="text-center mb-8">
-            <h3 class="section-heading-h3">扫码捐赠</h3>
-            <p class="content-paragraph">通过扫描二维码，您可以方便地进行捐赠，为我们的服务器贡献一份力量！</p>
-            <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png" 
-                 alt="xhGG 收款二维码" 
-                 class="qr-code-image"
-                 onerror="this.onerror=null;this.src='https://placehold.co/250x350/cccccc/333333?text=QR+Code+Unavailable';">
-            <p class="content-paragraph">扫描二维码进行捐赠 被赞助者：xhGG | 也可以<a href="https://afdian.net/@xhGG" class="footer-link-afdian">点击这里</a>进行捐赠</p>
-            <p class="content-paragraph">若你觉得此网站做的不错，可以给我赞助哦！</p>
-
-            <img src="#" 
-                alt="A181 收款二维码" 
-                class="qr-code-image"
-                onerror="this.onerror=null;this.src='https://placehold.co/250x350/cccccc/333333?text=bu+yong+gei+wo+zhuan+qian.+awa';">
-            <p class="content-paragraph">扫描二维码进行捐赠 被赞助者：A181</p>
+            <div id="nav-mobile-menu" class="md:hidden border-t-[3px] border-black">
+                <div class="flex flex-col gap-1 pt-2 font-bold">
+                    <a href="index.html#home" class="nav-link nav-link-mobile font-black text-base">关于我们</a>
+                    <a href="index.html#features" class="nav-link nav-link-mobile font-black text-base">服务器特点</a>
+                    <a href="index.html#contact" class="nav-link nav-link-mobile font-black text-base">联系我们</a>
+                    <a href="index.html#join" class="nav-link nav-link-mobile font-black text-base">加入服务器</a>
+                    <a href="zanzhu.html" class="nav-link nav-link-mobile active font-black text-base">赞助我们</a>
+                </div>
+            </div>
         </div>
-    </section>
+    </nav>
 
-    <section class="content-section content-section-card">
-        <h2 class="section-heading-h2">联系与反馈</h2>
-        <p class="content-paragraph">如果您有任何关于捐赠的疑问，或需要进一步了解服务器的运营和规划，欢迎通过以下方式联系我们：</p>
-        <ul class="list-style">
-            <li><strong class="list-item-strong">服务器QQ群：</strong> 
-                <a href="https://jq.qq.com/?_wv=1027&k=855713559" class="content-link">855713559</a>
-            </li>
-        </ul>
-    </section>
+    <main class="container mx-auto flex-1 p-4 md:p-8 pt-6 md:pt-16">
+        <section class="toon-card p-8 md:p-12 text-center mb-12">
+            <span class="toon-badge bg-yellow-200 text-yellow-900 mb-6">SUPPORT / 赞助我们</span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-800 mb-6 leading-tight">
+                支持《我的世界》明空原版生存服
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 font-bold leading-8">
+                您的支持会帮助我们保持服务器稳定运行，提升性能、防护和社区活动质量，让更多玩家拥有流畅的生存体验。
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                <a href="#donate" class="toon-btn toon-btn-primary px-8 py-4 text-xl">
+                    <i data-lucide="heart-handshake" class="w-6 h-6 mr-2"></i>立即支持
+                </a>
+                <a href="index.html" class="toon-btn toon-btn-secondary px-8 py-4 text-xl">
+                    <i data-lucide="home" class="w-6 h-6 mr-2"></i>返回主页
+                </a>
+            </div>
+        </section>
 
-    <div class="text-center">
-        <a href="index.html" class="cta-button">＜返回主页</a>
-    </div>
-</main>
+        <section class="toon-card p-8 md:p-12 mb-12">
+            <h2 class="section-title text-3xl md:text-4xl">为什么支持我们？</h2>
+            <p class="text-slate-600 font-bold text-lg leading-8 mb-8">
+                为了提升《我的世界》明空原版生存服的游戏体验和服务器性能，我们需要您的支持。赞助会用于服务器配置、日常维护、防护和玩法更新。
+            </p>
 
-<footer class="main-footer">
-    <p class="footer-text-sm">© 2025 明空生存. 保留所有权利。<br> <a href="ys.html" class="footer-link">隐私政策</a> | <a href="index.html" class="footer-link">返回主页</a></p>
-    <h5 class="footer-by-text">web UI by :<a href="https://github.com/poop114514" class="footer-link">A181</a></h5>
-</footer>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="toon-card p-6">
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="zap" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">更流畅</h3>
+                    <p class="text-slate-600 font-medium">减少延迟与卡顿，让红石、生存和多人互动更稳定。</p>
+                </div>
+                <div class="toon-card p-6">
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">持续更新</h3>
+                    <p class="text-slate-600 font-medium">支持新功能、玩法维护和更长期的内容规划。</p>
+                </div>
+                <div class="toon-card p-6">
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="party-popper" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">社区活动</h3>
+                    <p class="text-slate-600 font-medium">让更多玩家参与活动，也让服务器社区更有活力。</p>
+                </div>
+                <div class="toon-card p-6">
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="wrench" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">技术维护</h3>
+                    <p class="text-slate-600 font-medium">保障日常运维、问题排查和服务器长期稳定性。</p>
+                </div>
+                <div class="toon-card p-6 md:col-span-2 lg:col-span-1">
+                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+                    <h3 class="text-xl font-black mb-2">高级防护</h3>
+                    <p class="text-slate-600 font-medium">用于更高级的 DDoS 防护，尽量减少异常攻击对游玩的影响。</p>
+                </div>
+            </div>
+        </section>
 
+        <section id="donate" class="toon-card p-8 md:p-12 mb-12">
+            <h2 class="section-title text-3xl md:text-4xl">如何支持我们？</h2>
+            <div class="toon-alert bg-blue-50 text-blue-900 mb-8">
+                <i data-lucide="info" class="w-8 h-8 flex-shrink-0 stroke-[2.5px]"></i>
+                <div>
+                    <h3 class="font-black text-lg">赞助说明</h3>
+                    <p class="font-medium">您的支持能够帮助我们购买更高配置的服务器设备，并不断优化游戏体验。赞助完全自愿，感谢每一份心意。</p>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <article class="toon-card p-6 text-center flex flex-col">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <span class="toon-badge bg-yellow-200 text-yellow-900">xhGG</span>
+                        <h3 class="text-2xl font-black">服务器赞助</h3>
+                    </div>
+                    <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png"
+                         alt="xhGG 收款二维码"
+                         class="qr-code-image"
+                         onerror="this.onerror=null;this.src='https://placehold.co/250x350/cccccc/333333?text=QR+Code+Unavailable';">
+                    <p class="text-slate-600 font-bold leading-7 mt-5">扫描二维码进行捐赠，被赞助者：xhGG。</p>
+                    <a href="https://afdian.net/@xhGG" target="_blank" rel="noopener" class="toon-btn toon-btn-primary px-5 py-3 mt-5 self-center">
+                        <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>爱发电赞助
+                    </a>
+                </article>
+                <article class="toon-card p-6 text-center flex flex-col">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <span class="toon-badge bg-yellow-200 text-yellow-900">xhGG</span>
+                        <h3 class="text-2xl font-black">服务器赞助</h3>
+                    </div>
+                    <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png"
+                         alt="xhGG 收款二维码"
+                         class="qr-code-image"
+                         onerror="this.onerror=null;this.src='https://placehold.co/250x350/cccccc/333333?text=QR+Code+Unavailable';">
+                    <p class="text-slate-600 font-bold leading-7 mt-5">扫描二维码进行捐赠，被赞助者：xhGG。</p>
+                    <a href="https://afdian.net/@xhGG" target="_blank" rel="noopener" class="toon-btn toon-btn-primary px-5 py-3 mt-5 self-center">
+                        <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>爱发电赞助
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <section class="toon-card p-8 md:p-12 mb-12">
+            <h2 class="section-title text-3xl md:text-4xl">联系与反馈</h2>
+            <div class="grid md:grid-cols-[1fr_auto] gap-6 items-center">
+                <div>
+                    <p class="text-slate-600 font-bold text-lg leading-8 mb-4">
+                        如果您有任何关于捐赠的疑问，或需要进一步了解服务器的运营和规划，欢迎通过服务器 QQ 群联系我们。
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="toon-badge bg-slate-200 text-slate-900">服务器 QQ 群</span>
+                        <code class="toon-badge bg-yellow-200 text-yellow-900">855713559</code>
+                    </div>
+                </div>
+                <a href="https://jq.qq.com/?_wv=1027&k=855713559" target="_blank" rel="noopener" class="toon-btn toon-btn-dark px-6 py-4 text-lg">
+                    <i data-lucide="message-square" class="w-5 h-5 mr-2"></i>加入 QQ 群
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="w-full text-center py-10 border-t-4 border-black text-slate-500 font-bold mt-12 toon-btn-footer">
+        <p>&copy; 2026 我的世界服务器. 保留所有权利。</p>
+        <div class="flex justify-center gap-4 my-2 flex-wrap">
+            <a href="ys.html" class="font-bold hover:text-sky-500">隐私政策</a>
+            <span>|</span>
+            <a href="index.html" class="font-bold hover:text-sky-500">返回主页</a>
+            <span>|</span>
+            <a href="https://bootswatch.com/brite/" class="font-bold hover:text-sky-500">设计参考</a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.getElementById('navbar');
+            const navToggle = document.getElementById('nav-toggle');
+            const navMobileMenu = document.getElementById('nav-mobile-menu');
+            const navToggleIcon = document.getElementById('nav-toggle-icon');
+            let mobileMenuOpen = false;
+            let lastScrollTop = 0;
+
+            function setMobileMenu(open) {
+                mobileMenuOpen = open;
+                navMobileMenu.classList.toggle('open', open);
+                navToggle.setAttribute('aria-expanded', open);
+                navToggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+                navToggleIcon.className = open ? 'bi bi-x-lg text-2xl' : 'bi bi-list text-2xl';
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            navToggle.addEventListener('click', () => setMobileMenu(!mobileMenuOpen));
+
+            navMobileMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => setMobileMenu(false));
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && mobileMenuOpen) setMobileMenu(false);
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768 && mobileMenuOpen) setMobileMenu(false);
+            });
+
+            window.addEventListener('scroll', () => {
+                if (mobileMenuOpen) return;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                navbar.style.transform = scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight ? 'translateY(-100%)' : 'translateY(0)';
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            }, false);
+        });
+    </script>
 </body>
 </html>
