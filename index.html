@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -11,587 +10,2807 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="toon-ui.css">
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
-        .nav-link.active {
-            color: #38BDF8 !important;
-            border-bottom: 4px solid #38BDF8;
-            transform: translateY(-2px);
-        }
-        .nav-link {
-            transition: all 0.2s ease-in-out;
-        }
-
-        #navbar {
-            transition: transform 0.3s ease;
+        :root {
+            --yellow: #FFD31E;
+            --cyan: #3FFFF3;
+            --ink: #111111;
+            --paper: #F6F2E8;
+            --white: #FFFFFF;
         }
 
-        .nav-link-mobile {
-            display: block;
-            padding: 0.75rem 1rem;
-            border: 3px solid transparent;
-            border-radius: 0;
-            transition: all 0.15s ease-in-out;
-        }
-        .nav-link-mobile:hover {
-            background-color: #f0f9ff;
-            border-color: #000;
-        }
-        .nav-link-mobile.active {
-            color: #38BDF8 !important;
-            background-color: #f0f9ff;
-            border-color: #000;
+        * {
+            box-sizing: border-box;
+            border-radius: 0 !important;
         }
 
-        #nav-mobile-menu {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
-        }
-        #nav-mobile-menu.open {
-            max-height: 400px;
-            opacity: 1;
-            padding-bottom: 0.75rem;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f8fafc;
-            background-position: 0 0, 10px 10px;
-            background-image: radial-gradient(#e1d3cb 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
-            background-size: 20px 20px;
-            cursor: url('cursors/ani1043.cur'), auto;
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+            cursor: url("cursors/ani1043.cur"), auto;
+            overflow-x: hidden;
         }
 
-                /* --- 核心组件类 (UI Kit Core) --- */
-
-        /* 基础边框 */
-        .toon-border {
-            border: 3px solid #000;
+        body.menu-open {
+            overflow: hidden;
         }
 
-        /* 1. 容器/卡片 */
-        .toon-card {
-            border: 3px solid #000;
-            background-color: white;
-            transition: transform 0.2s;
-        }
-        .toon-card:hover {
-            transform: translate(-0px, -0px);
+        ::selection {
+            color: var(--ink);
+            background: var(--cyan);
         }
 
-        /* 2. 按钮 (变体) */
-        .toon-btn {
-            border: 3px solid #000;
-            font-weight: 900;
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--paper);
+            border-left: 2px solid var(--ink);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ink);
+            border: 2px solid var(--paper);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            cursor: inherit;
+        }
+
+        .metro-page {
+            position: relative;
+            min-height: 100vh;
+            background: var(--paper);
+        }
+
+        .metro-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--white);
+            color: var(--ink);
+            border-bottom: 3px solid var(--ink);
+            transition: transform 0.28s ease;
+        }
+
+        .nav-shell {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            min-height: 72px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        .brand-mark {
+            display: inline-grid;
+            grid-template-columns: 18px auto;
+            align-items: center;
+            font-weight: 950;
+            gap: 10px;
+            letter-spacing: 0;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: all 0.15s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .toon-btn:active:not(:disabled) {
-            transform: translate(0px, 0px);
-        }
-        .toon-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            background-color: #e2e8f0;
-            border-color: #94a3b8;
-            color: #94a3b8;
         }
 
-        /* 按钮颜色变体 */
-        .toon-btn-primary { background-color: #38BDF8; color: black; } /* Sky */
-        .toon-btn-secondary { background-color: white; color: black; }
-        .toon-btn-dark { background-color: black; color: white; }
-        .toon-btn-success { background-color: #4ade80; color: black; } /* Green */
-        .toon-btn-danger { background-color: #ef4444; color: white; } /* Red */
-        .toon-btn-warning { background-color: #facc15; color: black; } /* Yellow */
+        .brand-mark::before {
+            content: "";
+            width: 18px;
+            height: 44px;
 
-        /* 3. 输入框 */
-        .toon-input {
-            width: 100%;
-            border: 3px solid #000;
-            padding: 0.75rem 1rem;
-            font-weight: 700;
-            background-color: #f8fafc;
-            transition: all 0.2s;
-        }
-        .toon-input:focus {
-            outline: none;
-            background-color: #fff;
-            transform: translate(-2px, -2px);
         }
 
-        /* 4. 徽章/标签 */
-        .toon-badge {
-            border: 2px solid #000;
-            padding: 0.25rem 0.75rem;
-            font-weight: 800;
-            font-size: 0.75rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        /* 5. 提示框 (Alert) */
-        .toon-alert {
-            border: 3px solid #000;
-            padding: 1rem;
+        .nav-links {
             display: flex;
-            align-items: flex-start;
-            gap: 1rem;
+            grid-column: 2;
+            align-items: center;
+            gap: 4px;
+            font-weight: 900;
         }
 
-        /* 6. 自定义 Checkbox */
-        .toon-checkbox {
-            appearance: none;
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 3px solid #000;
-            background-color: white;
-            cursor: pointer;
+        .nav-link {
             position: relative;
-        }
-        .toon-checkbox:checked {
-            background-color: #38BDF8;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-            background-size: 80%;
-            background-position: center;
-            background-repeat: no-repeat;
+            display: inline-flex;
+            align-items: center;
+            min-height: 52px;
+            padding: 0 18px;
+            color: var(--ink);
+            transition: color 0.2s ease;
         }
 
-        /* 7. 切换开关 (Toggle) */
-        .toon-toggle {
-            appearance: none;
-            width: 3.5rem;
-            height: 1.75rem;
-            border: 3px solid #000;
-            border-radius: 999px;
-            background-color: #e2e8f0;
-            position: relative;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .toon-toggle::after {
-            content: '';
+        .nav-link::after {
+            content: "";
             position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 1.25rem;
-            height: 1.25rem;
-            background-color: black;
-            border-radius: 50%;
-            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-        .toon-toggle:checked {
-            background-color: #38BDF8;
-        }
-        .toon-toggle:checked::after {
-            transform: translateX(1.75rem);
-            background-color: white;
-            border: 2px solid black;
+            right: 18px;
+            bottom: 9px;
+            left: 18px;
+            height: 4px;
+            background: var(--yellow);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.2s ease;
         }
 
-        /* 8. 轮播 (Carousel) */
-        .toon-carousel {
-            position: relative;
-            overflow: hidden;
-            border: 3px solid #000;
-            background: white;
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
-        .toon-carousel-track {
-            display: flex;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .toon-carousel-slide {
-            min-width: 100%;
-            height: 250px;
-            display: flex;
+
+        .nav-toggle {
+            display: none;
+            grid-column: 3;
+            justify-self: end;
+            width: 50px;
+            height: 50px;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            font-weight: 900;
-            border-right: 3px solid #000;
-        }
-        .toon-carousel-slide:last-child {
-            border-right: none;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 0;
+            font-size: 28px;
         }
 
-        /* --- 布局辅助 --- */
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .section-title::before {
-            content: '#';
-            color: #38BDF8;
+        .mobile-panel {
+            display: none;
+            background: var(--white);
+            color: var(--ink);
+            border-top: 3px solid var(--ink);
         }
 
-        /* 隐藏滚动条样式 */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #000; }
-        ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
-        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+        .mobile-panel.open {
+            display: block;
+        }
 
-        /* 施 工 中  ( 记 得 删 除 )   */
-        .construction-stripe {
-            border: 3px solid #000;
-            height: 100px;
-            background: repeating-linear-gradient(
-                45deg,
-                #facc15,
-                #facc15 20px,
-                #171717 20px,
-                #171717 40px
-            );
+        .mobile-panel .nav-link {
+            color: var(--ink);
+            width: 100%;
+            border-bottom: 2px solid var(--ink);
+        }
+
+        .hero {
+            min-height: calc(100vh - 72px);
+            display: grid;
+            grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+            align-items: stretch;
+            width: min(1380px, 100%);
+            margin: 0 auto;
+            border-left: 6px solid var(--ink);
+            border-right: 6px solid var(--ink);
+            background: var(--paper);
+        }
+
+        .hero-copy {
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 640px;
+            padding: clamp(40px, 7vw, 110px) clamp(24px, 6vw, 86px);
+            background: var(--yellow);
+            border-right: 6px solid var(--ink);
             overflow: hidden;
+        }
+
+        .hero-orbit,
+        .hero-pixel-field {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-orbit {
+            border: 5px solid var(--ink);
+            border-radius: 50% !important;
+            opacity: 0.16;
+        }
+
+        .hero-orbit--one {
+            top: -158px;
+            right: -158px;
+            width: 356px;
+            height: 356px;
+        }
+
+        .hero-orbit--two {
+            bottom: 92px;
+            left: -88px;
+            width: 184px;
+            height: 184px;
+            border-color: var(--cyan);
+            opacity: 0.78;
+        }
+
+        .hero-pixel-field {
+            top: 26px;
+            right: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 14px);
+            gap: 8px;
+        }
+
+        .hero-pixel-field span {
+            display: block;
+            width: 14px;
+            height: 14px;
+            background: var(--ink);
+        }
+
+        .hero-pixel-field span:nth-child(3n) {
+            background: var(--cyan);
+        }
+
+        .hero-copy::before {
+            content: "MK000";
+            position: absolute;
+            left: -12px;
+            bottom: -42px;
+            color: #E0B900;
+            font-size: clamp(92px, 17vw, 260px);
+            font-weight: 950;
+            line-height: 0.8;
+            letter-spacing: 0;
+        }
+
+        .launch-tag {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 26px;
+            padding: 9px 14px;
+            color: #fff;
+            background: var(--ink);
+            font-size: 13px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .launch-tag i {
+            color: var(--cyan);
+        }
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0;
+            font-size: clamp(54px, 8vw, 132px);
+            font-weight: 950;
+            line-height: 0.86;
+            letter-spacing: 0;
+        }
+
+        .hero-title-char {
+            display: inline-block;
+            will-change: transform;
+        }
+
+        .hero-lede {
+            position: relative;
+            z-index: 1;
+            max-width: 650px;
+            margin: 28px 0 0;
+            font-size: clamp(18px, 2vw, 26px);
+            font-weight: 850;
+            line-height: 1.42;
+        }
+
+        .hero-actions {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 34px;
+        }
+
+        .metro-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 54px;
+            padding: 0 22px;
+            border: 4px solid var(--ink);
+            background: var(--white);
+            color: var(--ink);
+            font-weight: 950;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease;
+        }
+
+        .metro-button:hover {
+            transform: translateY(-3px);
+            background: var(--yellow);
+        }
+
+        .metro-button:active {
+            transform: translateY(0);
+        }
+
+        .metro-button.primary {
+            background: var(--cyan);
+        }
+
+        .metro-button.dark {
+            background: var(--ink);
+            color: #fff;
+        }
+
+        .metro-button.dark:hover {
+            background: var(--cyan);
+            color: var(--ink);
+        }
+
+        .hero-stage {
+            position: relative;
+            min-height: 760px;
+            background: var(--cyan);
+            overflow: hidden;
+            padding: clamp(18px, 4vw, 54px);
+        }
+
+        .status-stage-tilt {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .stage-sky {
+            position: absolute;
+            inset: 0;
+            background: var(--cyan);
+        }
+
+        .stage-sky::before {
+            display: none;
+        }
+
+        .status-stage-shell {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            height: auto;
+            min-height: 650px;
+            grid-template-rows: minmax(260px, 1.1fr) minmax(180px, 0.78fr) auto;
+            gap: 14px;
+            will-change: transform;
+        }
+
+        .mc-server-card {
+            display: grid;
+            grid-template-columns: 88px minmax(0, 1fr);
+            gap: 16px;
+            min-height: 266px;
+            padding: 18px;
+            border: 6px solid var(--ink);
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .mc-server-icon {
+            display: grid;
+            width: 88px;
+            height: 88px;
+            place-items: center;
+            align-self: start;
+            border: 4px solid var(--ink);
+            background: var(--paper);
+            overflow: hidden;
+        }
+
+        .mc-server-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .mc-server-icon i {
+            width: 40px;
+            height: 40px;
+            stroke-width: 2.8;
+        }
+
+        .mc-server-main {
+            min-width: 0;
+        }
+
+        .mc-server-topline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .mc-server-title {
+            margin: 0;
+            font-size: clamp(24px, 4vw, 48px);
+            font-weight: 950;
+            line-height: 0.94;
+            letter-spacing: 0;
+        }
+
+        .mc-version {
+            padding: 6px 9px;
+            border: 3px solid var(--ink);
+            background: var(--yellow);
+            font-size: 12px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .mc-motd {
+            min-height: 76px;
+            padding: 12px;
+            border: 4px solid var(--ink);
+            background: var(--ink);
+            color: var(--white);
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: clamp(14px, 1.5vw, 18px);
+            font-weight: 800;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+        }
+
+        .mc-motd span {
+            font: inherit;
+        }
+
+        .mc-address-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            font-weight: 950;
+        }
+
+        .mc-address-row code {
+            padding: 6px 9px;
+            border: 3px solid var(--ink);
+            background: var(--cyan);
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 16px;
+            font-weight: 950;
+        }
+
+        .status-chart-card,
+        .status-metrics {
+            border: 6px solid var(--ink);
+            background: var(--white);
+        }
+
+        .status-chart-card {
+            display: grid;
+            grid-template-rows: auto minmax(120px, 1fr);
+            min-height: 184px;
+            padding: 14px 16px 10px;
+        }
+
+        .chart-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            font-size: 12px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .player-chart {
+            width: 100%;
+            height: 100%;
+            min-height: 130px;
+        }
+
+        .chart-grid {
+            stroke: var(--ink);
+            stroke-width: 2;
+        }
+
+        .chart-area {
+            fill: var(--cyan);
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--ink);
+            stroke-width: 5;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+        }
+
+        .chart-dot {
+            fill: var(--yellow);
+            stroke: var(--ink);
+            stroke-width: 3;
+        }
+
+        .status-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0;
+        }
+
+        .metric-cell {
+            min-height: 108px;
+            padding: 16px;
+            border-right: 4px solid var(--ink);
+            overflow: hidden;
+        }
+
+        .metric-cell:last-child {
+            border-right: 0;
+        }
+
+        .metric-label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 950;
+            line-height: 0.98;
+        }
+
+        .metric-value.online {
+            color: var(--ink);
+        }
+
+        .metric-value.offline {
+            color: var(--ink);
+            background: var(--yellow);
+            width: fit-content;
+            padding: 4px 8px;
+        }
+
+        .metric-note {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 850;
+        }
+
+        .micro-label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        #ipAddress {
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 950;
+            line-height: 1;
+            word-break: break-all;
+        }
+
+        #serverIP {
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 16px;
+            font-weight: 950;
+            line-height: 1.1;
+            word-break: break-all;
+        }
+
+        .ticker {
+            display: flex;
+            overflow: hidden;
+            border-top: 6px solid var(--ink);
+            border-bottom: 6px solid var(--ink);
+            background: var(--ink);
+            color: #fff;
+        }
+
+        .ticker-track {
+            display: flex;
+            min-width: max-content;
+            animation: ticker 22s linear infinite;
+        }
+
+        .ticker-track.is-gsap-animated {
+            animation: none;
+        }
+
+        .ticker span {
+            display: inline-flex;
+            align-items: center;
+            min-height: 58px;
+            padding: 0 34px;
+            font-size: 18px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .ticker b {
+            color: var(--yellow);
+        }
+
+        @keyframes ticker {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .section-band {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 94px 0;
+        }
+
+        .section-head {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(280px, 0.45fr);
+            gap: 36px;
+            align-items: end;
+            margin-bottom: 34px;
+        }
+
+        .section-kicker {
+            display: inline-flex;
+            width: fit-content;
+            margin-bottom: 16px;
+            padding: 8px 12px;
+            background: var(--cyan);
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            font-size: clamp(40px, 6vw, 84px);
+            font-weight: 950;
+            line-height: 0.92;
+            letter-spacing: 0;
+        }
+
+        .section-head p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            border: 3px solid var(--ink);
+            background: var(--ink);
+            gap: 3px;
+        }
+
+        .feature-tile {
+            position: relative;
+            min-height: 334px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: var(--ink);
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .feature-tile:nth-child(1) {
+            grid-column: span 5;
+        }
+
+        .feature-tile:nth-child(2) {
+            grid-column: span 7;
+        }
+
+        .feature-tile:nth-child(3) {
+            grid-column: span 7;
+        }
+
+        .feature-tile:nth-child(4) {
+            grid-column: span 5;
+        }
+
+        .feature-tile:nth-child(5),
+        .feature-tile:nth-child(6) {
+            grid-column: span 6;
+        }
+
+        .feature-tile.yellow {
+            background: var(--yellow);
+        }
+
+        .feature-tile.cyan {
+            background: var(--cyan);
+        }
+
+        .feature-tile.paper {
+            background: var(--white);
+        }
+
+        .tile-index {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
+            gap: 16px;
+            font-size: 13px;
+            font-weight: 950;
+            text-transform: uppercase;
         }
 
-        .inner-content {
-            background-color: #facc15;
-            height: 60px;
-            padding: 0 20px;
+        .tile-index i {
+            width: 34px;
+            height: 34px;
+            stroke-width: 2.6;
+        }
+
+        .feature-tile h3 {
+            margin: 22px 0 10px;
+            font-size: clamp(26px, 3vw, 44px);
+            font-weight: 950;
+            line-height: 0.95;
+            letter-spacing: 0;
+        }
+
+        .feature-tile p {
+            max-width: 420px;
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            line-height: 1.5;
+        }
+
+        .tile-action {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 10px 12px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .advantage-visual {
+            position: relative;
+            height: 84px;
+            margin-top: 22px;
+            overflow: hidden;
+            border-top: 3px solid var(--ink);
+            border-bottom: 3px solid var(--ink);
+            background: var(--white);
+        }
+
+        .verified-visual {
+            display: grid;
+            place-items: center;
+        }
+
+        .verified-seal {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            width: 46px;
+            height: 46px;
+            place-items: center;
+            border: 3px solid var(--ink);
+            background: var(--yellow);
+        }
+
+        .verified-seal i {
+            width: 26px;
+            height: 26px;
+            stroke-width: 3.2;
+        }
+
+        .verified-scan {
+            position: absolute;
+            top: -14px;
+            right: 0;
+            left: 0;
+            height: 14px;
+            background: var(--cyan);
+            border-top: 3px solid var(--ink);
+            border-bottom: 3px solid var(--ink);
+        }
+
+        .redstone-visual {
             display: flex;
             align-items: center;
-            border: 3px solid #171717;
-            font-weight: 900;
-            color: #171717;
-            font-size: 1.5rem;
-            letter-spacing: 0.1em;
-            z-index: 10;
+            justify-content: space-evenly;
         }
 
-        .character-container {
-            height: 130px;
-            width: 130px;
+        .redstone-wire {
             position: absolute;
-            right: 40px;
-            bottom: -17px;
-            z-index: 20;
+            top: 50%;
+            right: 0;
+            left: 0;
+            height: 4px;
+            background: var(--ink);
+            transform: translateY(-50%);
         }
 
-        .character-img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            object-position: 247% center;
-            filter: drop-shadow(2px 2px 0px white);
+        .redstone-node {
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--ink);
+            background: var(--yellow);
         }
+
+        .community-visual {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 9px;
+            padding: 15px;
+        }
+
+        .community-member {
+            width: 34px;
+            border: 3px solid var(--ink);
+            background: var(--cyan);
+        }
+
+        .community-member:nth-child(1) { height: 34px; }
+        .community-member:nth-child(2) { height: 54px; background: var(--yellow); }
+        .community-member:nth-child(3) { height: 43px; }
+        .community-member:nth-child(4) { height: 62px; background: var(--yellow); }
+        .community-member:nth-child(5) { height: 35px; }
+
+        .stability-visual {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            padding: 13px 18px;
+        }
+
+        .stability-bar {
+            flex: 1;
+            min-width: 10px;
+            border: 3px solid var(--ink);
+            background: var(--cyan);
+            transform-origin: bottom;
+        }
+
+        .stability-bar:nth-child(1) { height: 32%; }
+        .stability-bar:nth-child(2) { height: 60%; }
+        .stability-bar:nth-child(3) { height: 82%; background: var(--yellow); }
+        .stability-bar:nth-child(4) { height: 50%; }
+        .stability-bar:nth-child(5) { height: 72%; }
+        .stability-bar:nth-child(6) { height: 92%; background: var(--yellow); }
+
+        .fair-visual {
+            display: grid;
+            grid-template-columns: 1fr 3px 1fr;
+            align-items: center;
+            background: var(--paper);
+        }
+
+        .fair-divider {
+            height: 100%;
+            background: var(--ink);
+        }
+
+        .fair-block {
+            height: 32px;
+            border: 3px solid var(--ink);
+            background: var(--cyan);
+        }
+
+        .fair-block.left {
+            margin-left: 16%;
+        }
+
+        .fair-block.right {
+            margin-right: 16%;
+            background: var(--yellow);
+        }
+
+        .update-visual {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .update-track {
+            display: block;
+            width: 100%;
+            height: 24px;
+            border: 3px solid var(--ink);
+            background: var(--white);
+        }
+
+        .update-progress {
+            display: block;
+            width: 78%;
+            height: 100%;
+            background: var(--cyan);
+            transform-origin: left;
+        }
+
+        .update-cursor {
+            position: absolute;
+            top: 12px;
+            left: 18px;
+            width: 20px;
+            height: 56px;
+            border: 3px solid var(--ink);
+            background: var(--yellow);
+        }
+
+        .split-zone {
+            display: grid;
+            grid-template-columns: 0.82fr 1.18fr;
+            border-top: 6px solid var(--ink);
+            border-bottom: 6px solid var(--ink);
+            background: var(--ink);
+        }
+
+        .contact-panel,
+        .join-panel {
+            min-height: 580px;
+            padding: clamp(30px, 5vw, 66px);
+        }
+
+        .contact-panel {
+            background: var(--cyan);
+            border-right: 6px solid var(--ink);
+        }
+
+        .join-panel {
+            background: #fff;
+        }
+
+        .panel-title {
+            margin: 0 0 28px;
+            font-size: clamp(34px, 5vw, 70px);
+            font-weight: 950;
+            line-height: 0.96;
+            letter-spacing: 0;
+        }
+
+        .contact-actions {
+            display: grid;
+            gap: 14px;
+            margin-top: 34px;
+        }
+
+        .qq-button {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            min-height: 120px;
+            padding: 22px 24px;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 4px solid var(--ink);
+            font: inherit;
+            text-align: left;
+            transition: transform 0.16s ease, background 0.16s ease;
+        }
+
+        .qq-button:hover {
+            transform: translateY(-3px);
+            background: var(--white);
+        }
+
+        .qq-button i {
+            width: 34px;
+            height: 34px;
+            stroke-width: 2.7;
+        }
+
+        .qq-button-label {
+            display: grid;
+            gap: 5px;
+            font-size: 13px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .qq-button-label strong {
+            font-size: clamp(28px, 4vw, 54px);
+            line-height: 0.9;
+            letter-spacing: 0;
+        }
+
+        .qq-button-status {
+            font-size: 12px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .contact-links .metro-button {
+            flex: 1;
+        }
+
+        .panel-copy {
+            max-width: 640px;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.6;
+        }
+
+        .steps {
+            display: grid;
+            gap: 18px;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 92px minmax(0, 1fr);
+            min-height: 120px;
+            border: 4px solid var(--ink);
+            background: var(--paper);
+        }
+
+        .step-no {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--yellow);
+            border-right: 4px solid var(--ink);
+            font-size: 42px;
+            font-weight: 950;
+        }
+
+        .step-body {
+            min-width: 0;
+            padding: 18px 20px;
+        }
+
+        .step-body h3 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            font-weight: 950;
+        }
+
+        .step-body p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 750;
+            line-height: 1.5;
+        }
+
+        .code-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .server-tag {
+            display: inline-flex;
+            max-width: 100%;
+            padding: 8px 10px;
+            background: var(--ink);
+            color: #fff;
+            font-family: "SFMono-Regular", Consolas, monospace;
+            font-size: 15px;
+            font-weight: 950;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            border-top: 6px solid var(--ink);
+            border-bottom: 6px solid var(--ink);
+            background: var(--ink);
+            gap: 6px;
+        }
+
+        .stat-cell {
+            min-height: 148px;
+            padding: 24px;
+            background: var(--yellow);
+        }
+
+        .stat-cell:nth-child(2) {
+            background: var(--cyan);
+        }
+
+        .stat-cell:nth-child(3) {
+            background: var(--white);
+        }
+
+        .stat-cell:nth-child(4) {
+            background: var(--ink);
+            color: #fff;
+        }
+
+        .stat-cell span {
+            display: block;
+            font-size: 13px;
+            font-weight: 950;
+            text-transform: uppercase;
+        }
+
+        .stat-cell strong {
+            display: block;
+            margin-top: 16px;
+            font-size: clamp(30px, 4vw, 58px);
+            font-weight: 950;
+            line-height: 0.92;
+        }
+
+        .site-footer {
+            display: grid;
+            gap: 16px;
+            justify-items: center;
+            padding: 44px 24px 52px;
+            color: #fff;
+            background: var(--ink);
+            border-top: 6px solid var(--yellow);
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer-links a {
+            position: relative;
+            padding: 4px 0;
+            color: var(--white);
+            transition: color 0.18s ease;
+        }
+
+        .footer-links a::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--cyan);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.18s ease;
+        }
+
+        .footer-links a:hover,
+        .footer-links a:focus-visible {
+            color: var(--cyan);
+        }
+
+        .footer-links a:hover::after,
+        .footer-links a:focus-visible::after {
+            transform: scaleX(1);
+        }
+
+        .footer-links a:nth-child(2):hover,
+        .footer-links a:nth-child(2):focus-visible {
+            color: var(--yellow);
+        }
+
+        .footer-links a:nth-child(2)::after {
+            background: var(--yellow);
+        }
+
+        .footer-links a:nth-child(3)::after {
+            background: var(--white);
+        }
+
+        .copy-note {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 28px 0 0;
+            font-weight: 850;
+            line-height: 1.5;
+        }
+
+        .copy-note code {
+            display: inline-flex;
+            padding: 2px 6px;
+            background: #fff;
+            border: 2px solid var(--ink);
+            font-weight: 950;
+        }
+
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .hero-copy {
+                min-height: auto;
+                border-right: 0;
+                border-bottom: 6px solid var(--ink);
+            }
+
+            .hero-stage {
+                min-height: 780px;
+            }
+
+            .section-head,
+            .split-zone {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-panel {
+                border-right: 0;
+                border-bottom: 6px solid var(--ink);
+            }
+
+            .stats-strip {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .metro-nav {
+                transition: transform 0.28s ease;
+            }
+
+            .nav-toggle-icon {
+                display: inline-block;
+                transition: transform 0.28s ease;
+            }
+
+            .metro-nav.menu-open .nav-toggle-icon {
+                transform: rotate(90deg);
+            }
+
+            .mobile-panel.open {
+                animation: mobile-menu-reveal 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+                transform-origin: top;
+            }
+
+            .mobile-panel.open .nav-link {
+                animation: mobile-menu-link-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+            }
+
+            .mobile-panel.open .nav-link:nth-child(1) { animation-delay: 0.04s; }
+            .mobile-panel.open .nav-link:nth-child(2) { animation-delay: 0.08s; }
+            .mobile-panel.open .nav-link:nth-child(3) { animation-delay: 0.12s; }
+            .mobile-panel.open .nav-link:nth-child(4) { animation-delay: 0.16s; }
+            .mobile-panel.open .nav-link:nth-child(5) { animation-delay: 0.20s; }
+
+            .mobile-panel .nav-link::after {
+                transition: none;
+            }
+
+            .mobile-panel .nav-link::after {
+                right: auto;
+                bottom: 9px;
+                left: 18px;
+                width: 42px;
+                transform-origin: left;
+            }
+
+            @keyframes mobile-menu-reveal {
+                from { clip-path: inset(0 0 100% 0); }
+                to { clip-path: inset(0 0 0 0); }
+            }
+
+            @keyframes mobile-menu-link-in {
+                from { opacity: 0; transform: translateX(-24px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+
+            .nav-shell {
+                justify-content: center;
+                width: 100%;
+                min-height: 64px;
+                padding: 0 16px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+            }
+
+            .hero h1 {
+                font-size: clamp(46px, 16vw, 76px);
+            }
+
+            .hero-copy {
+                padding: 42px 18px 50px;
+            }
+
+            .hero-orbit--one {
+                top: -108px;
+                right: -112px;
+                width: 270px;
+                height: 270px;
+            }
+
+            .hero-pixel-field {
+                right: 18px;
+                grid-template-columns: repeat(3, 12px);
+                gap: 6px;
+            }
+
+            .hero-pixel-field span {
+                width: 12px;
+                height: 12px;
+            }
+
+            .hero-stage {
+                min-height: 0;
+                padding: 18px;
+            }
+
+            .status-stage-shell {
+                min-height: 0;
+                grid-template-rows: auto 210px auto;
+            }
+
+            .mc-server-card {
+                grid-template-columns: 1fr;
+            }
+
+            .status-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .metric-cell {
+                border-right: 0;
+                border-bottom: 4px solid var(--ink);
+            }
+
+            .metric-cell:last-child {
+                border-bottom: 0;
+            }
+
+            .section-band {
+                padding: 64px 0;
+            }
+
+            .feature-grid,
+            .stats-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-tile,
+            .feature-tile:nth-child(1),
+            .feature-tile:nth-child(2),
+            .feature-tile:nth-child(3),
+            .feature-tile:nth-child(4),
+            .feature-tile:nth-child(5),
+            .feature-tile:nth-child(6) {
+                grid-column: span 1;
+            }
+
+            .step {
+                grid-template-columns: 64px minmax(0, 1fr);
+            }
+
+            .step-no {
+                font-size: 30px;
+            }
+
+            .metro-button {
+                width: 100%;
+                min-height: 58px;
+            }
+
+            .contact-links {
+                display: grid;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+
     </style>
 </head>
-<body class="min-h-screen text-slate-900">
+<body>
+    <div class="metro-page">
+        <nav id="navbar" class="metro-nav">
+            <div class="nav-shell">
 
-    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-2 md:justify-center">
-                <a href="#home" class="md:hidden font-black text-lg hover:text-sky-500">明空生存</a>
+                <div class="nav-links" aria-label="主导航">
+                    <a href="#home" class="nav-link">关于我们</a>
+                    <a href="#features" class="nav-link">服务器特点</a>
+                    <a href="#contact" class="nav-link">联系我们</a>
+                    <a href="#join" class="nav-link">加入服务器</a>
+                    <a href="zanzhu.html" class="nav-link sponsor-link">赞助我们</a>
+                </div>
 
-                <button id="nav-toggle" type="button" class="md:hidden toon-btn toon-btn-secondary p-2 min-w-[44px] min-h-[44px]" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
-                    <i class="bi bi-list text-2xl" id="nav-toggle-icon"></i>
+                <button id="nav-toggle" type="button" class="nav-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
+                    <i class="bi bi-list" id="nav-toggle-icon"></i>
                 </button>
-
-                <div class="hidden md:flex gap-6 font-bold">
-                    <a href="#home" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">关于我们</a>
-                    <a href="#features" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
-                    <a href="#contact" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
-                    <a href="#join" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
-                    <a href="zanzhu.html" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a>
-                </div>
             </div>
 
-            <div id="nav-mobile-menu" class="md:hidden border-t-[3px] border-black">
-                <div class="flex flex-col gap-1 pt-2 font-bold">
-                    <a href="#home" class="nav-link nav-link-mobile font-black text-base">关于我们</a>
-                    <a href="#features" class="nav-link nav-link-mobile font-black text-base">服务器特点</a>
-                    <a href="#contact" class="nav-link nav-link-mobile font-black text-base">联系我们</a>
-                    <a href="#join" class="nav-link nav-link-mobile font-black text-base">加入服务器</a>
-                    <a href="zanzhu.html" class="nav-link nav-link-mobile font-black text-base">赞助我们</a>
-                </div>
+            <div id="nav-mobile-menu" class="mobile-panel">
+                <a href="#home" class="nav-link">关于我们</a>
+                <a href="#features" class="nav-link">服务器特点</a>
+                <a href="#contact" class="nav-link">联系我们</a>
+                <a href="#join" class="nav-link">加入服务器</a>
+                <a href="zanzhu.html" class="nav-link sponsor-link">赞助我们</a>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- 施 工 中  ( 记 得 删 除 )  -->
-    <div class="container mx-auto p-4 md:p-8">
-        <div class="construction-stripe">
-            <div class="inner-content">
-                WARNING / 网页施工中
-            </div>
-        
-        <div class="character-container">
-                <img 
-                    src="https://r2.uploads.tw/2026/06/lXG7jIWpwy.webp" 
-                    alt="丰川祥子（施工版）" 
-                    class="character-img"
-                    onerror="this.style.display='none'; console.error('图片加载失败');"
-                >
-            </div>
-        </div>
-    </div>
+        <main>
+            <section id="home" class="hero">
+                <div class="hero-copy">
+                    <span class="hero-orbit hero-orbit--one" aria-hidden="true"></span>
+                    <span class="hero-orbit hero-orbit--two" aria-hidden="true"></span>
+                    <span class="hero-pixel-field" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span>
+                    <div class="launch-tag hero-reveal"><i data-lucide="radio-tower"></i> Survival Server Launch</div>
+                    <h1 class="hero-title">明空原版生存</h1>
+                    <p class="hero-lede hero-reveal">正版审核、红石自由、公平秩序和稳定机器。把这里想成一个没有过度装饰的方块城市，重点是创造、协作和长期在线。</p>
 
-    <main class="container mx-auto flex-1 p-4 md:p-8 pt-6 md:pt-28">
-
-        <section id="home" class="toon-card p-8 md:p-12 text-center mb-12">
-            <h1 class="text-4xl md:text-6xl font-black text-gray-800 mb-6 leading-tight">
-                《我的世界》明空原版生存官网
-            </h1>
-            <div class="toon-card p-4 mb-6">
-                <p class="font-bold text-lg">服务器IP: <span id="serverIP" class="text-sky-600 font-mono">mk000.cc</span></p>
-                <div id="serverStatus" class="text-sm text-slate-500 mt-2">正在获取服务器状态...</div>
-            </div>
-            <div class="flex flex-col md:flex-row justify-center items-center gap-4">
-                <button onclick="fetchServerStatus()" class="toon-btn toon-btn-secondary px-8 py-4 text-xl">
-                    刷新仪表
-                </button>
-                <button  onclick="copyText()" class="toon-btn toon-btn-primary px-8 py-4 text-xl">
-                    复制域名
-                </a>
-            </div>
-            <p class="text-1xl font-bold mt-8 select-all py-2">如果有地瓜的电脑无法执行复制部分的JS代码的话，可以双击下列文本<code class="toon-badge bg-slate-200 text-slate-900">control</code>+<code class="toon-badge bg-slate-200 text-slate-900">C</code>复制哦:</p>
-            <p id="ipAddress" class="text-2xl font-bold mt-8 select-all bg-slate-100 border-2 border-black inline-block px-4 py-2">mk000.cc</p>
-        </section>
-
-        <section id="features" class="toon-card p-8 md:p-12 mb-12">
-            <h2 class="section-title text-3xl md:text-4xl">服务器特色</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">正版服</h3>
-                    <p class="text-slate-600 font-medium">要求需要正版+审核，较高的门槛可以过滤掉坏人</p>
-                    <div class="mt-auto pt-6 w-full flex justify-end">
-                        <button onclick="window.location.href='https://mingkongtown.top/dh.html#MK-ZB'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Learn More<i class="bi bi-caret-right"></i><i class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </div>
-                 <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="cpu" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">红石生电</h3>
-                    <p class="text-slate-600 font-medium">不限制红石（出生点为中心10000*10000格除外）</p>
-                    <div class="mt-auto pt-6 w-full flex justify-end">
-                        <button onclick="window.location.href='https://mingkongtown.top/dh.html#MK-HS'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Learn More<i class="bi bi-caret-right"></i><i class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </div>
-                <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="users" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">友好的玩家</h3>
-                    <p class="text-slate-600 font-medium">友好的玩家群体，结识新朋友。</p>
-                    <div class="mt-auto pt-6 w-full flex justify-end">
-                        <button onclick="window.location.href='https://mingkongtown.top/dh.html#MK-FRIEND'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Learn More<i class="bi bi-caret-right"></i><i class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </div>
-                <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="server" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">稳定运行</h3>
-                    <p class="text-slate-600 font-medium">采用了一颗i9-14900K的CPU，崩溃的概率理论上很小</p>
-                    <div class="mt-auto pt-6 w-full flex justify-end">
-                        <button onclick="window.location.href='https://mingkongtown.top/dh.html#MK-STABLE'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Learn More<i class="bi bi-caret-right"></i><i class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </div>
-                <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="swords" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">公正游戏</h3>
-                    <p class="text-slate-600 font-medium">正版服，环境较优，已删除容易引战的内容（如工会这些）</p>
-                    <div class="mt-auto pt-6 w-full flex justify-end">
-                        <button onclick="window.location.href='https://mingkongtown.top/dh.html#MK-FAIR'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Learn More<i class="bi bi-caret-right"></i><i class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </div>
-                 <div class="toon-card p-6 flex flex-col items-start">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">持续更新</h3>
-                    <p class="text-slate-600 font-medium">不断添加新内容、新玩法，保持服务器的活力。</p>
-                    <div class="mt-auto pt-6 w-full flex justify-end">
-                        <button onclick="window.location.href='https://mingkongtown.top/dh.html#MK-UPDATE'" class="toon-btn toon-btn-primary px-3 py-1 text-sm">Learn More<i class="bi bi-caret-right"></i><i class="bi bi-caret-right-fill"></i></button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="grid md:grid-cols-2 gap-12">
-            <section id="contact" class="toon-card p-8">
-                <h2 class="section-title text-3xl">如何联系我们</h2>
-                <div class="space-y-6 text-gray-600 text-lg">
-                    <p class="font-bold">其实联系我们非常简单：</p>
-                    <div class="toon-alert bg-blue-50 text-blue-900">
-                        <i data-lucide="message-square" class="w-8 h-8 flex-shrink-0 stroke-[2.5px]"></i>
-                        <div>
-                             <h4 class="font-black text-lg">QQ群</h4>
-                             <p class="font-medium text-2xl">272175145</p>
-                             <p class="font-medium">明空生存审核群 | 26.1.2</p>
-                        </div>
-                    </div>
-                    <p class="text-1xl font-bold mt-8 select-all py-2">没有更多了Σ（・□・；）</p>
-                </div>
-            </section>
-
-            <section id="join" class="toon-card p-8">
-                <h2 class="section-title text-3xl">如何进入服务器？</h2>
-                <div class="space-y-4 text-gray-600 text-lg">
-                    <p class="font-bold">加入我们的服务器非常简单，请按照以下步骤操作：</p>
-                    <div class="space-y-3">
-                        <div class="font-bold text-black"><span class="toon-badge bg-yellow-200 text-yellow-900 mr-2">1</span>服务器地址:</div>
-                        <div class="flex flex-wrap gap-2">
-                            <code class="toon-badge bg-slate-200 text-slate-900">mk000.cc</code>
-                            <code class="toon-badge bg-slate-200 text-slate-900">mk.mingkongtown.top</code>
-                        </div>
-                    </div>
-                     <div class="space-y-3">
-                        <div class="font-bold text-black"><span class="toon-badge bg-yellow-200 text-yellow-900 mr-2">2</span>填写审核表:</div>
-                        <p>服务器需要白名单, 填完后,等待小浩（xhGG）发激活码进服激活即可。</p>
-                        <a href="https://docs.qq.com/form/page/DWEVvZVVOc3RqZ21Z" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
-                           <i data-lucide="file-text" class="w-5 h-5 mr-2"></i> 审核表
-                        </a>
-                        <a href="https://docs.qq.com/aio/p/scpnbjs91m3kiju?p=ek72GuqMBlX2y00Ms5DCCx" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
-                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>服规
-                        </a>
-                        <button onclick="document.getElementById('demo-modal').classList.remove('hidden')" target="_blank" class="toon-btn toon-btn-dark px-4 py-2">
-                            <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>不知道是什么懒爬东西
+                    <div class="hero-actions hero-reveal">
+                        <button id="copy-ip" class="metro-button primary" type="button">
+                            <i data-lucide="copy"></i>
+                            复制域名
+                        </button>
+                        <button id="refresh-status" class="metro-button" type="button">
+                            <i data-lucide="activity"></i>
+                            刷新状态
                         </button>
                     </div>
-                    <p class="mt-6 text-center text-gray-500 font-bold">如果您在加入过程中遇到任何问题，请联系我们的管理员寻求帮助。</p>
+
+                    <p class="copy-note hero-reveal">复制失败时可手动选中：<code id="ipAddress">mk000.cc</code></p>
+                </div>
+
+                <div class="hero-stage" aria-label="服务器发布视觉">
+                    <div class="stage-sky"></div>
+                    <div class="status-stage-tilt">
+                    <div id="server-status-app" class="status-stage-shell hero-reveal" aria-live="polite">
+                        <div class="mc-server-card">
+                            <div class="mc-server-icon"><i data-lucide="server"></i></div>
+                            <div class="mc-server-main">
+                                <div class="mc-server-topline">
+                                    <h3 class="mc-server-title">明空原版生存</h3>
+                                    <span id="fallback-card-version" class="mc-version">读取中</span>
+                                </div>
+                                <div class="mc-motd">正在获取服务器状态...</div>
+                                <div class="mc-address-row"><span>服务器地址</span><code id="serverIP">mk000.cc</code></div>
+                            </div>
+                        </div>
+                        <div class="status-chart-card">
+                            <div class="chart-head">
+                                <span>Realtime Players</span>
+                                <span id="fallback-chart-label">等待首个数据点</span>
+                            </div>
+                            <svg class="player-chart" viewBox="0 0 620 150" role="img" aria-label="实时在线玩家折线图" preserveAspectRatio="none">
+                                <line class="chart-grid" x1="12" y1="38" x2="608" y2="38"></line>
+                                <line class="chart-grid" x1="12" y1="82" x2="608" y2="82"></line>
+                                <line class="chart-grid" x1="12" y1="126" x2="608" y2="126"></line>
+                                <path id="fallback-chart-area" class="chart-area" d="M 12 138 L 608 138 L 608 138 L 12 138 Z"></path>
+                                <path id="fallback-chart-line" class="chart-line" d="M 12 138 L 608 138"></path>
+                                <g id="fallback-chart-dots"></g>
+                            </svg>
+                        </div>
+                        <div class="status-metrics">
+                            <div class="metric-cell">
+                                <span class="metric-label">在线人数</span>
+                                <span id="fallback-metric-players" class="metric-value">0 / ?</span>
+                                <span class="metric-note">随折线图同步更新</span>
+                            </div>
+                            <div class="metric-cell">
+                                <span class="metric-label">服务器情况</span>
+                                <span id="fallback-metric-situation" class="metric-value">正在检测</span>
+                                <span id="serverStatus" class="metric-note">正在获取服务器状态...</span>
+                            </div>
+                            <div class="metric-cell">
+                                <span class="metric-label">版本 / 更新时间</span>
+                                <span id="fallback-metric-version" class="metric-value">读取中</span>
+                                <span id="fallback-metric-time" class="metric-note">--:--</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </section>
-        </div>
 
-    </main>
-
-
-    <footer class="w-full text-center py-10 border-t-4 border-black text-slate-500 font-bold mt-12 toon-btn-footer">
-         <p>&copy; 2026 我的世界服务器. 保留所有权利。</p>
-        <div class="flex justify-center gap-4 my-2">
-            <a href="ys.html" class="font-bold hover:text-sky-500">隐私政策</a>
-            <span>|</span>
-            <a href="zanzhu.html" class="font-bold hover:text-sky-500">赞助我们</a>
-            <span>|</span>
-            <a href="https://bootswatch.com/brite/" class="font-bold hover:text-sky-500">设计参考</a>
-        </div>
-    </footer>
-
-    <div id="demo-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center backdrop-blur-sm p-4">
-        <div class="bg-white border-4 border-black p-8 max-w-md w-full animate-[bounce-in_0.3s_ease-out]">
-            <div class="flex justify-between items-start mb-6">
-                <h3 class="text-2xl font-black">验证你是否为机器人</h3>
-                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="hover:bg-slate-100 p-1 border-2 border-transparent hover:border-black transition-all">
-                    <i class="bi bi-x-lg  w-6 h-6"></i>
-                </button>
+            <div class="ticker" aria-hidden="true">
+                <div class="ticker-track">
+                    <span><b>MK000.CC</b> / 原版生存</span>
+                    <span><b>正版审核</b> / 白名单准入</span>
+                    <span><b>3FFFF3</b> / 高亮在线</span>
+                    <span><b>FFD31E</b> / 发布就绪</span>
+                    <span><b>MK000.CC</b> / 原版生存</span>
+                    <span><b>正版审核</b> / 白名单准入</span>
+                    <span><b>3FFFF3</b> / 高亮在线</span>
+                    <span><b>FFD31E</b> / 发布就绪</span>
+                </div>
             </div>
-            <div class="bg-slate-100 p-4 border-2 border-black mb-6 border-dashed">
-                <script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
-                <div class="g-recaptcha" data-sitekey="6Ld10EctAAAAAAIRpztj1GN9r1wMMZMOhDQDuYyB"></div>
+
+            <section id="features" class="section-band">
+                <div class="section-head">
+                    <div>
+                        <span class="section-kicker">Why Mingkong</span>
+                        <h2>像产品发布一样，把玩法讲清楚。</h2>
+                    </div>
+                    <p>Metro 的信息块适合一眼扫读：每一项都是服务器体验的一个明确承诺。</p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-tile cyan">
+                        <div class="tile-index"><span>01 / Verified</span><i data-lucide="shield-check"></i></div>
+                        <div class="advantage-visual verified-visual" aria-hidden="true">
+                            <span class="verified-scan"></span>
+                            <span class="verified-seal"><i data-lucide="badge-check"></i></span>
+                        </div>
+                        <div>
+                            <h3>正版服</h3>
+                            <p>正版账号加审核门槛，先把环境质量抬起来，再让长期玩家安心建设。</p>
+                            <a href="https://mingkongtown.top/dh.html#MK-ZB" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                        </div>
+                    </article>
+
+                    <article class="feature-tile paper">
+                        <div class="tile-index"><span>02 / Redstone</span><i data-lucide="cpu"></i></div>
+                        <div class="advantage-visual redstone-visual" aria-hidden="true">
+                            <span class="redstone-wire"></span>
+                            <span class="redstone-node"></span>
+                            <span class="redstone-node"></span>
+                            <span class="redstone-node"></span>
+                            <span class="redstone-node"></span>
+                            <span class="redstone-node"></span>
+                        </div>
+                        <div>
+                            <h3>红石生电</h3>
+                            <p>除出生点为中心 10000 x 10000 格范围外，不限制红石，留足工程空间。</p>
+                            <a href="https://mingkongtown.top/dh.html#MK-HS" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                        </div>
+                    </article>
+
+                    <article class="feature-tile yellow">
+                        <div class="tile-index"><span>03 / Community</span><i data-lucide="users"></i></div>
+                        <div class="advantage-visual community-visual" aria-hidden="true">
+                            <span class="community-member"></span>
+                            <span class="community-member"></span>
+                            <span class="community-member"></span>
+                            <span class="community-member"></span>
+                            <span class="community-member"></span>
+                        </div>
+                        <div>
+                            <h3>友好的玩家</h3>
+                            <p>适合一起开荒、交易、建筑、搞大型工程，也适合慢慢认识新朋友。</p>
+                            <a href="https://mingkongtown.top/dh.html#MK-FRIEND" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                        </div>
+                    </article>
+
+                    <article class="feature-tile paper">
+                        <div class="tile-index"><span>04 / Hardware</span><i data-lucide="server"></i></div>
+                        <div class="advantage-visual stability-visual" aria-hidden="true">
+                            <span class="stability-bar"></span>
+                            <span class="stability-bar"></span>
+                            <span class="stability-bar"></span>
+                            <span class="stability-bar"></span>
+                            <span class="stability-bar"></span>
+                            <span class="stability-bar"></span>
+                        </div>
+                        <div>
+                            <h3>稳定运行</h3>
+                            <p>采用 i9-14900K 级别 CPU，给日常生存和复杂机器留出更强余量。</p>
+                            <a href="https://mingkongtown.top/dh.html#MK-STABLE" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                        </div>
+                    </article>
+
+                    <article class="feature-tile cyan">
+                        <div class="tile-index"><span>05 / Fair Play</span><i data-lucide="swords"></i></div>
+                        <div class="advantage-visual fair-visual" aria-hidden="true">
+                            <span class="fair-block left"></span>
+                            <span class="fair-divider"></span>
+                            <span class="fair-block right"></span>
+                        </div>
+                        <div>
+                            <h3>公正游戏</h3>
+                            <p>维持更干净的游戏秩序，删掉容易引战的内容，让规则服务于体验。</p>
+                            <a href="https://mingkongtown.top/dh.html#MK-FAIR" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                        </div>
+                    </article>
+
+                    <article class="feature-tile yellow">
+                        <div class="tile-index"><span>06 / Updates</span><i data-lucide="sparkles"></i></div>
+                        <div class="advantage-visual update-visual" aria-hidden="true">
+                            <span class="update-track"><span class="update-progress"></span></span>
+                            <span class="update-cursor"></span>
+                        </div>
+                        <div>
+                            <h3>持续更新</h3>
+                            <p>内容和玩法继续迭代，让服务器不是一次性热闹，而是长期有新鲜感。</p>
+                            <a href="https://mingkongtown.top/dh.html#MK-UPDATE" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="stats-strip" aria-label="服务器信息摘要">
+                <div class="stat-cell">
+                    <span>Server</span>
+                    <strong>mk000.cc</strong>
+                </div>
+                <div class="stat-cell">
+                    <span>Access</span>
+                    <strong>正版 + 审核</strong>
+                </div>
+                <div class="stat-cell">
+                    <span>Group</span>
+                    <strong>272175145</strong>
+                </div>
+                <div class="stat-cell">
+                    <span>Version</span>
+                    <strong>26.1.2</strong>
+                </div>
+            </section>
+
+            <div class="split-zone">
+                <section id="contact" class="contact-panel">
+                    <span class="section-kicker">Contact</span>
+                    <h2 class="panel-title">先进入审核群，再进入世界。</h2>
+                    <p class="panel-copy">联系方式很简单：加入明空生存审核群，按要求提交审核信息，等待管理员处理。</p>
+                    <div class="contact-actions">
+                        <button id="copy-qq" class="qq-button" onclick="window.location.href='https://qm.qq.com/q/GL4ohZpa4W'" type="button">
+                            <i data-lucide="messages-square"></i>
+                            <span class="qq-button-label">审核 QQ 群<strong>272175145</strong></span>
+                        </button>
+                        <div class="contact-links">
+                            <a href="https://docs.qq.com/form/page/DWEVvZVVOc3RqZ21Z" target="_blank" rel="noreferrer" class="metro-button dark">
+                                <i data-lucide="file-text"></i>
+                                审核表
+                            </a>
+                            <a href="https://docs.qq.com/aio/p/scpnbjs91m3kiju?p=ek72GuqMBlX2y00Ms5DCCx" target="_blank" rel="noreferrer" class="metro-button">
+                                <i data-lucide="scroll-text"></i>
+                                服规
+                            </a>
+                        </div>
+                    </div>
+                    <p class="panel-copy">明空生存审核群 | 26.1.2</p>
+                </section>
+
+                <section id="join" class="join-panel">
+                    <span class="section-kicker">Join Flow</span>
+                    <h2 class="panel-title">三步加入服务器。</h2>
+
+                    <div class="steps">
+                        <article class="step">
+                            <div class="step-no">1</div>
+                            <div class="step-body">
+                                <h3>复制服务器地址</h3>
+                                <p>在 Java 版多人游戏中添加服务器。</p>
+                                <div class="code-row">
+                                    <span class="server-tag">mk000.cc</span>
+                                    <span class="server-tag">mk.mingkongtown.top</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="step">
+                            <div class="step-no">2</div>
+                            <div class="step-body">
+                                <h3>填写审核表</h3>
+                                <p>服务器需要白名单。填完后等待小浩（xhGG）发激活码，进服激活即可。</p>
+                            </div>
+                        </article>
+
+                        <article class="step">
+                            <div class="step-no">3</div>
+                            <div class="step-body">
+                                <h3>阅读服规并进服</h3>
+                                <p>先确认规则，再开始建设。遇到问题可联系管理员处理。</p>
+                            </div>
+                        </article>
+                    </div>
+
+                </section>
             </div>
-            <div class="flex justify-end gap-4">
-                <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="toon-btn toon-btn-primary px-4 py-2"><i class="bi bi-check-square"></i>确认</button>
+        </main>
+
+        <footer class="site-footer">
+            <p>&copy; 2026 我的世界服务器. 保留所有权利。</p>
+            <div class="footer-links">
+                <a href="ys.html">隐私政策</a>
+                <a href="zanzhu.html">赞助我们</a>
             </div>
-        </div>
+        </footer>
     </div>
 
     <script>
-        lucide.createIcons();
+        document.addEventListener("DOMContentLoaded", () => {
+            const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbar = document.getElementById('navbar');
-            const navToggle = document.getElementById('nav-toggle');
-            const navMobileMenu = document.getElementById('nav-mobile-menu');
-            const navToggleIcon = document.getElementById('nav-toggle-icon');
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            const heroTitle = document.querySelector(".hero-title");
+            if (heroTitle) {
+                const title = heroTitle.textContent.trim();
+                const characters = document.createDocumentFragment();
+                heroTitle.setAttribute("aria-label", title);
+                heroTitle.textContent = "";
+                Array.from(title).forEach(character => {
+                    const characterElement = document.createElement("span");
+                    characterElement.className = "hero-title-char";
+                    characterElement.setAttribute("aria-hidden", "true");
+                    characterElement.textContent = character;
+                    characters.appendChild(characterElement);
+                });
+                heroTitle.appendChild(characters);
+            }
+
+            const navbar = document.getElementById("navbar");
+            const navToggle = document.getElementById("nav-toggle");
+            const navMobileMenu = document.getElementById("nav-mobile-menu");
+            const navToggleIcon = document.getElementById("nav-toggle-icon");
+            const copyButton = document.getElementById("copy-ip");
+            const refreshButton = document.getElementById("refresh-status");
+            const qqButton = document.getElementById("copy-qq");
+            const statusMount = document.getElementById("server-status-app");
+            const fallbackHistory = [];
+            const serverApiUrls = [
+                "https://api.mcsrvstat.us/3/mk000.cc",
+                "https://api.mcsrvstat.us/2/mk000.cc"
+            ];
+            const statusCacheKey = "mingkong-server-status";
+            const statusRefreshInterval = 60000;
             let mobileMenuOpen = false;
 
             function setMobileMenu(open) {
                 mobileMenuOpen = open;
-                navMobileMenu.classList.toggle('open', open);
-                navToggle.setAttribute('aria-expanded', open);
-                navToggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
-                navToggleIcon.className = open ? 'bi bi-x-lg text-2xl' : 'bi bi-list text-2xl';
-                document.body.style.overflow = open ? 'hidden' : '';
+                navMobileMenu.classList.toggle("open", open);
+                navbar.classList.toggle("menu-open", open);
+                document.body.classList.toggle("menu-open", open);
+                navToggle.setAttribute("aria-expanded", open);
+                navToggle.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+                navToggleIcon.className = open ? "bi bi-x-lg" : "bi bi-list";
             }
 
-            navToggle.addEventListener('click', () => setMobileMenu(!mobileMenuOpen));
+            function sanitizeFallbackMotd(lines) {
+                if (!Array.isArray(lines) || lines.length === 0) return "暂无 MOTD";
 
-            navMobileMenu.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => setMobileMenu(false));
-            });
+                const template = document.createElement("template");
+                template.innerHTML = lines.join("<br>");
+                const output = document.createElement("div");
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && mobileMenuOpen) setMobileMenu(false);
-            });
+                function cleanNode(node) {
+                    if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.textContent || "");
+                    if (node.nodeType !== Node.ELEMENT_NODE) return document.createTextNode("");
+                    if (node.tagName === "BR") return document.createElement("br");
 
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 768 && mobileMenuOpen) setMobileMenu(false);
-            });
-
-            // Initial fetch
-            fetchServerStatus();
-            document.querySelector("button[onclick='fetchServerStatus()']").addEventListener("click", fetchServerStatus);
-            document.querySelector("button[onclick='copyText()']").addEventListener("click", copyText);
-
-            let lastScrollTop = 0;
-            window.addEventListener("scroll", function() {
-               if (mobileMenuOpen) return;
-               let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-               if (scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight) {
-                  navbar.style.transform = "translateY(-100%)";
-               } else {
-                  navbar.style.transform = "translateY(0)";
-               }
-               lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
-            }, false);
-
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
+                    if (node.tagName === "SPAN") {
+                        const span = document.createElement("span");
+                        if (node.style.color) span.style.color = node.style.color;
+                        if (node.style.backgroundColor) span.style.backgroundColor = node.style.backgroundColor;
+                        node.childNodes.forEach(child => span.appendChild(cleanNode(child)));
+                        return span;
                     }
+
+                    const fragment = document.createDocumentFragment();
+                    node.childNodes.forEach(child => fragment.appendChild(cleanNode(child)));
+                    return fragment;
+                }
+
+                template.content.childNodes.forEach(node => output.appendChild(cleanNode(node)));
+                return output.innerHTML || "暂无 MOTD";
+            }
+
+            function fallbackTimeLabel() {
+                return new Date().toLocaleTimeString("zh-CN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false
                 });
-            }, { rootMargin: "-50% 0px -50% 0px" });
+            }
 
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-            async function fetchServerStatus() {
-                try {
-                    document.getElementById('serverStatus').textContent = '正在获取服务器状态...';
-                    const response = await fetch(`https://api.mcsrvstat.us/2/mk000.cc`);
-                    const data = await response.json();
-                    if (data.online) {
-                        document.getElementById('serverStatus').textContent = `在线玩家: ${data.players.online} / ${data.players.max}`;
-                    } else {
-                        document.getElementById('serverStatus').textContent = '服务器离线';
-                    }
-                } catch (error) {
-                    document.getElementById('serverStatus').textContent = '无法获取服务器状态';
+            function readNumber(value) {
+                if (value === null || value === undefined || value === "") return null;
+
+                if (typeof value === "object") {
+                    return readNumber(value.online ?? value.current ?? value.count ?? value.value ?? null);
+                }
+
+                const number = Number(value);
+                return Number.isFinite(number) ? number : null;
+            }
+
+            function getPlayerStats(data) {
+                const playerSources = [
+                    data?.players,
+                    data?.data?.players,
+                    data?.result?.players,
+                    data?.status?.players
+                ].filter(Boolean);
+                const onlineCandidates = [
+                    ...playerSources.flatMap(players => [
+                        players?.online,
+                        players?.current,
+                        players?.count,
+                        players?.now,
+                        players?.online_count,
+                        Array.isArray(players) ? players.length : null,
+                        Array.isArray(players?.list) ? players.list.length : null,
+                        Array.isArray(players?.sample) ? players.sample.length : null
+                    ]),
+                    data?.online_players,
+                    data?.onlinePlayers,
+                    data?.players_online,
+                    data?.playerCount,
+                    data?.player_count,
+                    data?.data?.online_players,
+                    data?.data?.onlinePlayers,
+                    data?.result?.online_players,
+                    data?.status?.online_players
+                ];
+                const maxCandidates = [
+                    ...playerSources.flatMap(players => [
+                        players?.max,
+                        players?.maximum,
+                        players?.limit,
+                        players?.max_players
+                    ]),
+                    data?.max_players,
+                    data?.maxPlayers,
+                    data?.playerLimit,
+                    data?.player_limit,
+                    data?.data?.max_players,
+                    data?.data?.maxPlayers,
+                    data?.result?.max_players,
+                    data?.status?.max_players
+                ];
+                const online = onlineCandidates.map(readNumber).find(value => value !== null);
+                const max = maxCandidates.map(readNumber).find(value => value !== null);
+
+                return {
+                    online,
+                    max,
+                    hasOnlineCount: online !== undefined,
+                    hasMaxCount: max !== undefined
+                };
+            }
+
+            function getServerVersion(data) {
+                const version = data?.version;
+
+                if (typeof version === "string" || typeof version === "number") return String(version);
+                if (version && typeof version === "object") {
+                    return version.name_clean || version.name || version.clean || version.name_raw || version.raw || "未知版本";
+                }
+
+                return data?.protocol?.name || "未知版本";
+            }
+
+            function drawFallbackChart(maxPlayers) {
+                const line = document.getElementById("fallback-chart-line");
+                const area = document.getElementById("fallback-chart-area");
+                const dots = document.getElementById("fallback-chart-dots");
+                if (!line || !area || !dots) return;
+
+                const width = 620;
+                const height = 150;
+                const padding = 12;
+                const maxValue = Math.max(maxPlayers || 0, ...fallbackHistory.map(point => point.online), 1);
+                const points = fallbackHistory.length ? fallbackHistory : [{ online: 0, label: "--:--" }];
+                const displayPoints = points.length === 1 ? [points[0], points[0]] : points;
+                const coords = displayPoints.map((point, index) => ({
+                    x: padding + (index / (displayPoints.length - 1)) * (width - padding * 2),
+                    y: height - padding - (point.online / maxValue) * (height - padding * 2)
+                }));
+                const path = coords.map((point, index) => `${index ? "L" : "M"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(" ");
+
+                line.setAttribute("d", path);
+                area.setAttribute("d", `${path} L ${coords[coords.length - 1].x.toFixed(2)} ${height - padding} L ${coords[0].x.toFixed(2)} ${height - padding} Z`);
+                dots.replaceChildren(...coords.map((point, index) => {
+                    const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    dot.setAttribute("class", "chart-dot");
+                    dot.setAttribute("cx", point.x);
+                    dot.setAttribute("cy", point.y);
+                    dot.setAttribute("r", index === coords.length - 1 ? "6" : "4");
+                    return dot;
+                }));
+
+                if (typeof window.mingkongAnimateChart === "function" && !prefersReducedMotion) {
+                    window.mingkongAnimateChart(line, Array.from(dots.children));
+                } else if (window.gsap && !prefersReducedMotion) {
+                    const length = line.getTotalLength();
+                    gsap.fromTo(line, { strokeDasharray: length, strokeDashoffset: length }, { strokeDashoffset: 0, duration: 0.7, ease: "power3.out" });
+                    gsap.from(dots.children, { scale: 0, transformOrigin: "center", stagger: 0.025, duration: 0.28, ease: "back.out(2)" });
                 }
             }
 
-            function copyText() {
-                const textToCopy = document.getElementById('serverIP').textContent;
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    alert('IP地址已复制!');
-                }).catch(err => {
-                    alert('复制失败');
+            function renderFallbackStatus(data) {
+                if (!statusMount) return;
+
+                const playerStats = getPlayerStats(data);
+                const online = data?.online === false || data?.online === "false"
+                    ? false
+                    : data?.online === true || data?.online === "true" || playerStats.hasOnlineCount;
+                const onlinePlayers = playerStats.online ?? 0;
+                const maxPlayers = playerStats.max ?? 0;
+                const onlineText = playerStats.hasOnlineCount ? String(onlinePlayers) : "—";
+                const maxText = playerStats.hasMaxCount ? String(maxPlayers) : "未公开";
+                const version = getServerVersion(data);
+                const updatedAt = fallbackTimeLabel();
+                const situation = online ? "运行正常" : "服务器离线";
+                const statusText = online
+                    ? playerStats.hasOnlineCount ? `在线玩家 ${onlineText} / ${maxText}` : "服务器未公开玩家人数"
+                    : "服务器离线";
+                const iconBox = statusMount.querySelector(".mc-server-icon");
+                const motd = statusMount.querySelector(".mc-motd");
+                const animatedValues = [
+                    document.getElementById("fallback-card-version"),
+                    document.getElementById("fallback-metric-players"),
+                    document.getElementById("fallback-metric-situation"),
+                    document.getElementById("fallback-metric-version")
+                ].filter(Boolean);
+
+                if (iconBox) {
+                    if (typeof data?.icon === "string" && data.icon) {
+                        const image = document.createElement("img");
+                        image.src = data.icon;
+                        image.alt = "服务器图标";
+                        iconBox.replaceChildren(image);
+                    } else {
+                        const icon = document.createElement("i");
+                        icon.setAttribute("data-lucide", "server");
+                        iconBox.replaceChildren(icon);
+                    }
+                }
+                if (motd) motd.innerHTML = sanitizeFallbackMotd(data?.motd?.html);
+                document.getElementById("fallback-card-version").textContent = version;
+                document.getElementById("fallback-metric-players").textContent = `${onlineText} / ${maxText}`;
+                document.getElementById("fallback-metric-situation").textContent = situation;
+                document.getElementById("fallback-metric-situation").className = `metric-value ${online ? "online" : "offline"}`;
+                document.getElementById("serverStatus").textContent = statusText;
+                document.getElementById("fallback-metric-version").textContent = version;
+                document.getElementById("fallback-metric-time").textContent = updatedAt;
+                document.getElementById("fallback-chart-label").textContent = `${updatedAt} 更新`;
+
+                fallbackHistory.push({ online: onlinePlayers, label: updatedAt });
+                if (fallbackHistory.length > 24) fallbackHistory.shift();
+                drawFallbackChart(maxPlayers);
+
+                try {
+                    window.sessionStorage.setItem(statusCacheKey, JSON.stringify(data));
+                } catch (error) {
+                    console.warn("服务器状态缓存不可用。", error);
+                }
+
+                if (window.lucide) window.lucide.createIcons();
+                if (typeof window.mingkongAnimateStatus === "function" && !prefersReducedMotion) {
+                    window.mingkongAnimateStatus(animatedValues);
+                } else if (window.gsap && !prefersReducedMotion) {
+                    gsap.fromTo(animatedValues, { y: 16, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.04, duration: 0.42, ease: "power3.out" });
+                }
+            }
+
+            async function updateFallbackStatus() {
+                let payload = null;
+                let requestError = null;
+
+                for (const apiUrl of serverApiUrls) {
+                    const controller = new AbortController();
+                    const timeout = window.setTimeout(() => controller.abort(), 10000);
+
+                    try {
+                        const response = await fetch(apiUrl, {
+                            cache: "no-store",
+                            headers: { Accept: "application/json" },
+                            signal: controller.signal
+                        });
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        const candidate = await response.json();
+                        if (!payload) payload = candidate;
+                        if (getPlayerStats(candidate).hasOnlineCount) {
+                            payload = candidate;
+                            break;
+                        }
+                    } catch (error) {
+                        requestError = error;
+                    } finally {
+                        window.clearTimeout(timeout);
+                    }
+                }
+
+                if (payload) {
+                    renderFallbackStatus(payload);
+                    return;
+                }
+
+                const situation = document.getElementById("fallback-metric-situation");
+                const status = document.getElementById("serverStatus");
+                const updated = document.getElementById("fallback-metric-time");
+                if (situation) {
+                    situation.textContent = "状态未知";
+                    situation.className = "metric-value offline";
+                }
+                if (status) status.textContent = requestError?.name === "AbortError" ? "状态接口响应超时" : "暂时无法连接状态接口";
+                if (updated) updated.textContent = fallbackTimeLabel();
+                console.warn("服务器状态更新失败。", requestError);
+            }
+
+            async function fetchServerStatus() {
+                if (typeof window.mingkongRefreshStatus === "function") {
+                    await window.mingkongRefreshStatus();
+                }
+            }
+
+            window.mingkongRefreshStatus = updateFallbackStatus;
+            window.mingkongStatusTimer = window.setInterval(updateFallbackStatus, statusRefreshInterval);
+
+            try {
+                const cachedStatus = window.sessionStorage.getItem(statusCacheKey);
+                if (cachedStatus) renderFallbackStatus(JSON.parse(cachedStatus));
+            } catch (error) {
+                console.warn("服务器状态缓存读取失败。", error);
+            }
+
+            async function copyToClipboard(value) {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(value);
+                    return;
+                }
+
+                const helper = document.createElement("textarea");
+                helper.value = value;
+                helper.setAttribute("readonly", "");
+                helper.style.position = "fixed";
+                helper.style.left = "-9999px";
+                document.body.appendChild(helper);
+                helper.select();
+                document.execCommand("copy");
+                helper.remove();
+            }
+
+            async function copyText() {
+                const textToCopy = document.getElementById("serverIP")?.textContent.trim() || "mk000.cc";
+
+                try {
+                    await copyToClipboard(textToCopy);
+
+                    copyButton.innerHTML = '<i data-lucide="check"></i> 已复制';
+                    if (window.lucide) lucide.createIcons();
+                    if (window.gsap) {
+                        gsap.fromTo(copyButton, { scale: 1.08 }, { scale: 1, duration: 0.35, ease: "back.out(4)" });
+                    }
+                    window.setTimeout(() => {
+                        copyButton.innerHTML = '<i data-lucide="copy"></i> 复制域名';
+                        if (window.lucide) lucide.createIcons();
+                    }, 1400);
+                } catch (error) {
+                    copyButton.innerHTML = '<i data-lucide="alert-triangle"></i> 手动复制';
+                    if (window.lucide) lucide.createIcons();
+                }
+            }
+
+            async function copyQQ() {
+                const status = qqButton.querySelector(".qq-button-status");
+
+                try {
+                    await copyToClipboard("272175145");
+                    status.textContent = "已复制";
+                    if (window.gsap) {
+                        gsap.fromTo(qqButton, { scale: 1.03 }, { scale: 1, duration: 0.32, ease: "back.out(3)" });
+                    }
+                    window.setTimeout(() => {
+                        status.textContent = "点击复制";
+                    }, 1400);
+                } catch (error) {
+                    status.textContent = "手动复制";
+                }
+            }
+
+            navToggle.addEventListener("click", () => setMobileMenu(!mobileMenuOpen));
+            navMobileMenu.querySelectorAll(".nav-link").forEach(link => {
+                link.addEventListener("click", () => setMobileMenu(false));
+            });
+
+            refreshButton.addEventListener("click", fetchServerStatus);
+            copyButton.addEventListener("click", copyText);
+            qqButton.addEventListener("click", copyQQ);
+
+            document.addEventListener("keydown", event => {
+                if (event.key === "Escape" && mobileMenuOpen) setMobileMenu(false);
+            });
+
+            window.addEventListener("resize", () => {
+                if (window.innerWidth >= 760 && mobileMenuOpen) setMobileMenu(false);
+            });
+
+            let lastScrollTop = 0;
+            window.addEventListener("scroll", () => {
+                if (mobileMenuOpen) return;
+
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                navbar.style.transform = scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight ? "translateY(-100%)" : "translateY(0)";
+                lastScrollTop = Math.max(scrollTop, 0);
+            }, false);
+
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+
+                    navLinks.forEach(link => {
+                        const href = link.getAttribute("href");
+                        link.classList.toggle("active", href && href.slice(1) === entry.target.id);
+                    });
                 });
+            }, { rootMargin: "-45% 0px -50% 0px" });
+
+            sections.forEach(section => observer.observe(section));
+
+            fetchServerStatus();
+
+            if (window.gsap && window.ScrollTrigger && !prefersReducedMotion) {
+                gsap.registerPlugin(ScrollTrigger);
+
+                const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
+                if (window.innerWidth > 760) {
+                    intro.from(".metro-nav", { yPercent: -100, duration: 0.75 });
+                }
+                intro
+                    .from(".hero-orbit--one", { scale: 0, rotation: -135, duration: 0.8, ease: "back.out(1.6)" }, window.innerWidth > 760 ? "-=0.28" : 0)
+                    .from(".hero-orbit--two, .hero-pixel-field span", { scale: 0, stagger: 0.035, duration: 0.42, ease: "back.out(2.2)" }, "-=0.46")
+                    .from(".hero-title-char", { yPercent: 145, rotation: 18, scale: 0.55, opacity: 0, stagger: 0.055, duration: 0.76, ease: "back.out(1.75)" }, "-=0.2")
+                    .from(".hero-reveal:not(.status-stage-shell)", { y: 46, opacity: 0, stagger: 0.08, duration: 0.72 }, "-=0.46")
+                    .from(".status-stage-shell", { x: 140, y: 42, rotation: 8, clipPath: "inset(0 100% 0 0)", duration: 1.02, ease: "back.out(1.2)" }, "-=0.74")
+                    .from(".mc-server-card, .status-chart-card, .metric-cell", { y: 32, opacity: 0, stagger: 0.08, duration: 0.5 }, "-=0.56");
+
+                const tickerTrack = document.querySelector(".ticker-track");
+                if (tickerTrack) {
+                    tickerTrack.classList.add("is-gsap-animated");
+                    gsap.to(tickerTrack, { xPercent: -50, duration: 18, repeat: -1, ease: "none" });
+                }
+
+                gsap.to(".status-stage-shell", {
+                    yPercent: 16,
+                    rotation: -6,
+                    scale: 0.9,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1.1
+                    }
+                });
+
+                gsap.to(".hero-orbit--one", {
+                    rotation: 160,
+                    yPercent: 28,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1
+                    }
+                });
+
+                gsap.to(".hero-orbit--two", {
+                    yPercent: -38,
+                    rotation: -80,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1.25
+                    }
+                });
+
+                gsap.utils.toArray(".advantage-visual").forEach((visual, index) => {
+                    gsap.fromTo(visual,
+                        { xPercent: index % 2 ? 12 : -12 },
+                        {
+                            xPercent: index % 2 ? -8 : 8,
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: visual.closest(".feature-grid"),
+                                start: "top bottom",
+                                end: "bottom top",
+                                scrub: 1 + index * 0.08
+                            }
+                        }
+                    );
+                });
+
+                gsap.from(".section-head", {
+                    y: 110,
+                    rotation: -4,
+                    opacity: 0,
+                    duration: 0.92,
+                    ease: "back.out(1.25)",
+                    scrollTrigger: {
+                        trigger: ".section-head",
+                        start: "top 82%"
+                    }
+                });
+
+                gsap.from(".feature-tile", {
+                    y: 180,
+                    rotation: index => [-10, 8, -6, 7, -4, 5][index],
+                    clipPath: "inset(100% 0 0 0)",
+                    scale: 0.82,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 1.05,
+                    ease: "power4.out",
+                    scrollTrigger: {
+                        trigger: ".feature-grid",
+                        start: "top 80%"
+                    }
+                });
+
+                gsap.to(".verified-scan", {
+                    y: 102,
+                    duration: 1.15,
+                    repeat: -1,
+                    repeatDelay: 0.35,
+                    ease: "power2.inOut"
+                });
+
+                gsap.to(".redstone-node", {
+                    scale: 1.55,
+                    backgroundColor: "#3FFFF3",
+                    stagger: 0.13,
+                    duration: 0.28,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power1.inOut"
+                });
+
+                gsap.to(".community-member", {
+                    y: -22,
+                    stagger: 0.1,
+                    duration: 0.42,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power2.inOut"
+                });
+
+                gsap.fromTo(".stability-bar",
+                    { scaleY: 0.16 },
+                    {
+                        scaleY: 1,
+                        stagger: 0.09,
+                        duration: 0.62,
+                        repeat: -1,
+                        repeatDelay: 0.48,
+                        yoyo: true,
+                        ease: "power3.inOut"
+                    }
+                );
+
+                gsap.to(".fair-block.left", {
+                    xPercent: 42,
+                    duration: 1.1,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power2.inOut"
+                });
+
+                gsap.to(".fair-block.right", {
+                    xPercent: -42,
+                    duration: 1.1,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power2.inOut"
+                });
+
+                gsap.fromTo(".update-progress",
+                    { scaleX: 0.12 },
+                    {
+                        scaleX: 1,
+                        duration: 1.5,
+                        repeat: -1,
+                        repeatDelay: 0.42,
+                        ease: "power2.inOut"
+                    }
+                );
+
+                gsap.to(".update-cursor", {
+                    x: () => {
+                        const track = document.querySelector(".update-track");
+                        return Math.max((track ? track.clientWidth : 160) - 58, 70);
+                    },
+                    duration: 1.5,
+                    repeat: -1,
+                    repeatDelay: 0.42,
+                    ease: "power2.inOut"
+                });
+
+                gsap.utils.toArray(".step, .contact-actions, .stat-cell").forEach((item, index) => {
+                    gsap.from(item, {
+                        scrollTrigger: {
+                            trigger: item,
+                            start: "top 86%"
+                        },
+                        xPercent: index % 2 ? 24 : -24,
+                        rotation: index % 2 ? 3 : -3,
+                        opacity: 0,
+                        duration: 0.82,
+                        ease: "back.out(1.15)"
+                    });
+                });
+
+                gsap.from(".contact-panel .section-kicker, .contact-panel .panel-title, .contact-panel .panel-copy, .join-panel .section-kicker, .join-panel .panel-title", {
+                    y: 72,
+                    rotation: index => index % 2 ? 3 : -3,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 0.82,
+                    ease: "back.out(1.3)",
+                    scrollTrigger: { trigger: ".split-zone", start: "top 78%" }
+                });
+
+                gsap.from(".site-footer > *", {
+                    y: 42,
+                    opacity: 0,
+                    stagger: 0.1,
+                    duration: 0.65,
+                    ease: "power3.out",
+                    scrollTrigger: { trigger: ".site-footer", start: "top 92%" }
+                });
+
+                if (window.matchMedia("(min-width: 981px)").matches) {
+                    const heroStage = document.querySelector(".hero-stage");
+                    const statusTilt = document.querySelector(".status-stage-tilt");
+                    if (heroStage && statusTilt) {
+                        const tiltX = gsap.quickTo(statusTilt, "x", { duration: 0.45, ease: "power3.out" });
+                        const tiltY = gsap.quickTo(statusTilt, "y", { duration: 0.45, ease: "power3.out" });
+                        const tiltRotation = gsap.quickTo(statusTilt, "rotation", { duration: 0.45, ease: "power3.out" });
+                        heroStage.addEventListener("pointermove", event => {
+                            const bounds = heroStage.getBoundingClientRect();
+                            const pointerX = (event.clientX - bounds.left) / bounds.width - 0.5;
+                            const pointerY = (event.clientY - bounds.top) / bounds.height - 0.5;
+                            tiltX(pointerX * 22);
+                            tiltY(pointerY * 18);
+                            tiltRotation(pointerX * 2.2);
+                        });
+                        heroStage.addEventListener("pointerleave", () => {
+                            tiltX(0);
+                            tiltY(0);
+                            tiltRotation(0);
+                        });
+                    }
+                }
+
             }
         });
-        
+    </script>
+    <script type="text/plain" id="legacy-react-status-source">
+        try {
+        const [reactModule, reactDomModule, framerModule] = await Promise.all([
+            import("https://esm.sh/react@18.2.0"),
+            import("https://esm.sh/react-dom@18.2.0/client"),
+            import("https://esm.sh/framer-motion?deps=react@18.2.0,react-dom@18.2.0")
+        ]);
+        const React = reactModule.default;
+        const { useCallback, useEffect, useMemo, useState } = reactModule;
+        const { createRoot } = reactDomModule;
+        const { AnimatePresence, motion } = framerModule;
+
+        const h = React.createElement;
+        const API_URLS = [
+            "https://api.mcsrvstat.us/3/mk000.cc",
+            "https://api.mcsrvstat.us/2/mk000.cc"
+        ];
+        const SERVER_ADDRESS = "mk000.cc";
+        const REFRESH_INTERVAL = 30000;
+
+        const defaultSnapshot = {
+            online: null,
+            onlinePlayers: 0,
+            maxPlayers: 0,
+            version: "读取中",
+            motdHtml: "正在读取服务器 MOTD...",
+            icon: "",
+            situation: "正在检测",
+            statusText: "正在获取服务器状态...",
+            lastUpdated: "--:--"
+        };
+
+        function sanitizeMotdHtml(lines) {
+            if (!Array.isArray(lines) || lines.length === 0) return "暂无 MOTD";
+
+            const template = document.createElement("template");
+            template.innerHTML = lines.join("<br>");
+
+            function cleanNode(node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    return document.createTextNode(node.textContent || "");
+                }
+
+                if (node.nodeType !== Node.ELEMENT_NODE) {
+                    return document.createTextNode("");
+                }
+
+                if (node.tagName === "BR") {
+                    return document.createElement("br");
+                }
+
+                if (node.tagName === "SPAN") {
+                    const span = document.createElement("span");
+                    if (node.style.color) span.style.color = node.style.color;
+                    if (node.style.backgroundColor) span.style.backgroundColor = node.style.backgroundColor;
+                    node.childNodes.forEach(child => span.appendChild(cleanNode(child)));
+                    return span;
+                }
+
+                const fragment = document.createDocumentFragment();
+                node.childNodes.forEach(child => fragment.appendChild(cleanNode(child)));
+                return fragment;
+            }
+
+            const output = document.createElement("div");
+            template.content.childNodes.forEach(node => output.appendChild(cleanNode(node)));
+            return output.innerHTML || "暂无 MOTD";
+        }
+
+        function timeLabel(date = new Date()) {
+            return date.toLocaleTimeString("zh-CN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
+            });
+        }
+
+        function normalizeServerData(data) {
+            const online = Boolean(data?.online);
+            const onlinePlayers = online ? Number(data?.players?.online || 0) : 0;
+            const maxPlayers = Number(data?.players?.max || 0);
+            const version = data?.version || data?.protocol?.name || "未知版本";
+            const icon = typeof data?.icon === "string" ? data.icon : "";
+
+            return {
+                online,
+                onlinePlayers,
+                maxPlayers,
+                version,
+                icon,
+                motdHtml: sanitizeMotdHtml(data?.motd?.html),
+                situation: online ? "运行正常" : "服务器离线",
+                statusText: online ? `在线玩家 ${onlinePlayers} / ${maxPlayers || "?"}` : "服务器离线",
+                lastUpdated: timeLabel()
+            };
+        }
+
+        function buildChart(points, maxPlayers) {
+            const width = 620;
+            const height = 150;
+            const pad = 12;
+            const usableWidth = width - pad * 2;
+            const usableHeight = height - pad * 2;
+            const values = points.length ? points : [{ online: 0 }];
+            const maxValue = Math.max(maxPlayers || 0, ...values.map(point => point.online), 1);
+
+            const coords = values.map((point, index) => {
+                const x = values.length === 1 ? pad : pad + (index / (values.length - 1)) * usableWidth;
+                const y = height - pad - (point.online / maxValue) * usableHeight;
+                return { x, y, point };
+            });
+
+            const line = coords.map((coord, index) => `${index === 0 ? "M" : "L"} ${coord.x.toFixed(2)} ${coord.y.toFixed(2)}`).join(" ");
+            const area = `${line} L ${coords[coords.length - 1].x.toFixed(2)} ${height - pad} L ${coords[0].x.toFixed(2)} ${height - pad} Z`;
+            return { width, height, line, area, coords, maxValue };
+        }
+
+        function AnimatedText({ value, className }) {
+            return h(AnimatePresence, { mode: "popLayout", initial: false },
+                h(motion.span, {
+                    key: String(value),
+                    className,
+                    initial: { y: 22, opacity: 0 },
+                    animate: { y: 0, opacity: 1 },
+                    exit: { y: -22, opacity: 0 },
+                    transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] }
+                }, value)
+            );
+        }
+
+        function ServerIcon({ icon }) {
+            if (icon) {
+                return h("img", { src: icon, alt: "服务器图标" });
+            }
+
+            return h("i", { "data-lucide": "server" });
+        }
+
+        function PlayerChart({ history, maxPlayers }) {
+            const chart = useMemo(() => buildChart(history, maxPlayers), [history, maxPlayers]);
+            const latest = history[history.length - 1];
+
+            return h(motion.div, {
+                className: "status-chart-card",
+                layout: true,
+                transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] }
+            },
+                h("div", { className: "chart-head" },
+                    h("span", null, "Realtime Players"),
+                    h("span", null, latest ? `${latest.label} 更新` : "等待首个数据点")
+                ),
+                h("svg", {
+                    className: "player-chart",
+                    viewBox: `0 0 ${chart.width} ${chart.height}`,
+                    role: "img",
+                    "aria-label": "实时在线玩家折线图",
+                    preserveAspectRatio: "none"
+                },
+                    h("line", { className: "chart-grid", x1: "12", y1: "38", x2: "608", y2: "38" }),
+                    h("line", { className: "chart-grid", x1: "12", y1: "82", x2: "608", y2: "82" }),
+                    h("line", { className: "chart-grid", x1: "12", y1: "126", x2: "608", y2: "126" }),
+                    h(motion.path, {
+                        className: "chart-area",
+                        d: chart.area,
+                        animate: { d: chart.area },
+                        transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+                    }),
+                    h(motion.path, {
+                        className: "chart-line",
+                        d: chart.line,
+                        animate: { d: chart.line },
+                        transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+                    }),
+                    chart.coords.map((coord, index) => h(motion.circle, {
+                        key: `${coord.point.label}-${index}`,
+                        className: "chart-dot",
+                        cx: coord.x,
+                        cy: coord.y,
+                        r: index === chart.coords.length - 1 ? 6 : 4,
+                        initial: { scale: 0 },
+                        animate: { scale: 1 },
+                        transition: { duration: 0.24 }
+                    }))
+                )
+            );
+        }
+
+        function StatusMetrics({ snapshot }) {
+            const situationClass = snapshot.online ? "online" : "offline";
+
+            return h(motion.div, { className: "status-metrics", layout: true },
+                h("div", { className: "metric-cell" },
+                    h("span", { className: "metric-label" }, "在线人数"),
+                    h(AnimatedText, {
+                        className: "metric-value",
+                        value: `${snapshot.onlinePlayers} / ${snapshot.maxPlayers || "?"}`
+                    }),
+                    h("span", { className: "metric-note" }, "随折线图同步更新")
+                ),
+                h("div", { className: "metric-cell" },
+                    h("span", { className: "metric-label" }, "服务器情况"),
+                    h(AnimatedText, {
+                        className: `metric-value ${situationClass}`,
+                        value: snapshot.situation
+                    }),
+                    h("span", { id: "serverStatus", className: "metric-note" }, snapshot.statusText)
+                ),
+                h("div", { className: "metric-cell" },
+                    h("span", { className: "metric-label" }, "版本 / 更新时间"),
+                    h(AnimatedText, {
+                        className: "metric-value",
+                        value: snapshot.version
+                    }),
+                    h("span", { className: "metric-note" }, snapshot.lastUpdated)
+                )
+            );
+        }
+
+        function ServerStatusApp() {
+            const [snapshot, setSnapshot] = useState(defaultSnapshot);
+            const [history, setHistory] = useState([]);
+
+            const updateStatus = useCallback(async () => {
+                setSnapshot(previous => ({
+                    ...previous,
+                    statusText: previous.online === null ? "正在获取服务器状态..." : "正在刷新服务器状态..."
+                }));
+
+                try {
+                    let data = null;
+                    let requestError = null;
+
+                    for (const apiUrl of API_URLS) {
+                        try {
+                            const response = await fetch(`${apiUrl}?t=${Date.now()}`, { cache: "no-store" });
+                            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                            data = await response.json();
+                            break;
+                        } catch (error) {
+                            requestError = error;
+                        }
+                    }
+
+                    if (!data) throw requestError || new Error("No server status payload");
+                    const next = normalizeServerData(data);
+
+                    setSnapshot(next);
+                    setHistory(previous => {
+                        const point = {
+                            online: next.onlinePlayers,
+                            max: next.maxPlayers,
+                            label: next.lastUpdated
+                        };
+                        return [...previous, point].slice(-24);
+                    });
+                } catch (error) {
+                    setSnapshot(previous => ({
+                        ...previous,
+                        online: null,
+                        onlinePlayers: 0,
+                        situation: "状态未知",
+                        statusText: "无法获取服务器状态",
+                        lastUpdated: timeLabel()
+                    }));
+                }
+            }, []);
+
+            useEffect(() => {
+                window.mingkongRefreshStatus = updateStatus;
+                updateStatus();
+                const timer = window.setInterval(updateStatus, REFRESH_INTERVAL);
+
+                return () => {
+                    window.clearInterval(timer);
+                    if (window.mingkongRefreshStatus === updateStatus) {
+                        delete window.mingkongRefreshStatus;
+                    }
+                };
+            }, [updateStatus]);
+
+            useEffect(() => {
+                if (window.lucide) window.lucide.createIcons();
+            }, [snapshot.icon]);
+
+            const playerTotal = `${snapshot.maxPlayers || "?"}`;
+
+            return h(React.Fragment, null,
+                h(motion.div, {
+                    className: `mc-server-card ${snapshot.online ? "is-online" : "is-offline"}`,
+                    layout: true,
+                    initial: { y: 26, opacity: 0 },
+                    animate: { y: 0, opacity: 1 },
+                    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+                },
+                    h("div", { className: "mc-server-icon" }, h(ServerIcon, { icon: snapshot.icon })),
+                    h("div", { className: "mc-server-main" },
+                        h("div", { className: "mc-server-topline" },
+                            h("h3", { className: "mc-server-title" }, "明空原版生存"),
+                            h(AnimatedText, { className: "mc-version", value: snapshot.version })
+                        ),
+                        h(motion.div, {
+                            className: "mc-motd",
+                            key: snapshot.motdHtml,
+                            initial: { opacity: 0, y: 10 },
+                            animate: { opacity: 1, y: 0 },
+                            transition: { duration: 0.36 },
+                            dangerouslySetInnerHTML: { __html: snapshot.motdHtml }
+                        }),
+                        h("div", { className: "mc-address-row" },
+                            h("span", null, "服务器地址"),
+                            h("code", { id: "serverIP" }, SERVER_ADDRESS)
+                        )
+                    ),
+                    h("div", { className: "legacy-player-total" },
+                        h(AnimatedText, { value: snapshot.onlinePlayers }),
+                        h("small", null, `/ ${playerTotal} 位玩家`),
+                        h("div", { className: "mc-ping", "aria-label": snapshot.situation },
+                            h("span", null),
+                            h("span", null),
+                            h("span", null)
+                        )
+                    )
+                ),
+                h(PlayerChart, { history, maxPlayers: snapshot.maxPlayers }),
+                h(StatusMetrics, { snapshot })
+            );
+        }
+
+        const mount = document.getElementById("server-status-app");
+        if (mount) {
+            window.mingkongStatusMode = "framer";
+            window.clearInterval(window.mingkongFallbackTimer);
+            createRoot(mount).render(h(ServerStatusApp));
+        }
+        } catch (error) {
+            console.warn("Framer Motion 状态面板加载失败，已保留内建状态面板。", error);
+        }
+    </script>
+    <script type="module">
+        import("https://esm.sh/framer-motion@12.23.12?bundle").then(({ animate }) => {
+            const statusEase = [0.22, 1, 0.36, 1];
+
+            window.mingkongAnimateStatus = elements => {
+                elements.forEach((element, index) => {
+                    animate(element, {
+                        opacity: [0, 1],
+                        y: [16, 0]
+                    }, {
+                        duration: 0.42,
+                        delay: index * 0.04,
+                        ease: statusEase
+                    });
+                });
+            };
+
+            window.mingkongAnimateChart = (line, dots) => {
+                const length = line.getTotalLength();
+                line.style.strokeDasharray = String(length);
+                animate(line, {
+                    strokeDashoffset: [length, 0]
+                }, {
+                    duration: 0.7,
+                    ease: statusEase
+                });
+
+                dots.forEach((dot, index) => {
+                    animate(dot, {
+                        scale: [0, 1]
+                    }, {
+                        duration: 0.28,
+                        delay: index * 0.025,
+                        ease: statusEase
+                    });
+                });
+            };
+        }).catch(error => {
+            console.warn("Framer Motion 动画加载失败，状态数据仍会正常显示。", error);
+        });
     </script>
 </body>
 </html>
