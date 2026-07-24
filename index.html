@@ -373,8 +373,6 @@
             position: relative;
             z-index: 1;
             height: 100%;
-            transform-style: preserve-3d;
-            will-change: transform;
         }
 
         .stage-sky {
@@ -1577,9 +1575,9 @@
                 <div class="section-head">
                     <div>
                         <span class="section-kicker">Why Mingkong</span>
-                        <h2>像产品发布一样，把玩法讲清楚。</h2>
+                        <h2>服务器玩法。</h2>
                     </div>
-                    <p>Metro 的信息块适合一眼扫读：每一项都是服务器体验的一个明确承诺。</p>
+                    <p>每一项都是服务器体验的一个明确承诺。</p>
                 </div>
 
                 <div class="feature-grid">
@@ -1592,7 +1590,7 @@
                         <div>
                             <h3>正版服</h3>
                             <p>正版账号加审核门槛，先把环境质量抬起来，再让长期玩家安心建设。</p>
-                            <a href="https://mingkongtown.top/dh.html#MK-ZB" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                            <a href="dh.html#MK-ZB" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
                         </div>
                     </article>
 
@@ -1609,7 +1607,7 @@
                         <div>
                             <h3>红石生电</h3>
                             <p>除出生点为中心 10000 x 10000 格范围外，不限制红石，留足工程空间。</p>
-                            <a href="https://mingkongtown.top/dh.html#MK-HS" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                            <a href="dh.html#MK-HS" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
                         </div>
                     </article>
 
@@ -1618,14 +1616,11 @@
                         <div class="advantage-visual community-visual" aria-hidden="true">
                             <span class="community-member"></span>
                             <span class="community-member"></span>
-                            <span class="community-member"></span>
-                            <span class="community-member"></span>
-                            <span class="community-member"></span>
                         </div>
                         <div>
                             <h3>友好的玩家</h3>
                             <p>适合一起开荒、交易、建筑、搞大型工程，也适合慢慢认识新朋友。</p>
-                            <a href="https://mingkongtown.top/dh.html#MK-FRIEND" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                            <a href="dh.html#MK-FRIEND" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
                         </div>
                     </article>
 
@@ -1642,7 +1637,7 @@
                         <div>
                             <h3>稳定运行</h3>
                             <p>采用 i9-14900K 级别 CPU，给日常生存和复杂机器留出更强余量。</p>
-                            <a href="https://mingkongtown.top/dh.html#MK-STABLE" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                            <a href="dh.html#MK-STABLE" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
                         </div>
                     </article>
 
@@ -1656,7 +1651,7 @@
                         <div>
                             <h3>公正游戏</h3>
                             <p>维持更干净的游戏秩序，删掉容易引战的内容，让规则服务于体验。</p>
-                            <a href="https://mingkongtown.top/dh.html#MK-FAIR" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                            <a href="dh.html#MK-FAIR" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
                         </div>
                     </article>
 
@@ -1664,12 +1659,11 @@
                         <div class="tile-index"><span>06 / Updates</span><i data-lucide="sparkles"></i></div>
                         <div class="advantage-visual update-visual" aria-hidden="true">
                             <span class="update-track"><span class="update-progress"></span></span>
-                            <span class="update-cursor"></span>
                         </div>
                         <div>
                             <h3>持续更新</h3>
                             <p>内容和玩法继续迭代，让服务器不是一次性热闹，而是长期有新鲜感。</p>
-                            <a href="https://mingkongtown.top/dh.html#MK-UPDATE" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
+                            <a href="dh.html#MK-UPDATE" class="tile-action">Learn More <i data-lucide="arrow-up-right"></i></a>
                         </div>
                     </article>
                 </div>
@@ -2215,19 +2209,6 @@
                     gsap.to(tickerTrack, { xPercent: -50, duration: 18, repeat: -1, ease: "none" });
                 }
 
-                gsap.to(".status-stage-shell", {
-                    yPercent: 16,
-                    rotation: -6,
-                    scale: 0.9,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: ".hero",
-                        start: "top top",
-                        end: "bottom top",
-                        scrub: 1.1
-                    }
-                });
-
                 gsap.to(".hero-orbit--one", {
                     rotation: 160,
                     yPercent: 28,
@@ -2405,29 +2386,6 @@
                     ease: "power3.out",
                     scrollTrigger: { trigger: ".site-footer", start: "top 92%" }
                 });
-
-                if (window.matchMedia("(min-width: 981px)").matches) {
-                    const heroStage = document.querySelector(".hero-stage");
-                    const statusTilt = document.querySelector(".status-stage-tilt");
-                    if (heroStage && statusTilt) {
-                        const tiltX = gsap.quickTo(statusTilt, "x", { duration: 0.45, ease: "power3.out" });
-                        const tiltY = gsap.quickTo(statusTilt, "y", { duration: 0.45, ease: "power3.out" });
-                        const tiltRotation = gsap.quickTo(statusTilt, "rotation", { duration: 0.45, ease: "power3.out" });
-                        heroStage.addEventListener("pointermove", event => {
-                            const bounds = heroStage.getBoundingClientRect();
-                            const pointerX = (event.clientX - bounds.left) / bounds.width - 0.5;
-                            const pointerY = (event.clientY - bounds.top) / bounds.height - 0.5;
-                            tiltX(pointerX * 22);
-                            tiltY(pointerY * 18);
-                            tiltRotation(pointerX * 2.2);
-                        });
-                        heroStage.addEventListener("pointerleave", () => {
-                            tiltX(0);
-                            tiltY(0);
-                            tiltRotation(0);
-                        });
-                    }
-                }
 
             }
         });
