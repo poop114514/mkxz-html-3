@@ -1773,7 +1773,7 @@
         </main>
 
         <footer class="site-footer">
-            <p>&copy; 2026 我的世界服务器. 保留所有权利。</p>
+            <p>&copy; 2026 明空生存/mkse. 保留所有权利。</p>
             <div class="footer-links">
                 <a href="ys.html">隐私政策</a>
                 <a href="zanzhu.html">赞助我们</a>
@@ -2001,7 +2001,7 @@
                 const maxText = playerStats.hasMaxCount ? String(maxPlayers) : "未公开";
                 const version = getServerVersion(data);
                 const updatedAt = fallbackTimeLabel();
-                const situation = online ? "运行正常" : "服务器离线";
+                const situation = online ? "在线" : "服务器离线";
                 const statusText = online
                     ? playerStats.hasOnlineCount ? `在线玩家 ${onlineText} / ${maxText}` : "服务器未公开玩家人数"
                     : "服务器离线";
@@ -2507,7 +2507,7 @@
                 version,
                 icon,
                 motdHtml: sanitizeMotdHtml(data?.motd?.html),
-                situation: online ? "运行正常" : "服务器离线",
+                situation: online ? "在线" : "服务器离线",
                 statusText: online ? `在线玩家 ${onlinePlayers} / ${maxPlayers || "?"}` : "服务器离线",
                 lastUpdated: timeLabel()
             };
