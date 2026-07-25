@@ -106,6 +106,77 @@
             font-weight: 900;
         }
 
+        .nav-brand {
+            grid-column: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-self: start;
+            gap: 10px;
+            min-width: 0;
+            font-size: 18px;
+            font-weight: 950;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-brand-icon {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            flex: 0 0 auto;
+            place-items: center;
+            overflow: hidden;
+            color: var(--ink);
+            background: var(--cyan);
+            border: 2px solid var(--ink);
+        }
+
+        .nav-brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .nav-brand-icon i {
+            width: 21px;
+            height: 21px;
+            stroke-width: 2.8;
+        }
+
+        .nav-server-status {
+            grid-column: 3;
+            display: inline-flex;
+            align-items: center;
+            justify-self: end;
+            gap: 8px;
+            min-height: 38px;
+            color: var(--ink);
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 auto;
+            background: var(--yellow);
+            border: 3px solid var(--ink);
+        }
+
+        .nav-server-status.is-online .status-dot {
+            background: #39d98a;
+        }
+
+        .nav-server-status.is-offline .status-dot {
+            background: #a8a8a8;
+        }
+
+        .nav-server-players {
+            line-height: 1;
+        }
+
         .nav-link {
             position: relative;
             display: inline-flex;
@@ -1796,6 +1867,25 @@
         }
 
         @media (max-width: 1024px) {
+            .nav-link {
+                padding: 0 10px;
+            }
+
+            .nav-link::after {
+                right: 10px;
+                left: 10px;
+            }
+
+            .nav-brand {
+                gap: 8px;
+                font-size: 16px;
+            }
+
+            .nav-server-status {
+                gap: 8px;
+                font-size: 15px;
+            }
+
             .hero {
                 grid-template-columns: 1fr;
                 border-left: 0;
@@ -1905,6 +1995,10 @@
             }
 
             .nav-links {
+                display: none;
+            }
+
+            .nav-server-status {
                 display: none;
             }
 
@@ -2149,12 +2243,22 @@
     <div class="metro-page">
         <nav id="navbar" class="metro-nav">
             <div class="nav-shell">
+                <a href="#home" class="nav-brand" aria-label="返回明空生存首页">
+                    <span id="nav-brand-icon" class="nav-brand-icon" aria-hidden="true"><i data-lucide="server"></i></span>
+                    <span>明空生存</span>
+                </a>
+
                 <div class="nav-links" aria-label="主导航">
                     <a href="#home" class="nav-link">关于我们</a>
                     <a href="#features" class="nav-link">服务器特点</a>
                     <a href="#contact" class="nav-link">联系我们</a>
                     <a href="#join" class="nav-link">加入服务器</a>
                     <a href="zanzhu.html" class="nav-link">赞助我们</a>
+                </div>
+
+                <div id="nav-server-status" class="nav-server-status" aria-live="polite">
+                    <span class="status-dot" aria-hidden="true"></span>
+                    <span id="nav-server-players" class="nav-server-players">-- 人在线</span>
                 </div>
 
                 <button id="nav-toggle" type="button" class="nav-toggle" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
@@ -2717,6 +2821,12 @@
                         iconBox.replaceChildren(icon);
                     }
                 }
+                updateNavbarStatus({
+                    online,
+                    onlinePlayers,
+                    hasOnlineCount: playerStats.hasOnlineCount,
+                    icon: data?.icon
+                });
                 if (motd) motd.innerHTML = sanitizeFallbackMotd(data?.motd?.html);
                 document.getElementById("fallback-card-version").textContent = version;
                 document.getElementById("fallback-metric-players").textContent = `${onlineText} / ${maxText}`;
@@ -2743,6 +2853,42 @@
                 } else if (window.gsap && !prefersReducedMotion) {
                     gsap.fromTo(animatedValues, { y: 16, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.04, duration: 0.42, ease: "power3.out" });
                 }
+            }
+
+            function updateNavbarStatus({ online, onlinePlayers, hasOnlineCount, icon }) {
+                const navBrandIcon = document.getElementById("nav-brand-icon");
+                const navServerStatus = document.getElementById("nav-server-status");
+                const navServerPlayers = document.getElementById("nav-server-players");
+
+                if (navBrandIcon && typeof icon === "string" && icon) {
+                    const currentImage = navBrandIcon.querySelector("img");
+                    if (!currentImage || currentImage.src !== icon) {
+                        const image = document.createElement("img");
+                        image.src = icon;
+                        image.alt = "";
+                        navBrandIcon.replaceChildren(image);
+                    }
+                }
+
+                if (navServerStatus) {
+                    navServerStatus.classList.toggle("is-online", online);
+                    navServerStatus.classList.toggle("is-offline", !online);
+                    navServerStatus.setAttribute("aria-label", online ? "服务器在线" : "服务器离线");
+                }
+                if (navServerPlayers) {
+                    navServerPlayers.textContent = online && hasOnlineCount ? `${onlinePlayers} 人在线` : "-- 人在线";
+                }
+            }
+
+            function setNavbarStatusUnknown() {
+                const navServerStatus = document.getElementById("nav-server-status");
+                const navServerPlayers = document.getElementById("nav-server-players");
+
+                if (navServerStatus) {
+                    navServerStatus.classList.remove("is-online", "is-offline");
+                    navServerStatus.setAttribute("aria-label", "服务器状态未知");
+                }
+                if (navServerPlayers) navServerPlayers.textContent = "-- 人在线";
             }
 
             async function updateFallbackStatus() {
@@ -2787,6 +2933,7 @@
                 }
                 if (status) status.textContent = requestError?.name === "AbortError" ? "状态接口响应超时" : "暂时无法连接状态接口";
                 if (updated) updated.textContent = fallbackTimeLabel();
+                setNavbarStatusUnknown();
                 console.warn("服务器状态更新失败。", requestError);
             }
 
