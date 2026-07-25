@@ -985,7 +985,10 @@
         }
 
         .join-panel {
-            background: #fff;
+            display: grid;
+            align-items: center;
+            padding: clamp(20px, 3vw, 38px);
+            background: var(--white);
         }
 
         .panel-title {
@@ -1126,6 +1129,318 @@
             font-weight: 950;
             line-height: 1.2;
             overflow-wrap: anywhere;
+        }
+
+        .join-tutorial {
+            width: min(100%, 790px);
+            margin: 0 auto;
+            font-family: "Courier New", "Noto Sans SC", monospace;
+        }
+
+        .join-tutorial-heading {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 18px;
+            margin: 0 0 14px;
+            font-family: "Inter", "Noto Sans SC", system-ui, sans-serif;
+        }
+
+        .join-tutorial-heading strong {
+            font-size: clamp(24px, 3vw, 38px);
+            font-weight: 950;
+            line-height: 1;
+        }
+
+        .join-tutorial-heading span {
+            color: #656565;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .mc-tutorial-screen {
+            position: relative;
+            min-height: 510px;
+            overflow: hidden;
+            color: var(--white);
+            background:
+                linear-gradient(135deg, rgba(13, 30, 37, 0.38), rgba(3, 11, 13, 0.72)),
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 8px),
+                linear-gradient(135deg, #66889b 0 36%, #50714d 36% 68%, #27412e 68%);
+            border: 4px solid var(--ink);
+            box-shadow: 8px 8px 0 var(--ink);
+            isolation: isolate;
+        }
+
+        .mc-tutorial-screen::before,
+        .mc-tutorial-screen::after {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            background: rgba(13, 46, 29, 0.42);
+        }
+
+        .mc-tutorial-screen::before {
+            width: 42%;
+            height: 64%;
+            right: -6%;
+            bottom: -10%;
+            clip-path: polygon(0 100%, 0 46%, 16% 46%, 16% 23%, 38% 23%, 38% 0, 62% 0, 62% 34%, 82% 34%, 82% 12%, 100% 12%, 100% 100%);
+        }
+
+        .mc-tutorial-screen::after {
+            width: 36%;
+            height: 74%;
+            left: -6%;
+            bottom: -16%;
+            clip-path: polygon(0 100%, 0 18%, 17% 18%, 17% 0, 37% 0, 37% 30%, 55% 30%, 55% 9%, 75% 9%, 75% 42%, 100% 42%, 100% 100%);
+        }
+
+        .mc-tutorial-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 502px;
+            padding: clamp(22px, 4vw, 44px);
+        }
+
+        .mc-screen-title {
+            margin: 0 0 clamp(20px, 4vw, 34px);
+            color: #fff;
+            font-size: clamp(24px, 4vw, 39px);
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            text-align: center;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
+        }
+
+        .mc-home-actions {
+            display: grid;
+            width: min(100%, 500px);
+            gap: 12px;
+            margin: auto;
+        }
+
+        .mc-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 58px;
+            padding: 10px 18px;
+            color: var(--ink);
+            background: var(--white);
+            border: 2px solid var(--ink);
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
+            font: inherit;
+            font-size: clamp(16px, 2.3vw, 22px);
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .mc-button--wide {
+            width: 100%;
+        }
+
+        .mc-button--disabled {
+            color: #747474;
+            background: #dddddd;
+        }
+
+        .mc-button--join {
+            color: var(--white);
+            background: var(--ink);
+        }
+
+        .mc-home-note,
+        .mc-screen-footnote {
+            margin: 26px 0 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-align: center;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.75);
+        }
+
+        .mc-server-list {
+            display: grid;
+            flex: 1;
+            align-content: start;
+            gap: 9px;
+            min-height: 208px;
+            padding: 10px;
+            background: rgba(10, 13, 13, 0.68);
+            border: 2px solid rgba(255, 255, 255, 0.76);
+        }
+
+        .tutorial-server-card {
+            display: grid;
+            grid-template-columns: 46px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 12px;
+            color: var(--white);
+            background: rgba(42, 57, 65, 0.88);
+            border: 2px solid transparent;
+            text-align: left;
+        }
+
+        .tutorial-server-card.is-selected {
+            border-color: var(--white);
+            background: rgba(73, 106, 120, 0.96);
+        }
+
+        .tutorial-server-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--yellow) 0 45%, #d79717 45% 62%, #59a44a 62%);
+            border: 2px solid var(--ink);
+            box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.28);
+        }
+
+        .tutorial-server-copy {
+            min-width: 0;
+        }
+
+        .tutorial-server-copy strong,
+        .tutorial-server-copy span {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .tutorial-server-copy strong {
+            font-size: clamp(15px, 2vw, 21px);
+        }
+
+        .tutorial-server-copy span {
+            margin-top: 4px;
+            color: #7dffd2;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .tutorial-ping {
+            display: flex;
+            align-items: end;
+            gap: 2px;
+            height: 20px;
+        }
+
+        .tutorial-ping i {
+            display: block;
+            width: 4px;
+            background: #56ff64;
+        }
+
+        .tutorial-ping i:nth-child(1) { height: 7px; }
+        .tutorial-ping i:nth-child(2) { height: 12px; }
+        .tutorial-ping i:nth-child(3) { height: 17px; }
+
+        .mc-list-empty {
+            display: grid;
+            min-height: 142px;
+            place-items: center;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 15px;
+            font-weight: 800;
+            text-align: center;
+            white-space: pre-line;
+        }
+
+        .mc-list-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .mc-list-controls .mc-button--wide {
+            grid-column: span 2;
+        }
+
+        .mc-form {
+            display: grid;
+            gap: 13px;
+            width: min(100%, 610px);
+            margin: 0 auto;
+        }
+
+        .mc-field-label {
+            display: grid;
+            gap: 7px;
+            color: var(--white);
+            font-size: 17px;
+            font-weight: 900;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.72);
+        }
+
+        .mc-field-value {
+            display: flex;
+            align-items: center;
+            min-height: 52px;
+            padding: 10px 14px;
+            color: var(--white);
+            background: #161616;
+            border: 2px solid #dedede;
+            box-shadow: inset 0 0 0 2px #4a4a4a;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .mc-field-value.is-active {
+            border-color: var(--yellow);
+        }
+
+        .mc-caret {
+            width: 10px;
+            height: 24px;
+            margin-left: 3px;
+            background: var(--white);
+        }
+
+        .mc-form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .mc-tutorial-cursor {
+            position: absolute;
+            z-index: 4;
+            top: 0;
+            left: 0;
+            width: 31px;
+            height: 43px;
+            pointer-events: none;
+            filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.56));
+            transform-origin: 3px 3px;
+        }
+
+        .mc-tutorial-cursor svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .mc-tutorial-complete {
+            position: absolute;
+            z-index: 3;
+            right: 18px;
+            bottom: 16px;
+            padding: 8px 10px;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 2px solid var(--ink);
+            font-family: "Inter", "Noto Sans SC", system-ui, sans-serif;
+            font-size: 12px;
+            font-weight: 950;
         }
 
         .stats-strip {
@@ -1460,6 +1775,66 @@
             .contact-links {
                 display: grid;
             }
+
+            .join-panel {
+                min-height: 0;
+                padding: 18px;
+            }
+
+            .join-tutorial-heading {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .mc-tutorial-screen {
+                min-height: 500px;
+                box-shadow: 5px 5px 0 var(--ink);
+            }
+
+            .mc-tutorial-content {
+                min-height: 492px;
+                padding: 20px 16px;
+            }
+
+            .mc-screen-title {
+                font-size: 25px;
+            }
+
+            .mc-list-controls,
+            .mc-form-actions {
+                gap: 7px;
+            }
+
+            .mc-button {
+                min-height: 50px;
+                padding: 8px 10px;
+                font-size: 15px;
+            }
+
+            .tutorial-server-card {
+                grid-template-columns: 38px minmax(0, 1fr) auto;
+                gap: 8px;
+                padding: 7px;
+            }
+
+            .tutorial-server-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .tutorial-server-copy span {
+                font-size: 10px;
+            }
+
+            .mc-field-label {
+                font-size: 15px;
+            }
+
+            .mc-field-value {
+                min-height: 48px;
+                font-size: 16px;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1735,39 +2110,7 @@
                 </section>
 
                 <section id="join" class="join-panel">
-                    <span class="section-kicker">Join Flow</span>
-                    <h2 class="panel-title">三步加入服务器。</h2>
-
-                    <div class="steps">
-                        <article class="step">
-                            <div class="step-no">1</div>
-                            <div class="step-body">
-                                <h3>复制服务器地址</h3>
-                                <p>在 Java 版多人游戏中添加服务器。</p>
-                                <div class="code-row">
-                                    <span class="server-tag">mk000.cc</span>
-                                    <span class="server-tag">mk.mingkongtown.top</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <article class="step">
-                            <div class="step-no">2</div>
-                            <div class="step-body">
-                                <h3>填写审核表</h3>
-                                <p>服务器需要白名单。填完后等待小浩（xhGG）发激活码，进服激活即可。</p>
-                            </div>
-                        </article>
-
-                        <article class="step">
-                            <div class="step-no">3</div>
-                            <div class="step-body">
-                                <h3>阅读服规并进服</h3>
-                                <p>先确认规则，再开始建设。遇到问题可联系管理员处理。</p>
-                            </div>
-                        </article>
-                    </div>
-
+                    <div id="join-tutorial-app" aria-label="加入服务器教程"></div>
                 </section>
             </div>
         </main>
@@ -2414,6 +2757,464 @@
 
             }
         });
+    </script>
+    <script type="module">
+        const tutorialMount = document.getElementById("join-tutorial-app");
+
+        if (tutorialMount) {
+            function createTutorialFallback(mount) {
+                let running = true;
+                let cursorPosition = { x: 24, y: 24 };
+
+                mount.innerHTML = `
+                    <div class="join-tutorial">
+                        <p class="join-tutorial-heading"><strong>这样加入明空。</strong><span>Auto tutorial · Loop</span></p>
+                        <div class="mc-tutorial-screen">
+                            <div class="mc-tutorial-content"></div>
+                            <div class="mc-tutorial-cursor" aria-hidden="true">
+                                <svg viewBox="0 0 30 42"><path d="M3 2 L3 34 L11 26 L17 39 L23 36 L17 23 L28 23 Z" fill="#fff" stroke="#111" stroke-width="2.8" stroke-linejoin="miter" /></svg>
+                            </div>
+                        </div>
+                    </div>`;
+
+                const screen = mount.querySelector(".mc-tutorial-screen");
+                const content = mount.querySelector(".mc-tutorial-content");
+                const cursor = mount.querySelector(".mc-tutorial-cursor");
+                const pause = milliseconds => new Promise(resolve => window.setTimeout(resolve, milliseconds));
+                const nextFrame = () => new Promise(resolve => window.requestAnimationFrame(resolve));
+                const button = (label, key, extra = "") => `<button type="button" tabindex="-1" ${key ? `data-tutorial-target="${key}"` : ""} class="mc-button ${extra}">${label}</button>`;
+                const ping = "<span class=\"tutorial-ping\"><i></i><i></i><i></i></span>";
+
+                function render(stage, options = {}) {
+                    const { name = "", address = "", hasServer = false, selected = false, activeField = "" } = options;
+                    if (stage === "home") {
+                        content.innerHTML = `
+                            <h3 class="mc-screen-title">Minecraft: Java Edition</h3>
+                            <div class="mc-home-actions">
+                                ${button("单人游戏", "")}
+                                ${button("多人游戏", "multiplayer", "mc-button--wide")}
+                                ${button("选项…", "")}
+                            </div>
+                            <p class="mc-home-note">明空生存 · 加入教程演示</p>`;
+                    } else if (stage === "list") {
+                        const server = hasServer
+                            ? `<button type="button" tabindex="-1" data-tutorial-target="server" class="tutorial-server-card ${selected ? "is-selected" : ""}">
+                                <span class="tutorial-server-icon"></span><span class="tutorial-server-copy"><strong>mingkongtown</strong><span>mk.mingkongtown.top · 1.21.x</span></span>${ping}
+                            </button>`
+                            : "<div class=\"mc-list-empty\">还没有加入的服务器\n点击「添加服务器」开始</div>";
+                        content.innerHTML = `
+                            <h3 class="mc-screen-title">多人游戏</h3>
+                            <div class="mc-server-list">${server}</div>
+                            <div class="mc-list-controls">
+                                ${button("加入服务器", "join", `mc-button--join ${selected ? "" : "mc-button--disabled"}`)}
+                                ${button("直接连接", "", "mc-button--disabled")}
+                                ${button("添加服务器", "add", "mc-button--wide")}
+                            </div>
+                            <p class="mc-screen-footnote">${hasServer ? "选择 mingkongtown，然后加入服务器" : "服务器列表暂时为空"}</p>`;
+                    } else {
+                        content.innerHTML = `
+                            <h3 class="mc-screen-title">添加服务器</h3>
+                            <div class="mc-form">
+                                <label class="mc-field-label">服务器名称<span data-tutorial-target="name" class="mc-field-value ${activeField === "name" ? "is-active" : ""}"><span data-tutorial-value="name">${name}</span></span></label>
+                                <label class="mc-field-label">服务器地址<span data-tutorial-target="address" class="mc-field-value ${activeField === "address" ? "is-active" : ""}"><span data-tutorial-value="address">${address}</span></span></label>
+                                <div class="mc-form-actions">${button("完成", "done", "mc-button--join")}${button("取消", "", "mc-button--disabled")}</div>
+                            </div>`;
+                    }
+                    content.animate([{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 240, easing: "cubic-bezier(.22,1,.36,1)" });
+                }
+
+                function target(key) {
+                    return mount.querySelector(`[data-tutorial-target="${key}"]`);
+                }
+
+                async function moveTo(key) {
+                    await nextFrame();
+                    const element = target(key);
+                    if (!running || !element) return false;
+                    const screenRect = screen.getBoundingClientRect();
+                    const targetRect = element.getBoundingClientRect();
+                    const nextPosition = {
+                        x: targetRect.left - screenRect.left + targetRect.width * 0.5,
+                        y: targetRect.top - screenRect.top + targetRect.height * 0.5
+                    };
+                    cursor.animate([
+                        { transform: `translate(${cursorPosition.x}px, ${cursorPosition.y}px)` },
+                        { transform: `translate(${nextPosition.x}px, ${nextPosition.y}px)` }
+                    ], { duration: 460, easing: "cubic-bezier(.22,1,.36,1)", fill: "forwards" });
+                    cursor.style.transform = `translate(${nextPosition.x}px, ${nextPosition.y}px)`;
+                    cursor.style.opacity = "1";
+                    cursorPosition = nextPosition;
+                    await pause(580);
+                    return running;
+                }
+
+                async function click(key) {
+                    if (!await moveTo(key)) return false;
+                    cursor.animate([
+                        { transform: `translate(${cursorPosition.x}px, ${cursorPosition.y}px) scale(1)` },
+                        { transform: `translate(${cursorPosition.x}px, ${cursorPosition.y}px) scale(.84)` },
+                        { transform: `translate(${cursorPosition.x}px, ${cursorPosition.y}px) scale(1)` }
+                    ], { duration: 190, easing: "ease-out" });
+                    await pause(330);
+                    return running;
+                }
+
+                async function typeValue(key, text) {
+                    const value = mount.querySelector(`[data-tutorial-value="${key}"]`);
+                    if (!value) return false;
+                    value.textContent = "";
+                    for (const character of text) {
+                        await pause(92);
+                        if (!running) return false;
+                        value.textContent += character;
+                    }
+                    await pause(220);
+                    return running;
+                }
+
+                async function eraseValue(key) {
+                    const value = mount.querySelector(`[data-tutorial-value="${key}"]`);
+                    while (running && value && value.textContent) {
+                        await pause(76);
+                        value.textContent = value.textContent.slice(0, -1);
+                    }
+                    await pause(180);
+                    return running;
+                }
+
+                async function play() {
+                    while (running) {
+                        render("home");
+                        cursor.style.opacity = "0";
+                        await pause(650);
+                        if (!await click("multiplayer")) return;
+
+                        render("list");
+                        await pause(460);
+                        if (!await click("add")) return;
+
+                        render("add");
+                        await pause(380);
+                        if (!await click("name")) return;
+                        if (!await typeValue("name", "mingkong")) return;
+                        if (!await click("address")) return;
+                        if (!await typeValue("address", "mk000.cc")) return;
+                        if (!await eraseValue("address")) return;
+                        if (!await typeValue("address", "mk.mingkongtown.top")) return;
+                        if (!await click("done")) return;
+
+                        render("list", { hasServer: true });
+                        await pause(460);
+                        if (!await click("server")) return;
+                        render("list", { hasServer: true, selected: true });
+                        await pause(260);
+                        if (!await click("join")) return;
+                        await pause(1000);
+                    }
+                }
+
+                play();
+                return { stop: () => { running = false; } };
+            }
+
+            const fallbackTutorial = createTutorialFallback(tutorialMount);
+
+            try {
+                const [reactModule, reactDomModule, framerModule] = await Promise.all([
+                    import("https://esm.sh/react@18.2.0"),
+                    import("https://esm.sh/react-dom@18.2.0/client"),
+                    import("https://esm.sh/framer-motion@12.23.12?deps=react@18.2.0,react-dom@18.2.0")
+                ]);
+                const React = reactModule.default;
+                const { createRoot } = reactDomModule;
+                const { AnimatePresence, motion } = framerModule;
+                const { useCallback, useEffect, useRef, useState } = React;
+                const h = React.createElement;
+                const stageTransition = { duration: 0.32, ease: [0.22, 1, 0.36, 1] };
+
+                function TutorialButton({ buttonRef, children, className = "", disabled = false }) {
+                    return h("button", {
+                        ref: buttonRef,
+                        className: `mc-button ${className}`,
+                        type: "button",
+                        tabIndex: -1,
+                        disabled
+                    }, children);
+                }
+
+                function PingBars() {
+                    return h("span", { className: "tutorial-ping", "aria-label": "网络连接良好" },
+                        h("i"), h("i"), h("i")
+                    );
+                }
+
+                function TutorialApp() {
+                    const rootRef = useRef(null);
+                    const targetRefs = useRef({});
+                    const currentTarget = useRef(null);
+                    const [stage, setStage] = useState("home");
+                    const [name, setName] = useState("");
+                    const [address, setAddress] = useState("");
+                    const [activeField, setActiveField] = useState("");
+                    const [hasServer, setHasServer] = useState(false);
+                    const [selected, setSelected] = useState(false);
+                    const [joined, setJoined] = useState(false);
+                    const [cursor, setCursor] = useState({ x: 24, y: 24, visible: false, pressed: false });
+
+                    const positionCursor = useCallback(targetRef => {
+                        const stageElement = rootRef.current;
+                        const targetElement = targetRef?.current;
+                        if (!stageElement || !targetElement) return;
+
+                        const stageRect = stageElement.getBoundingClientRect();
+                        const targetRect = targetElement.getBoundingClientRect();
+                        setCursor(previous => ({
+                            ...previous,
+                            x: targetRect.left - stageRect.left + targetRect.width * 0.5,
+                            y: targetRect.top - stageRect.top + targetRect.height * 0.5,
+                            visible: true
+                        }));
+                    }, []);
+
+                    useEffect(() => {
+                        const updateCursorPosition = () => positionCursor(currentTarget.current);
+                        window.addEventListener("resize", updateCursorPosition);
+                        return () => window.removeEventListener("resize", updateCursorPosition);
+                    }, [positionCursor]);
+
+                    useEffect(() => {
+                        let cancelled = false;
+                        const timers = [];
+                        const pause = milliseconds => new Promise(resolve => {
+                            const timer = window.setTimeout(resolve, milliseconds);
+                            timers.push(timer);
+                        });
+                        const nextFrame = () => new Promise(resolve => window.requestAnimationFrame(resolve));
+                        const wait = async milliseconds => {
+                            await pause(milliseconds);
+                            return !cancelled;
+                        };
+                        const moveTo = async target => {
+                            currentTarget.current = target;
+                            await nextFrame();
+                            if (cancelled) return false;
+                            positionCursor(target);
+                            return wait(620);
+                        };
+                        const click = async target => {
+                            if (!await moveTo(target)) return false;
+                            setCursor(previous => ({ ...previous, pressed: true }));
+                            if (!await wait(145)) return false;
+                            setCursor(previous => ({ ...previous, pressed: false }));
+                            return wait(310);
+                        };
+                        const changeStage = async nextStage => {
+                            setStage(nextStage);
+                            setActiveField("");
+                            currentTarget.current = null;
+                            if (!await wait(410)) return false;
+                            return true;
+                        };
+                        const typeText = async (text, setValue) => {
+                            setValue("");
+                            for (const character of text) {
+                                if (!await wait(96)) return false;
+                                setValue(previous => `${previous}${character}`);
+                            }
+                            return wait(260);
+                        };
+                        const eraseText = async setValue => {
+                            for (let length = 8; length >= 0; length -= 1) {
+                                if (!await wait(78)) return false;
+                                setValue(previous => previous.slice(0, Math.max(0, length - 1)));
+                            }
+                            return wait(220);
+                        };
+
+                        async function playTutorial() {
+                            while (!cancelled) {
+                                setStage("home");
+                                setName("");
+                                setAddress("");
+                                setHasServer(false);
+                                setSelected(false);
+                                setJoined(false);
+                                setCursor({ x: 38, y: 52, visible: false, pressed: false });
+                                if (!await wait(700)) return;
+
+                                if (!await click(targetRefs.current.multiplayer)) return;
+                                if (!await changeStage("list")) return;
+                                if (!await wait(430)) return;
+
+                                if (!await click(targetRefs.current.add)) return;
+                                if (!await changeStage("add")) return;
+
+                                if (!await click(targetRefs.current.name)) return;
+                                setActiveField("name");
+                                if (!await typeText("mingkong", setName)) return;
+
+                                if (!await click(targetRefs.current.address)) return;
+                                setActiveField("address");
+                                if (!await typeText("mk000.cc", setAddress)) return;
+                                if (!await eraseText(setAddress)) return;
+                                if (!await typeText("mk.mingkongtown.top", setAddress)) return;
+
+                                if (!await click(targetRefs.current.done)) return;
+                                setHasServer(true);
+                                if (!await changeStage("list")) return;
+                                if (!await wait(450)) return;
+
+                                if (!await click(targetRefs.current.server)) return;
+                                setSelected(true);
+                                if (!await wait(320)) return;
+                                if (!await click(targetRefs.current.join)) return;
+                                setJoined(true);
+                                if (!await wait(1180)) return;
+                            }
+                        }
+
+                        playTutorial();
+                        return () => {
+                            cancelled = true;
+                            timers.forEach(timer => window.clearTimeout(timer));
+                        };
+                    }, [positionCursor]);
+
+                    const target = key => element => {
+                        targetRefs.current[key] = { current: element };
+                    };
+                    const serverRow = hasServer ? h(motion.button, {
+                        ref: target("server"),
+                        type: "button",
+                        tabIndex: -1,
+                        className: `tutorial-server-card ${selected ? "is-selected" : ""}`,
+                        initial: { opacity: 0, y: 16 },
+                        animate: { opacity: 1, y: 0 },
+                        transition: stageTransition
+                    },
+                        h("span", { className: "tutorial-server-icon", "aria-hidden": "true" }),
+                        h("span", { className: "tutorial-server-copy" },
+                            h("strong", null, "mingkongtown"),
+                            h("span", null, "mk.mingkongtown.top · 1.21.x")
+                        ),
+                        h(PingBars)
+                    ) : h("div", { className: "mc-list-empty" }, "还没有加入的服务器\n点击「添加服务器」开始");
+
+                    const screen = stage === "home"
+                        ? h(motion.div, {
+                            key: "home",
+                            className: "mc-tutorial-content",
+                            initial: { opacity: 0, y: 18 },
+                            animate: { opacity: 1, y: 0 },
+                            exit: { opacity: 0, y: -18 },
+                            transition: stageTransition
+                        },
+                            h("h3", { className: "mc-screen-title" }, "Minecraft: Java Edition"),
+                            h("div", { className: "mc-home-actions" },
+                                h(TutorialButton, { className: "mc-button--wide" }, "单人游戏"),
+                                h(TutorialButton, { buttonRef: target("multiplayer"), className: "mc-button--wide" }, "多人游戏"),
+                                h(TutorialButton, { className: "mc-button--wide" }, "选项…")
+                            ),
+                            h("p", { className: "mc-home-note" }, "明空生存 · 加入教程演示")
+                        )
+                        : stage === "list"
+                            ? h(motion.div, {
+                                key: `list-${hasServer}`,
+                                className: "mc-tutorial-content",
+                                initial: { opacity: 0, y: 18 },
+                                animate: { opacity: 1, y: 0 },
+                                exit: { opacity: 0, y: -18 },
+                                transition: stageTransition
+                            },
+                                h("h3", { className: "mc-screen-title" }, "多人游戏"),
+                                h("div", { className: "mc-server-list" }, serverRow),
+                                h("div", { className: "mc-list-controls" },
+                                    h(TutorialButton, {
+                                        buttonRef: target("join"),
+                                        className: `mc-button--join ${selected ? "" : "mc-button--disabled"}`,
+                                        disabled: !selected
+                                    }, "加入服务器"),
+                                    h(TutorialButton, { className: "mc-button--disabled", disabled: true }, "直接连接"),
+                                    h(TutorialButton, { buttonRef: target("add"), className: "mc-button--wide" }, "添加服务器")
+                                ),
+                                h("p", { className: "mc-screen-footnote" }, hasServer ? "选择 mingkongtown，然后加入服务器" : "服务器列表暂时为空")
+                            )
+                            : h(motion.div, {
+                                key: "add",
+                                className: "mc-tutorial-content",
+                                initial: { opacity: 0, y: 18 },
+                                animate: { opacity: 1, y: 0 },
+                                exit: { opacity: 0, y: -18 },
+                                transition: stageTransition
+                            },
+                                h("h3", { className: "mc-screen-title" }, "添加服务器"),
+                                h("div", { className: "mc-form" },
+                                    h("label", { className: "mc-field-label" },
+                                        "服务器名称",
+                                        h("span", {
+                                            ref: target("name"),
+                                            className: `mc-field-value ${activeField === "name" ? "is-active" : ""}`
+                                        }, name, activeField === "name" && h(motion.i, {
+                                            className: "mc-caret",
+                                            animate: { opacity: [1, 0.15, 1] },
+                                            transition: { duration: 0.75, repeat: Infinity }
+                                        }))
+                                    ),
+                                    h("label", { className: "mc-field-label" },
+                                        "服务器地址",
+                                        h("span", {
+                                            ref: target("address"),
+                                            className: `mc-field-value ${activeField === "address" ? "is-active" : ""}`
+                                        }, address, activeField === "address" && h(motion.i, {
+                                            className: "mc-caret",
+                                            animate: { opacity: [1, 0.15, 1] },
+                                            transition: { duration: 0.75, repeat: Infinity }
+                                        }))
+                                    ),
+                                    h("div", { className: "mc-form-actions" },
+                                        h(TutorialButton, { buttonRef: target("done"), className: "mc-button--join" }, "完成"),
+                                        h(TutorialButton, { className: "mc-button--disabled", disabled: true }, "取消")
+                                    )
+                                )
+                            );
+
+                    return h("div", { className: "join-tutorial" },
+                        h("p", { className: "join-tutorial-heading" },
+                            h("strong", null, "这样加入明空。"),
+                            h("span", null, "Auto tutorial · Loop")
+                        ),
+                        h("div", { ref: rootRef, className: "mc-tutorial-screen" },
+                            h(AnimatePresence, { mode: "wait" }, screen),
+                            h(motion.div, {
+                                className: "mc-tutorial-cursor",
+                                animate: {
+                                    x: cursor.x,
+                                    y: cursor.y,
+                                    opacity: cursor.visible ? 1 : 0,
+                                    scale: cursor.pressed ? 0.84 : 1
+                                },
+                                transition: { duration: cursor.pressed ? 0.12 : 0.46, ease: [0.22, 1, 0.36, 1] }
+                            },
+                                h("svg", { viewBox: "0 0 30 42", "aria-hidden": "true" },
+                                    h("path", { d: "M3 2 L3 34 L11 26 L17 39 L23 36 L17 23 L28 23 Z", fill: "#fff", stroke: "#111", strokeWidth: "2.8", strokeLinejoin: "miter" })
+                                )
+                            ),
+                            joined && h(motion.div, {
+                                className: "mc-tutorial-complete",
+                                initial: { opacity: 0, y: 10 },
+                                animate: { opacity: 1, y: 0 },
+                                transition: stageTransition
+                            }, "已加入服务器！")
+                        )
+                    );
+                }
+
+                fallbackTutorial.stop();
+                createRoot(tutorialMount).render(h(TutorialApp));
+            } catch (error) {
+                console.warn("Framer Motion 加载失败，已启用内建动画教程。", error);
+            }
+        }
     </script>
     <script type="text/plain" id="legacy-react-status-source">
         try {
