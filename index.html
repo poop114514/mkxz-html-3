@@ -1073,18 +1073,21 @@
 
         .manifesto__phase {
             display: inline-grid;
-            grid-template-columns: 2ch auto;
+            grid-template-columns: 3ch max-content;
             align-items: baseline;
-            gap: 7px;
+            gap: 10px;
+            white-space: nowrap;
         }
 
         .manifesto__phase-current {
             position: relative;
             display: block;
+            width: 3ch;
             height: 1.2em;
             overflow: hidden;
             color: var(--cyan);
             font-size: 18px;
+            letter-spacing: 0;
         }
 
         .manifesto__phase-current span {
@@ -1957,11 +1960,47 @@
             }
 
             .mobile-panel .nav-link {
+                padding-left: 30px;
                 opacity: 0;
                 transform: translateX(-24px);
                 transition:
+                    background-color 0.2s ease,
                     opacity 0.2s ease,
                     transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+
+            .mobile-panel .nav-link::before {
+                position: absolute;
+                top: 11px;
+                bottom: 11px;
+                left: 0;
+                width: 6px;
+                content: "";
+                background: var(--cyan);
+                transform: scaleY(0);
+                transform-origin: center;
+                transition:
+                    background-color 0.2s ease,
+                    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+            }
+
+            .mobile-panel .nav-link.active {
+                background: rgba(63, 255, 243, 0.1);
+            }
+
+            .mobile-panel .nav-link.active::before {
+                transform: scaleY(1);
+            }
+
+            .mobile-panel .nav-link:hover,
+            .mobile-panel .nav-link:focus-visible {
+                background: rgba(255, 211, 30, 0.16);
+            }
+
+            .mobile-panel .nav-link:hover::before,
+            .mobile-panel .nav-link:focus-visible::before {
+                background: var(--yellow);
+                transform: scaleY(1);
             }
 
             .mobile-panel.open .nav-link {
@@ -1976,15 +2015,7 @@
             .mobile-panel.open .nav-link:nth-child(5) { transition-delay: 0.20s; }
 
             .mobile-panel .nav-link::after {
-                transition: none;
-            }
-
-            .mobile-panel .nav-link::after {
-                right: auto;
-                bottom: 9px;
-                left: 18px;
-                width: 42px;
-                transform-origin: left;
+                display: none;
             }
 
             .nav-shell {
@@ -2244,7 +2275,7 @@
         <nav id="navbar" class="metro-nav">
             <div class="nav-shell">
                 <a href="#home" class="nav-brand" aria-label="返回明空生存首页">
-                    <span id="nav-brand-icon" class="nav-brand-icon" aria-hidden="true"><i data-lucide="server"></i></span>
+                    <span class="nav-brand-icon" aria-hidden="true"><img src="image/icon.png"></span>
                     <span>明空生存</span>
                 </a>
 
@@ -2465,7 +2496,7 @@
                 <div class="manifesto__inner">
                     <div class="manifesto__topline">
                         <span><strong>//</strong> Mingkong Manifesto</span>
-                        <span class="manifesto__phase" aria-hidden="true"><span class="manifesto__phase-current"><span>01</span><span>02</span><span>03</span></span> / 03 · Scroll to explore</span>
+                        <span class="manifesto__phase" aria-hidden="true"><span class="manifesto__phase-current"><span>01</span><span>02</span><span>03</span></span><span>/ 03 · Scroll to explore</span></span>
                     </div>
 
                     <div class="manifesto__ghost" aria-hidden="true">长期生存</div>
@@ -3350,7 +3381,7 @@
                     } else if (stage === "list") {
                         const server = hasServer
                             ? `<button type="button" tabindex="-1" data-tutorial-target="server" class="tutorial-server-card ${selected ? "is-selected" : ""}">
-                                <span class="tutorial-server-icon"></span><span class="tutorial-server-copy"><strong>mingkongtown</strong><span>mk.mingkongtown.top · 1.21.x</span></span>${ping}
+                                <span class="tutorial-server-icon"></span><span class="tutorial-server-copy"><strong>mingkongtown</strong><span>mk.mingkongtown.top · 26.X</span></span>${ping}
                             </button>`
                             : "<div class=\"mc-list-empty\">还没有加入的服务器\n点击「添加服务器」开始</div>";
                         content.innerHTML = `
