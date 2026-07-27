@@ -10,359 +10,1173 @@
     <link rel="apple-touch-icon" href="image/icon.png" sizes="180x180">
     <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
     <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
-    <link rel="manifest" href="image/icon.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="toon-ui.css">
     <style>
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f8fafc;
-            background-position: 0 0, 10px 10px;
-            background-image: radial-gradient(#e1d3cb 20%, transparent 20%), radial-gradient(#cbd5e1 20%, transparent 20%);
-            background-size: 20px 20px;
-            cursor: url('cursors/ani1043.cur'), auto;
+        @font-face {
+            font-family: "MingKong Pixel";
+            src: url("fonts/pixel.ttf") format("truetype");
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
         }
 
-        #navbar {
-            transition: transform 0.3s ease;
+        :root {
+            --yellow: #ffd31e;
+            --cyan: #3ffff3;
+            --ink: #111111;
+            --paper: #f6f2e8;
+            --white: #ffffff;
+            --green: #55d98b;
+            --shadow: 7px 7px 0 var(--ink);
+        }
+
+        * {
+            box-sizing: border-box;
+            border-radius: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: "MingKong Pixel", "SFMono-Regular", Consolas, "Noto Sans Mono CJK SC", "Microsoft YaHei", monospace;
+            cursor: url("cursors/ani1043.cur"), auto;
+            overflow-x: hidden;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        a,
+        button {
+            color: inherit;
+            cursor: inherit;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        ::selection {
+            color: var(--ink);
+            background: var(--cyan);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--paper);
+            border-left: 2px solid var(--ink);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--ink);
+            border: 2px solid var(--paper);
+        }
+
+        .intro {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100svh;
+            overflow: hidden;
+            background:
+                linear-gradient(rgba(17, 17, 17, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(17, 17, 17, 0.045) 1px, transparent 1px),
+                var(--white);
+            background-size: 24px 24px;
+            border-bottom: 6px solid var(--ink);
+        }
+
+        .intro::before,
+        .intro::after {
+            position: absolute;
+            z-index: 0;
+            content: "";
+            pointer-events: none;
+        }
+
+        .intro::before {
+            top: 8%;
+            right: 7%;
+            width: clamp(80px, 11vw, 150px);
+            aspect-ratio: 1;
+            background: var(--yellow);
+            border: 4px solid var(--ink);
+            box-shadow: 14px 14px 0 var(--cyan);
+            transform: rotate(4deg);
+            opacity: .72;
+        }
+
+        .intro::after {
+            bottom: 12%;
+            left: 5%;
+            width: 52px;
+            height: 52px;
+            background: var(--cyan);
+            border: 4px solid var(--ink);
+            box-shadow: 12px 0 0 var(--ink), 12px 12px 0 var(--yellow);
+        }
+
+        .intro-corner {
+            position: absolute;
+            z-index: 2;
+            top: clamp(18px, 3vw, 38px);
+            left: clamp(18px, 4vw, 60px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .intro-corner::before {
+            width: 12px;
+            height: 12px;
+            content: "";
+            background: var(--green);
+            border: 2px solid var(--ink);
+        }
+
+        .intro-stage {
+            position: relative;
+            z-index: 1;
+            width: min(1100px, calc(100% - 48px));
+            min-height: 100vh;
+            min-height: 100svh;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 72px 0 96px;
+        }
+
+        .face-line {
+            min-height: 1.8em;
+            margin: 0 0 clamp(16px, 2.5vw, 32px);
+            font-size: clamp(22px, 3vw, 42px);
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .face-chip {
+            display: inline-block;
+            padding: 8px 12px;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 3px solid var(--ink);
+            box-shadow: 5px 5px 0 var(--ink);
+        }
+
+        .typing-copy {
+            max-width: 1020px;
+            margin: 0;
+            font-size: clamp(29px, 4.45vw, 62px);
+            font-weight: 950;
+            line-height: 1.3;
+            letter-spacing: -0.07em;
+            text-wrap: balance;
+        }
+
+        .typed-line {
+            display: block;
+        }
+
+        .input-block {
+            position: relative;
+            display: inline;
+            padding: 0.05em 0.1em;
+            color: var(--white);
+            background: var(--ink);
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
+        .input-block::after {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 0.13em;
+            content: "";
+            border-top: 0.18em solid transparent;
+            border-bottom: 0.18em solid transparent;
+            border-right: 0.24em solid var(--ink);
+            animation: cursor-blink 0.75s steps(1) infinite;
+        }
+
+        .intro-label {
+            margin: clamp(22px, 4vw, 46px) 0 0;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .scroll-cue {
+            position: absolute;
+            z-index: 3;
+            right: 0;
+            bottom: 30px;
+            left: 0;
+            width: max-content;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: 0.16em;
+        }
+
+        .scroll-cue i {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            color: var(--ink);
+            background: var(--cyan);
+            border: 3px solid var(--ink);
+            font-size: 22px;
+            animation: scroll-bob 1.15s steps(3, end) infinite;
+        }
+
+        @keyframes cursor-blink {
+            50% { opacity: 0; }
+        }
+
+        @keyframes scroll-bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        .site-nav {
+            position: sticky;
+            z-index: 50;
+            top: 0;
+            color: var(--ink);
+            background: var(--white);
+            border-bottom: 3px solid var(--ink);
+        }
+
+        .nav-shell {
+            width: min(1180px, calc(100% - 32px));
+            min-height: 72px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        .nav-brand {
+            grid-column: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-self: start;
+            gap: 10px;
+            min-width: 0;
+            font-size: 18px;
+            font-weight: 950;
+            letter-spacing: -0.06em;
+        }
+
+        .nav-brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: cover;
+            image-rendering: pixelated;
+            border: 2px solid var(--ink);
+        }
+
+        .nav-links {
+            grid-column: 2;
+            display: flex;
+            align-items: center;
+            font-weight: 950;
         }
 
         .nav-link {
-            transition: all 0.2s ease-in-out;
+            position: relative;
+            min-height: 52px;
+            padding: 0 17px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
         }
 
-        .nav-link.active {
-            color: #38BDF8 !important;
-            border-bottom: 4px solid #38BDF8;
-            transform: translateY(-2px);
+        .nav-link::after {
+            position: absolute;
+            right: 17px;
+            bottom: 8px;
+            left: 17px;
+            height: 4px;
+            content: "";
+            background: var(--yellow);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.18s steps(2, end);
         }
 
-        .nav-link-mobile {
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-status {
+            grid-column: 3;
+            display: flex;
+            align-items: center;
+            justify-self: end;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+        }
+
+        .nav-status::before {
+            width: 11px;
+            height: 11px;
+            content: "";
+            background: var(--yellow);
+            border: 2px solid var(--ink);
+        }
+
+        .nav-toggle {
+            display: none;
+            grid-column: 3;
+            justify-self: end;
+            width: 48px;
+            height: 48px;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 3px solid var(--ink);
+            font-size: 24px;
+        }
+
+        .mobile-menu {
+            display: none;
+            border-top: 3px solid var(--ink);
+        }
+
+        .mobile-menu.open {
             display: block;
-            padding: 0.75rem 1rem;
-            border: 3px solid transparent;
-            transition: all 0.15s ease-in-out;
         }
 
-        .nav-link-mobile:hover,
-        .nav-link-mobile.active {
-            color: #38BDF8 !important;
-            background-color: #f0f9ff;
-            border-color: #000;
+        .mobile-menu .nav-link {
+            width: 100%;
+            border-bottom: 2px solid var(--ink);
         }
 
-        #nav-mobile-menu {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+        .page-shell {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
         }
 
-        #nav-mobile-menu.open {
-            max-height: 400px;
-            opacity: 1;
-            padding-bottom: 0.75rem;
+        .sponsor-hero {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            min-height: 520px;
+            border-right: 5px solid var(--ink);
+            border-bottom: 5px solid var(--ink);
+            border-left: 5px solid var(--ink);
         }
 
-        .toon-border {
-            border: 3px solid #000;
-        }
-
-        .toon-card {
-            border: 3px solid #000;
-            background-color: #fff;
-            transition: transform 0.2s;
-        }
-
-        .toon-btn {
-            border: 3px solid #000;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: all 0.15s;
-            display: inline-flex;
-            align-items: center;
+        .sponsor-hero__copy {
+            padding: clamp(42px, 7vw, 88px);
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            cursor: pointer;
+            background: var(--yellow);
+            border-right: 5px solid var(--ink);
         }
 
-        .toon-btn:active {
-            transform: translate(0, 0);
+        .eyebrow {
+            width: max-content;
+            margin: 0 0 24px;
+            padding: 8px 11px;
+            color: var(--white);
+            background: var(--ink);
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: 0.15em;
         }
 
-        .toon-btn-primary {
-            background-color: #38BDF8;
-            color: #000;
+        .sponsor-hero h1 {
+            max-width: 740px;
+            margin: 0;
+            font-size: clamp(42px, 7vw, 88px);
+            font-weight: 950;
+            line-height: 0.98;
+            letter-spacing: -0.09em;
         }
 
-        .toon-btn-secondary {
-            background-color: #fff;
-            color: #000;
+        .sponsor-hero p {
+            max-width: 720px;
+            margin: 28px 0 0;
+            font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            font-size: clamp(16px, 1.7vw, 20px);
+            font-weight: 750;
+            line-height: 1.8;
         }
 
-        .toon-btn-dark {
-            background-color: #000;
-            color: #fff;
+        .sponsor-hero__visual {
+            position: relative;
+            min-height: 390px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background:
+                linear-gradient(45deg, rgba(17,17,17,.08) 25%, transparent 25%, transparent 75%, rgba(17,17,17,.08) 75%),
+                linear-gradient(45deg, rgba(17,17,17,.08) 25%, transparent 25%, transparent 75%, rgba(17,17,17,.08) 75%),
+                var(--cyan);
+            background-position: 0 0, 20px 20px;
+            background-size: 40px 40px;
         }
 
-        .toon-badge {
-            border: 2px solid #000;
-            padding: 0.25rem 0.75rem;
-            font-weight: 800;
-            font-size: 0.75rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
+        .pixel-heart {
+            position: relative;
+            width: 176px;
+            height: 144px;
+            margin-top: 22px;
+            background: #ff5d73;
+            border: 6px solid var(--ink);
+            box-shadow: 12px 12px 0 var(--ink);
+            clip-path: polygon(0 20%, 15% 20%, 15% 5%, 40% 5%, 40% 20%, 60% 20%, 60% 5%, 85% 5%, 85% 20%, 100% 20%, 100% 60%, 85% 60%, 85% 75%, 70% 75%, 70% 90%, 55% 90%, 55% 100%, 45% 100%, 45% 90%, 30% 90%, 30% 75%, 15% 75%, 15% 60%, 0 60%);
+            animation: heart-beat 1.8s steps(2, end) infinite;
         }
 
-        .toon-alert {
-            border: 3px solid #000;
-            padding: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
+        .pixel-heart::after {
+            position: absolute;
+            top: 27px;
+            left: 30px;
+            width: 26px;
+            height: 20px;
+            content: "";
+            background: var(--white);
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .visual-tag {
+            position: absolute;
+            right: 22px;
+            bottom: 22px;
+            padding: 9px 12px;
+            color: var(--white);
+            background: var(--ink);
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: 0.1em;
         }
 
-        .section-title::before {
-            content: '#';
-            color: #38BDF8;
+        @keyframes heart-beat {
+            50% { transform: scale(1.08); }
         }
 
-        .support-list li {
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-start;
-            color: #475569;
+        .section {
+            padding: clamp(78px, 10vw, 130px) 0;
+            border-bottom: 4px solid var(--ink);
+        }
+
+        .section--white {
+            background: var(--white);
+        }
+
+        .section--cyan {
+            background: var(--cyan);
+        }
+
+        .section-head {
+            display: grid;
+            grid-template-columns: 1fr minmax(280px, 0.78fr);
+            gap: 40px;
+            align-items: end;
+            margin-bottom: clamp(44px, 6vw, 72px);
+        }
+
+        .section-kicker {
+            margin: 0 0 16px;
+            font-size: 12px;
+            font-weight: 950;
+            letter-spacing: 0.16em;
+        }
+
+        .section-head h2,
+        .donate-copy h2,
+        .contact-copy h2 {
+            margin: 0;
+            font-size: clamp(38px, 5vw, 66px);
+            font-weight: 950;
+            line-height: 1;
+            letter-spacing: -0.08em;
+        }
+
+        .section-head > p,
+        .donate-copy > p,
+        .contact-copy > p {
+            margin: 0;
+            font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            font-size: 17px;
             font-weight: 700;
+            line-height: 1.8;
+        }
+
+        .reason-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 22px;
+        }
+
+        .pixel-card {
+            position: relative;
+            min-height: 245px;
+            padding: 28px;
+            background: var(--paper);
+            border: 4px solid var(--ink);
+            box-shadow: var(--shadow);
+            transition: transform 0.18s steps(2, end), box-shadow 0.18s steps(2, end);
+        }
+
+        .pixel-card:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .pixel-card:nth-child(-n+3) {
+            grid-column: span 2;
+        }
+
+        .pixel-card:nth-child(n+4) {
+            grid-column: span 3;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 8px 10px;
+            color: var(--white);
+            background: var(--ink);
+            font-size: 12px;
+            font-weight: 950;
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+            margin-bottom: 24px;
+            display: grid;
+            place-items: center;
+            background: var(--cyan);
+            border: 3px solid var(--ink);
+            font-size: 25px;
+        }
+
+        .pixel-card:nth-child(even) .card-icon {
+            background: var(--yellow);
+        }
+
+        .pixel-card h3 {
+            margin: 0 0 12px;
+            font-size: 23px;
+            font-weight: 950;
+        }
+
+        .pixel-card p {
+            margin: 0;
+            color: #414141;
+            font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            font-size: 15px;
+            font-weight: 650;
+            line-height: 1.75;
+        }
+
+        .donate-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(340px, 1.1fr);
+            gap: clamp(34px, 7vw, 90px);
+            align-items: center;
+        }
+
+        .donate-copy > p {
+            margin-top: 26px;
+        }
+
+        .usage-list {
+            margin: 34px 0 0;
+            padding: 0;
+            list-style: none;
+            border-top: 3px solid var(--ink);
+        }
+
+        .usage-list li {
+            padding: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 3px solid var(--ink);
+            font-weight: 900;
+        }
+
+        .usage-list i {
+            width: 28px;
+            color: var(--ink);
+            font-size: 20px;
+        }
+
+        .donate-card {
+            padding: clamp(26px, 4vw, 48px);
+            display: grid;
+            grid-template-columns: minmax(190px, 260px) 1fr;
+            gap: 30px;
+            align-items: center;
+            background: var(--white);
+            border: 5px solid var(--ink);
+            box-shadow: 12px 12px 0 var(--ink);
+        }
+
+        .qr-frame {
+            position: relative;
+            padding: 10px;
+            background: var(--white);
+            border: 4px solid var(--ink);
+        }
+
+        .qr-frame::before,
+        .qr-frame::after {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            content: "";
+            background: var(--yellow);
+            border: 3px solid var(--ink);
+        }
+
+        .qr-frame::before {
+            top: -11px;
+            left: -11px;
+        }
+
+        .qr-frame::after {
+            right: -11px;
+            bottom: -11px;
+            background: var(--cyan);
+        }
+
+        .qr-frame img {
+            width: 100%;
+            aspect-ratio: 5 / 7;
+            display: block;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .donate-meta .eyebrow {
+            margin-bottom: 18px;
+            background: var(--yellow);
+            color: var(--ink);
+            border: 2px solid var(--ink);
+        }
+
+        .donate-meta h3 {
+            margin: 0;
+            font-size: clamp(25px, 3vw, 36px);
+            font-weight: 950;
+            line-height: 1.1;
+        }
+
+        .donate-meta p {
+            margin: 16px 0 24px;
+            color: #444;
+            font-family: "Inter", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+            font-weight: 650;
             line-height: 1.7;
         }
 
-        .qr-code-image {
-            width: min(100%, 250px);
-            height: 350px;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-            background-color: #f1f5f9;
-            border: 3px solid #000;
+        .pixel-button {
+            min-height: 52px;
+            padding: 0 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--ink);
+            background: var(--yellow);
+            border: 3px solid var(--ink);
+            box-shadow: 5px 5px 0 var(--ink);
+            font-size: 15px;
+            font-weight: 950;
+            transition: transform .15s steps(2, end), box-shadow .15s steps(2, end);
         }
 
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; border-left: 2px solid #000; }
-        ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #fff; }
-        ::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
-    </style>
-</head>
-<body class="min-h-screen text-slate-900">
+        .pixel-button:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0 var(--ink);
+        }
 
-    <nav id="navbar" class="sticky top-0 z-50 bg-white border-b-4 border-black">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-2 md:justify-center">
-                <a href="index.html#home" class="md:hidden font-black text-lg hover:text-sky-500">明空生存</a>
+        .contact-panel {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 42px;
+            align-items: center;
+            padding: clamp(36px, 6vw, 72px);
+            background: var(--yellow);
+            border: 5px solid var(--ink);
+            box-shadow: 12px 12px 0 var(--ink);
+        }
 
-                <button id="nav-toggle" type="button" class="md:hidden toon-btn toon-btn-secondary p-2 min-w-[44px] min-h-[44px]" aria-label="打开菜单" aria-expanded="false" aria-controls="nav-mobile-menu">
-                    <i class="bi bi-list text-2xl" id="nav-toggle-icon"></i>
-                </button>
+        .contact-copy > p {
+            max-width: 740px;
+            margin-top: 20px;
+        }
 
-                <div class="hidden md:flex gap-6 font-bold">
-                    <a href="index.html#home" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">关于我们</a>
-                    <a href="index.html#features" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">服务器特点</a>
-                    <a href="index.html#contact" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">联系我们</a>
-                    <a href="index.html#join" class="nav-link font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">加入服务器</a>
-                    <a href="zanzhu.html" class="nav-link active font-black text-lg hover:text-sky-500 hover:underline decoration-4 decoration-yellow-300 underline-offset-4">赞助我们</a>
-                </div>
-            </div>
+        .contact-code {
+            margin-top: 18px;
+            display: inline-block;
+            padding: 9px 12px;
+            color: var(--white);
+            background: var(--ink);
+            font-size: 17px;
+            font-weight: 950;
+            letter-spacing: .08em;
+        }
 
-            <div id="nav-mobile-menu" class="md:hidden border-t-[3px] border-black">
-                <div class="flex flex-col gap-1 pt-2 font-bold">
-                    <a href="index.html#home" class="nav-link nav-link-mobile font-black text-base">关于我们</a>
-                    <a href="index.html#features" class="nav-link nav-link-mobile font-black text-base">服务器特点</a>
-                    <a href="index.html#contact" class="nav-link nav-link-mobile font-black text-base">联系我们</a>
-                    <a href="index.html#join" class="nav-link nav-link-mobile font-black text-base">加入服务器</a>
-                    <a href="zanzhu.html" class="nav-link nav-link-mobile active font-black text-base">赞助我们</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+        .contact-panel .pixel-button {
+            min-width: 190px;
+            background: var(--cyan);
+        }
 
-    <main class="container mx-auto flex-1 p-4 md:p-8 pt-6 md:pt-16">
-        <section class="toon-card p-8 md:p-12 text-center mb-12">
-            <span class="toon-badge bg-yellow-200 text-yellow-900 mb-6">SUPPORT / 赞助我们</span>
-            <h1 class="text-4xl md:text-6xl font-black text-gray-800 mb-6 leading-tight">
-                支持《我的世界》明空原版生存服
-            </h1>
-            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 font-bold leading-8">
-                您的支持会帮助我们保持服务器稳定运行，提升性能、防护和社区活动质量，让更多玩家拥有流畅的生存体验。
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-                <a href="#donate" class="toon-btn toon-btn-primary px-8 py-4 text-xl">
-                    <i data-lucide="heart-handshake" class="w-6 h-6 mr-2"></i>立即支持
-                </a>
-                <a href="index.html" class="toon-btn toon-btn-secondary px-8 py-4 text-xl">
-                    <i data-lucide="home" class="w-6 h-6 mr-2"></i>返回主页
-                </a>
-            </div>
-        </section>
+        .site-footer {
+            padding: 34px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            flex-wrap: wrap;
+            color: var(--white);
+            background: var(--ink);
+            font-size: 13px;
+            font-weight: 900;
+        }
 
-        <section class="toon-card p-8 md:p-12 mb-12">
-            <h2 class="section-title text-3xl md:text-4xl">为什么支持我们？</h2>
-            <p class="text-slate-600 font-bold text-lg leading-8 mb-8">
-                为了提升《我的世界》明空原版生存服的游戏体验和服务器性能，我们需要您的支持。赞助会用于服务器配置、日常维护、防护和玩法更新。
-            </p>
+        .site-footer a:hover {
+            color: var(--cyan);
+        }
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="toon-card p-6">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="zap" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">更流畅</h3>
-                    <p class="text-slate-600 font-medium">减少延迟与卡顿，让红石、生存和多人互动更稳定。</p>
-                </div>
-                <div class="toon-card p-6">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="sparkles" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">持续更新</h3>
-                    <p class="text-slate-600 font-medium">支持新功能、玩法维护和更长期的内容规划。</p>
-                </div>
-                <div class="toon-card p-6">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="party-popper" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">社区活动</h3>
-                    <p class="text-slate-600 font-medium">让更多玩家参与活动，也让服务器社区更有活力。</p>
-                </div>
-                <div class="toon-card p-6">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="wrench" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">技术维护</h3>
-                    <p class="text-slate-600 font-medium">保障日常运维、问题排查和服务器长期稳定性。</p>
-                </div>
-                <div class="toon-card p-6 md:col-span-2 lg:col-span-1">
-                    <div class="bg-sky-300 border-2 border-black p-2 mb-4 inline-flex"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
-                    <h3 class="text-xl font-black mb-2">高级防护</h3>
-                    <p class="text-slate-600 font-medium">用于更高级的 DDoS 防护，尽量减少异常攻击对游玩的影响。</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="donate" class="toon-card p-8 md:p-12 mb-12">
-            <h2 class="section-title text-3xl md:text-4xl">如何支持我们？</h2>
-            <div class="toon-alert bg-blue-50 text-blue-900 mb-8">
-                <i data-lucide="info" class="w-8 h-8 flex-shrink-0 stroke-[2.5px]"></i>
-                <div>
-                    <h3 class="font-black text-lg">赞助说明</h3>
-                    <p class="font-medium">您的支持能够帮助我们购买更高配置的服务器设备，并不断优化游戏体验。赞助完全自愿，感谢每一份心意。</p>
-                </div>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-8">
-                <article class="toon-card p-6 text-center flex flex-col">
-                    <div class="flex items-center justify-center gap-3 mb-4">
-                        <span class="toon-badge bg-yellow-200 text-yellow-900">xhGG</span>
-                        <h3 class="text-2xl font-black">服务器赞助</h3>
-                    </div>
-                    <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png"
-                         alt="xhGG 收款二维码"
-                         class="qr-code-image"
-                         onerror="this.onerror=null;this.src='https://placehold.co/250x350/cccccc/333333?text=QR+Code+Unavailable';">
-                    <p class="text-slate-600 font-bold leading-7 mt-5">扫描二维码进行捐赠，被赞助者：xhGG。</p>
-                    <a href="https://afdian.net/@xhGG" target="_blank" rel="noopener" class="toon-btn toon-btn-primary px-5 py-3 mt-5 self-center">
-                        <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>爱发电赞助
-                    </a>
-                </article>
-                <article class="toon-card p-6 text-center flex flex-col">
-                    <div class="flex items-center justify-center gap-3 mb-4">
-                        <span class="toon-badge bg-yellow-200 text-yellow-900">xhGG</span>
-                        <h3 class="text-2xl font-black">服务器赞助</h3>
-                    </div>
-                    <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png"
-                         alt="xhGG 收款二维码"
-                         class="qr-code-image"
-                         onerror="this.onerror=null;this.src='https://placehold.co/250x350/cccccc/333333?text=QR+Code+Unavailable';">
-                    <p class="text-slate-600 font-bold leading-7 mt-5">扫描二维码进行捐赠，被赞助者：xhGG。</p>
-                    <a href="https://afdian.net/@xhGG" target="_blank" rel="noopener" class="toon-btn toon-btn-primary px-5 py-3 mt-5 self-center">
-                        <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>爱发电赞助
-                    </a>
-                </article>
-            </div>
-        </section>
-
-        <section class="toon-card p-8 md:p-12 mb-12">
-            <h2 class="section-title text-3xl md:text-4xl">联系与反馈</h2>
-            <div class="grid md:grid-cols-[1fr_auto] gap-6 items-center">
-                <div>
-                    <p class="text-slate-600 font-bold text-lg leading-8 mb-4">
-                        如果您有任何关于捐赠的疑问，或需要进一步了解服务器的运营和规划，欢迎通过服务器 QQ 群联系我们。
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="toon-badge bg-slate-200 text-slate-900">服务器 QQ 群</span>
-                        <code class="toon-badge bg-yellow-200 text-yellow-900">855713559</code>
-                    </div>
-                </div>
-                <a href="https://jq.qq.com/?_wv=1027&k=855713559" target="_blank" rel="noopener" class="toon-btn toon-btn-dark px-6 py-4 text-lg">
-                    <i data-lucide="message-square" class="w-5 h-5 mr-2"></i>加入 QQ 群
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="w-full text-center py-10 border-t-4 border-black text-slate-500 font-bold mt-12 toon-btn-footer">
-        <p>&copy; 2026 我的世界服务器. 保留所有权利。</p>
-        <div class="flex justify-center gap-4 my-2 flex-wrap">
-            <a href="ys.html" class="font-bold hover:text-sky-500">隐私政策</a>
-            <span>|</span>
-            <a href="index.html" class="font-bold hover:text-sky-500">返回主页</a>
-            <span>|</span>
-            <a href="https://bootswatch.com/brite/" class="font-bold hover:text-sky-500">设计参考</a>
-        </div>
-    </footer>
-
-    <script>
-        lucide.createIcons();
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbar = document.getElementById('navbar');
-            const navToggle = document.getElementById('nav-toggle');
-            const navMobileMenu = document.getElementById('nav-mobile-menu');
-            const navToggleIcon = document.getElementById('nav-toggle-icon');
-            let mobileMenuOpen = false;
-            let lastScrollTop = 0;
-
-            function setMobileMenu(open) {
-                mobileMenuOpen = open;
-                navMobileMenu.classList.toggle('open', open);
-                navToggle.setAttribute('aria-expanded', open);
-                navToggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
-                navToggleIcon.className = open ? 'bi bi-x-lg text-2xl' : 'bi bi-list text-2xl';
-                document.body.style.overflow = open ? 'hidden' : '';
+        @media (max-width: 920px) {
+            .nav-shell {
+                grid-template-columns: 1fr auto;
             }
 
-            navToggle.addEventListener('click', () => setMobileMenu(!mobileMenuOpen));
+            .nav-links,
+            .nav-status {
+                display: none;
+            }
 
-            navMobileMenu.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => setMobileMenu(false));
-            });
+            .nav-toggle {
+                display: block;
+                grid-column: 2;
+            }
 
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && mobileMenuOpen) setMobileMenu(false);
-            });
+            .sponsor-hero,
+            .section-head,
+            .donate-layout {
+                grid-template-columns: 1fr;
+            }
 
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 768 && mobileMenuOpen) setMobileMenu(false);
-            });
+            .sponsor-hero__copy {
+                border-right: 0;
+                border-bottom: 5px solid var(--ink);
+            }
 
-            window.addEventListener('scroll', () => {
-                if (mobileMenuOpen) return;
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                navbar.style.transform = scrollTop > lastScrollTop && scrollTop > navbar.offsetHeight ? 'translateY(-100%)' : 'translateY(0)';
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-            }, false);
+            .sponsor-hero__visual {
+                min-height: 360px;
+            }
+
+            .section-head {
+                align-items: start;
+            }
+
+            .reason-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pixel-card:nth-child(n) {
+                grid-column: span 1;
+            }
+
+            .pixel-card:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .intro::before {
+                top: 10%;
+                right: -28px;
+                opacity: .45;
+            }
+
+            .intro::after {
+                bottom: 17%;
+                left: -20px;
+                opacity: .6;
+            }
+
+            .intro-stage {
+                width: min(100% - 36px, 1100px);
+            }
+
+            .typing-copy {
+                font-size: clamp(28px, 9vw, 48px);
+                line-height: 1.38;
+                letter-spacing: -0.08em;
+            }
+
+            .page-shell {
+                width: min(100% - 20px, 1180px);
+            }
+
+            .sponsor-hero {
+                border-width: 3px;
+            }
+
+            .sponsor-hero__copy {
+                padding: 48px 24px;
+                border-bottom-width: 3px;
+            }
+
+            .sponsor-hero h1 {
+                font-size: clamp(43px, 15vw, 68px);
+            }
+
+            .reason-grid,
+            .donate-card,
+            .contact-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .pixel-card:nth-child(n) {
+                grid-column: 1;
+            }
+
+            .donate-card {
+                box-shadow: 7px 7px 0 var(--ink);
+            }
+
+            .qr-frame {
+                width: min(100%, 270px);
+                margin: auto;
+            }
+
+            .contact-panel {
+                align-items: start;
+                box-shadow: 7px 7px 0 var(--ink);
+            }
+
+            .contact-panel .pixel-button {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section id="intro" class="intro" aria-label="为什么支持我们">
+        <div class="intro-corner">MINGKONG / SUPPORT</div>
+        <div id="intro-motion-root" class="intro-stage">
+            <p class="face-line"><span class="face-chip">(｡•̀ᴗ-)✧</span></p>
+            <h1 class="typing-copy">
+                <span class="typed-line">为了提升《我的世界》明空原版生存服的游戏体验和服务器性能，我们需要您的支持。</span>
+                <span class="typed-line">赞助会用于服务器配置、日常维护、防护和玩法更新。</span>
+            </h1>
+            <p class="intro-label">WHY SUPPORT US? / 为什么支持我们？</p>
+        </div>
+        <a class="scroll-cue" href="#sponsor-content" aria-label="向下滚动到赞助页面">
+            <span>向下看看</span>
+            <i class="bi bi-arrow-down" aria-hidden="true"></i>
+        </a>
+    </section>
+
+    <div id="sponsor-content">
+        <nav class="site-nav" aria-label="主导航">
+            <div class="nav-shell">
+                <a class="nav-brand" href="index.html#home">
+                    <img src="image/icon.png" alt="明空生存图标">
+                    <span>明空生存</span>
+                </a>
+                <div class="nav-links">
+                    <a class="nav-link" href="index.html#home">关于我们</a>
+                    <a class="nav-link" href="index.html#features">服务器特点</a>
+                    <a class="nav-link" href="index.html#contact">联系我们</a>
+                    <a class="nav-link" href="index.html#join">加入服务器</a>
+                    <a class="nav-link active" href="zanzhu.html" aria-current="page">赞助我们</a>
+                </div>
+                <div class="nav-status">SUPPORT MODE</div>
+                <button id="nav-toggle" class="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false" aria-controls="mobile-menu">
+                    <i class="bi bi-list" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" class="mobile-menu">
+                <a class="nav-link" href="index.html#home">关于我们</a>
+                <a class="nav-link" href="index.html#features">服务器特点</a>
+                <a class="nav-link" href="index.html#contact">联系我们</a>
+                <a class="nav-link" href="index.html#join">加入服务器</a>
+                <a class="nav-link active" href="zanzhu.html" aria-current="page">赞助我们</a>
+            </div>
+        </nav>
+
+        <main>
+            <div class="page-shell sponsor-hero">
+                <div class="sponsor-hero__copy">
+                    <p class="eyebrow">SUPPORT / 赞助我们</p>
+                    <h1>为热爱<br>加一格电</h1>
+                    <p>每一份支持，都会变成更稳定的服务器、更安心的防护，以及下一次让大家相聚的社区活动。</p>
+                </div>
+                <div class="sponsor-hero__visual" aria-hidden="true">
+                    <div class="pixel-heart"></div>
+                    <span class="visual-tag">HP + 1 / THANK YOU!</span>
+                </div>
+            </div>
+
+            <section class="section section--white" aria-labelledby="reason-title">
+                <div class="page-shell">
+                    <header class="section-head">
+                        <div>
+                            <p class="section-kicker">01 / WHY SUPPORT US?</p>
+                            <h2 id="reason-title">为什么支持我们？</h2>
+                        </div>
+                        <p>为了提升《我的世界》明空原版生存服的游戏体验和服务器性能，我们需要您的支持。赞助会用于服务器配置、日常维护、防护和玩法更新。</p>
+                    </header>
+
+                    <div class="reason-grid">
+                        <article class="pixel-card">
+                            <span class="card-number">01</span>
+                            <span class="card-icon"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i></span>
+                            <h3>更流畅</h3>
+                            <p>减少延迟与卡顿，让红石、生存和多人互动更稳定。</p>
+                        </article>
+                        <article class="pixel-card">
+                            <span class="card-number">02</span>
+                            <span class="card-icon"><i class="bi bi-stars" aria-hidden="true"></i></span>
+                            <h3>持续更新</h3>
+                            <p>支持新功能、玩法维护和更长期的内容规划。</p>
+                        </article>
+                        <article class="pixel-card">
+                            <span class="card-number">03</span>
+                            <span class="card-icon"><i class="bi bi-balloon-heart-fill" aria-hidden="true"></i></span>
+                            <h3>社区活动</h3>
+                            <p>让更多玩家参与活动，也让服务器社区更有活力。</p>
+                        </article>
+                        <article class="pixel-card">
+                            <span class="card-number">04</span>
+                            <span class="card-icon"><i class="bi bi-wrench-adjustable" aria-hidden="true"></i></span>
+                            <h3>技术维护</h3>
+                            <p>保障日常运维、问题排查和服务器长期稳定性。</p>
+                        </article>
+                        <article class="pixel-card">
+                            <span class="card-number">05</span>
+                            <span class="card-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                            <h3>高级防护</h3>
+                            <p>用于更高级的 DDoS 防护，尽量减少异常攻击对游玩的影响。</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="donate" class="section section--cyan" aria-labelledby="donate-title">
+                <div class="page-shell donate-layout">
+                    <div class="donate-copy">
+                        <p class="section-kicker">02 / HOW TO SUPPORT?</p>
+                        <h2 id="donate-title">如何支持我们？</h2>
+                        <p>赞助完全自愿。我们会把支持优先用于影响所有玩家的基础设施，并持续优化游戏体验。感谢每一份心意。</p>
+                        <ul class="usage-list">
+                            <li><i class="bi bi-server" aria-hidden="true"></i>服务器配置升级</li>
+                            <li><i class="bi bi-shield-lock" aria-hidden="true"></i>安全防护与日常运维</li>
+                            <li><i class="bi bi-controller" aria-hidden="true"></i>玩法更新与社区活动</li>
+                        </ul>
+                    </div>
+
+                    <article class="donate-card">
+                        <div class="qr-frame">
+                            <img src="image/5E2A1CE8ED0E36EA4CB3B828525BFDC6.png" alt="xhGG 收款二维码">
+                        </div>
+                        <div class="donate-meta">
+                            <p class="eyebrow">PLAYER / xhGG</p>
+                            <h3>服务器赞助</h3>
+                            <p>扫描二维码进行捐赠，或前往爱发电支持。被赞助者：xhGG。</p>
+                            <a class="pixel-button" href="https://afdian.net/@xhGG" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                爱发电赞助
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section section--white" aria-labelledby="contact-title">
+                <div class="page-shell contact-panel">
+                    <div class="contact-copy">
+                        <p class="section-kicker">03 / CONTACT</p>
+                        <h2 id="contact-title">还有问题？<br>来群里聊聊。</h2>
+                        <p>如果你对赞助、服务器运营或后续规划有疑问，欢迎通过服务器 QQ 群联系我们。</p>
+                        <code class="contact-code">QQ群：855713559</code>
+                    </div>
+                    <a class="pixel-button" href="https://jq.qq.com/?_wv=1027&amp;k=855713559" target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-chat-square-dots-fill" aria-hidden="true"></i>
+                        加入 QQ 群
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <span>© 2026 明空原版生存服务器</span>
+            <a href="ys.html">隐私政策</a>
+            <a href="index.html">返回主页</a>
+        </footer>
+    </div>
+
+    <script>
+        const navToggle = document.getElementById("nav-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        function setMobileMenu(open) {
+            mobileMenu.classList.toggle("open", open);
+            navToggle.setAttribute("aria-expanded", String(open));
+            navToggle.setAttribute("aria-label", open ? "关闭菜单" : "打开菜单");
+            navToggle.innerHTML = `<i class="bi ${open ? "bi-x-lg" : "bi-list"}" aria-hidden="true"></i>`;
+            document.body.classList.toggle("menu-open", open);
+        }
+
+        navToggle.addEventListener("click", () => {
+            setMobileMenu(navToggle.getAttribute("aria-expanded") !== "true");
         });
+
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => setMobileMenu(false));
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") setMobileMenu(false);
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 920) setMobileMenu(false);
+        });
+    </script>
+
+    <script type="module">
+        import React, { useEffect, useMemo, useState } from "https://esm.sh/react@18.2.0";
+        import { createRoot } from "https://esm.sh/react-dom@18.2.0/client";
+        import { AnimatePresence, motion, useReducedMotion } from "https://esm.sh/framer-motion@11.11.17?bundle&deps=react@18.2.0,react-dom@18.2.0";
+
+        const h = React.createElement;
+        const phrases = [
+            "为了提升",
+            "《我的世界》",
+            "明空原版生存服的",
+            "游戏体验",
+            "和服务器性能，",
+            "我们需要您的支持。",
+            "赞助会用于",
+            "服务器配置、",
+            "日常维护、",
+            "防护",
+            "和玩法更新。"
+        ];
+        const faces = [
+            "(｡•̀ᴗ-)✧",
+            "(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧",
+            "ᕦ(ò_óˇ)ᕤ",
+            "(๑•̀ㅂ•́)و✧",
+            "ヽ(✿ﾟ▽ﾟ)ノ",
+            "(づ｡◕‿‿◕｡)づ"
+        ];
+        const firstLineEnd = 5;
+
+        function TypingIntro() {
+            const reduceMotion = useReducedMotion();
+            const [phraseIndex, setPhraseIndex] = useState(reduceMotion ? phrases.length : 0);
+            const [characterCount, setCharacterCount] = useState(0);
+
+            useEffect(() => {
+                if (reduceMotion || phraseIndex >= phrases.length) return undefined;
+                const phrase = phrases[phraseIndex];
+                const delay = characterCount < phrase.length ? 72 : 280;
+                const timer = window.setTimeout(() => {
+                    if (characterCount < phrase.length) {
+                        setCharacterCount((count) => count + 1);
+                    } else {
+                        setPhraseIndex((index) => index + 1);
+                        setCharacterCount(0);
+                    }
+                }, delay);
+                return () => window.clearTimeout(timer);
+            }, [characterCount, phraseIndex, reduceMotion]);
+
+            const committed = useMemo(() => phrases.slice(0, phraseIndex), [phraseIndex]);
+            const active = phraseIndex < phrases.length ? phrases[phraseIndex].slice(0, characterCount) : "";
+            const firstLine = committed.slice(0, firstLineEnd + 1);
+            const secondLine = committed.slice(firstLineEnd + 1);
+            const activeOnFirstLine = phraseIndex <= firstLineEnd;
+            const face = faces[Math.min(phraseIndex, phrases.length - 1) % faces.length];
+
+            const activeBlock = active ? h(motion.span, {
+                key: `${phraseIndex}-${characterCount}`,
+                className: "input-block",
+                initial: reduceMotion ? false : { opacity: 0.45 },
+                animate: { opacity: 1 },
+                transition: { duration: 0.08 }
+            }, active) : null;
+
+            return h(React.Fragment, null,
+                h("p", { className: "face-line" },
+                    h(AnimatePresence, { mode: "wait" },
+                        h(motion.span, {
+                            key: face,
+                            className: "face-chip",
+                            initial: reduceMotion ? false : { opacity: 0, y: 10, rotate: -2 },
+                            animate: { opacity: 1, y: 0, rotate: 0 },
+                            exit: { opacity: 0, y: -8, rotate: 2 },
+                            transition: { duration: 0.18 }
+                        }, face)
+                    )
+                ),
+                h("h1", { className: "typing-copy", "aria-live": "polite" },
+                    h("span", { className: "typed-line" }, firstLine.join(""), activeOnFirstLine ? activeBlock : null),
+                    h("span", { className: "typed-line" }, secondLine.join(""), !activeOnFirstLine ? activeBlock : null)
+                ),
+                h(motion.p, {
+                    className: "intro-label",
+                    initial: reduceMotion ? false : { opacity: 0 },
+                    animate: { opacity: 1 },
+                    transition: { delay: 0.2, duration: 0.4 }
+                }, "WHY SUPPORT US? / 为什么支持我们？")
+            );
+        }
+
+        createRoot(document.getElementById("intro-motion-root")).render(h(TypingIntro));
     </script>
 </body>
 </html>
