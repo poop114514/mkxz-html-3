@@ -10,6 +10,10 @@
     <link rel="apple-touch-icon" href="image/icon.png" sizes="180x180">
     <link rel="icon" href="image/icon.png" sizes="32x32" type="image/png">
     <link rel="icon" href="image/icon.png" sizes="16x16" type="image/png">
+    <link rel="preload" href="fonts/pixel.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="modulepreload" href="https://esm.sh/react@18.2.0" crossorigin>
+    <link rel="modulepreload" href="https://esm.sh/react-dom@18.2.0/client" crossorigin>
+    <link rel="modulepreload" href="https://esm.sh/framer-motion@11.11.17?bundle&amp;deps=react@18.2.0,react-dom@18.2.0" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         @font-face {
@@ -50,6 +54,53 @@
 
         body.menu-open {
             overflow: hidden;
+        }
+
+        body.is-loading {
+            overflow: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: grid;
+            place-items: center;
+            color: var(--ink);
+            background: var(--yellow);
+        }
+
+        .loader__inner {
+            width: min(620px, calc(100vw - 40px));
+        }
+
+        .loader__label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 16px;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            font-weight: 900;
+        }
+
+        .loader__percent {
+            font-size: clamp(2.2rem, 8vw, 5rem);
+            line-height: .8;
+        }
+
+        .loader__track {
+            height: 28px;
+            overflow: hidden;
+            background: var(--white);
+            border: 3px solid var(--ink);
+        }
+
+        .loader__bar {
+            width: 0;
+            height: 100%;
+            background: var(--cyan);
+            transform-origin: left;
         }
 
         a,
@@ -1017,7 +1068,17 @@
         }
     </style>
 </head>
-<body>
+<body class="is-loading">
+    <div class="loader" aria-hidden="true">
+        <div class="loader__inner">
+            <div class="loader__label">
+                <span>正在加载明空 / LOADING MINGKONG</span>
+                <span class="loader__percent">00</span>
+            </div>
+            <div class="loader__track"><div class="loader__bar"></div></div>
+        </div>
+    </div>
+
     <section id="intro" class="intro" aria-label="为什么支持我们">
         <div class="intro-corner">MINGKONG / SUPPORT</div>
         <div id="intro-motion-root" class="intro-stage">
@@ -1174,6 +1235,69 @@
     </div>
 
     <script>
+        (() => {
+            const loader = document.querySelector(".loader");
+            const loaderBar = document.querySelector(".loader__bar");
+            const loaderPercent = document.querySelector(".loader__percent");
+            const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const minimumDisplay = new Promise((resolve) => window.setTimeout(resolve, 520));
+            const fontReady = document.fonts
+                ? Promise.all([
+                    document.fonts.load('400 1em "MingKong Pixel"'),
+                    document.fonts.ready
+                ]).catch(() => undefined)
+                : Promise.resolve();
+            const motionReady = new Promise((resolve) => {
+                let timeout;
+                const finish = () => {
+                    window.clearTimeout(timeout);
+                    resolve();
+                };
+                window.addEventListener("intro-motion-ready", finish, { once: true });
+                timeout = window.setTimeout(finish, 7000);
+            });
+
+            Promise.all([fontReady, motionReady, minimumDisplay]).then(() => {
+                window.dispatchEvent(new Event("mount-intro-motion"));
+
+                const finishLoading = () => {
+                    loader.remove();
+                    document.body.classList.remove("is-loading");
+                    document.documentElement.dataset.pageReady = "true";
+                    window.dispatchEvent(new Event("page-loader-hidden"));
+                };
+
+                if (prefersReducedMotion) {
+                    loaderPercent.textContent = "100";
+                    loaderBar.style.width = "100%";
+                    finishLoading();
+                    return;
+                }
+
+                const startedAt = performance.now();
+                const progressFrame = (now) => {
+                    const progress = Math.min((now - startedAt) / 850, 1);
+                    const eased = 1 - Math.pow(1 - progress, 2);
+                    const value = Math.round(eased * 100);
+                    loaderPercent.textContent = String(value).padStart(2, "0");
+                    loaderBar.style.width = `${value}%`;
+
+                    if (progress < 1) {
+                        window.requestAnimationFrame(progressFrame);
+                        return;
+                    }
+
+                    loader.style.transform = "translateY(-100%)";
+                    loader.style.transition = "transform .65s cubic-bezier(.76, 0, .24, 1)";
+                    window.setTimeout(finishLoading, 650);
+                };
+
+                window.requestAnimationFrame(progressFrame);
+            });
+        })();
+    </script>
+
+    <script>
         const navbar = document.getElementById("navbar");
         const navToggle = document.getElementById("nav-toggle");
         const navMobileMenu = document.getElementById("nav-mobile-menu");
@@ -1252,9 +1376,18 @@
             const reduceMotion = useReducedMotion();
             const [phraseIndex, setPhraseIndex] = useState(reduceMotion ? phrases.length : 0);
             const [characterCount, setCharacterCount] = useState(0);
+            const [canStart, setCanStart] = useState(reduceMotion || document.documentElement.dataset.pageReady === "true");
 
             useEffect(() => {
-                if (reduceMotion || phraseIndex >= phrases.length) return undefined;
+                const startTyping = () => setCanStart(true);
+                window.addEventListener("page-loader-hidden", startTyping, { once: true });
+                return () => {
+                    window.removeEventListener("page-loader-hidden", startTyping);
+                };
+            }, []);
+
+            useEffect(() => {
+                if (reduceMotion || !canStart || phraseIndex >= phrases.length) return undefined;
                 const phrase = phrases[phraseIndex];
                 const delay = characterCount < phrase.reading.length ? 42 : 240;
                 const timer = window.setTimeout(() => {
@@ -1266,7 +1399,7 @@
                     }
                 }, delay);
                 return () => window.clearTimeout(timer);
-            }, [characterCount, phraseIndex, reduceMotion]);
+            }, [canStart, characterCount, phraseIndex, reduceMotion]);
 
             const committed = useMemo(() => phrases.slice(0, phraseIndex).map((phrase) => phrase.text), [phraseIndex]);
             const active = phraseIndex < phrases.length ? phrases[phraseIndex].reading.slice(0, characterCount) : "";
@@ -1309,7 +1442,21 @@
             );
         }
 
-        createRoot(document.getElementById("intro-motion-root")).render(h(TypingIntro));
+        let introMounted = false;
+
+        function mountTypingIntro() {
+            if (introMounted) return;
+            introMounted = true;
+            createRoot(document.getElementById("intro-motion-root")).render(h(TypingIntro));
+        }
+
+        window.addEventListener("mount-intro-motion", mountTypingIntro, { once: true });
+        window.dispatchEvent(new Event("intro-motion-ready"));
+
+        const loaderElement = document.querySelector(".loader");
+        if (!loaderElement || document.documentElement.dataset.pageReady === "true") {
+            mountTypingIntro();
+        }
     </script>
 </body>
 </html>
